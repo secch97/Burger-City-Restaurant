@@ -91,3 +91,4 @@ C:\Users\IP 330-15ARR\Desktop\Proyecto-eCommerce\RestauranteWeb\obj\Debug\Restau
 C:\Users\IP 330-15ARR\Desktop\Proyecto-eCommerce\RestauranteWeb\obj\Debug\RestauranteWeb.csproj.CopyComplete
 C:\Users\IP 330-15ARR\Desktop\Proyecto-eCommerce\RestauranteWeb\obj\Debug\RestauranteWeb.dll
 C:\Users\IP 330-15ARR\Desktop\Proyecto-eCommerce\RestauranteWeb\obj\Debug\RestauranteWeb.pdb
+C:\Users\IP 330-15ARR\Desktop\Proyecto-eCommerce\RestauranteWeb\obj\Debug\RestauranteWeb.csprojAssemblyReference.cache

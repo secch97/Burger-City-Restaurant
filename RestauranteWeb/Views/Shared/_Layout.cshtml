@@ -2,42 +2,189 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--Metas de Móvil -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Metas de Sitio Web -->
     <title>@ViewBag.Title - Restaurante WEB</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Iconos de sitio web -->
+    @Styles.Render("~/Content/imagenes/favicon.ico")
+    @Styles.Render("~/Content/imagenes/apple-touch-icon.png")
+    <!--CSS de Bootstrap -->
+    @Styles.Render("~/Content/css/bootstrap.min.css")
+    <!-- CSS del Sitio -->
+    @Styles.Render("~/Content/css/style.css")
+    <!-- CSS Responsivo -->
+    @Styles.Render("~/Content/css/responsive.css")
+    <!-- CSS Personalizado -->
+    @Styles.Render("~/Content/css/custom.css")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Restaurante WEB", "Inicio", "Cliente", new { area = "" }, new { @class = "navbar-brand" })
+    <!-- Start Main Top -->
+    <header class="main-header">
+        @{
+            string pageUrl = Request.Url.PathAndQuery.ToString();
+        }
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+            <div class="container">
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><img src="~/Content/imagenes/logo.png" class="logo" alt=""></a>
+                </div>
+                <!-- End Header Navigation -->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/inicio") || pageUrl.ToLower().Contains("/") ? "active" : string.Empty)"><a class="nav-link" href=""@Url.Action("Inicio", "Cliente")"">INICIO</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html">PROMOCIONES</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html">MENÚ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html">SOBRE NOSOTROS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html">CONÓCENOS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user s_color"></i> INICIAR SESIÓN</a></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+                <!-- Start Atribute Navigation -->
+                <div class="attr-nav">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="side-menu">
+                            <a href="#">
+                                <i class="fa fa-shopping-cart">
+                                    <span class="badge badge-pill badge-success ml-2" style="font-weight:bold;font-family:'Segoe UI';background-color:#fc4703">3</span>
+                                </i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Atribute Navigation -->
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        @Html.ActionLink("Inicio", "Inicio", "Cliente")
-                    </li>
-                </ul>
+            <!-- Start Side Menu -->
+            <div class="side">
+                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+                <li class="cart-box">
+                    <ul class="cart-list">
+                        <li>
+                            <a href="#" class="photo"><img src="~/Content/imagenes/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+                            <h6><a href="#">Delica omtantur </a></h6>
+                            <p>1x - <span class="price">$80.00</span></p>
+                        </li>
+                        <li>
+                            <a href="#" class="photo"><img src="~/Content/imagenes/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+                            <h6><a href="#">Omnes ocurreret</a></h6>
+                            <p>1x - <span class="price">$60.00</span></p>
+                        </li>
+                        <li>
+                            <a href="#" class="photo"><img src="~/Content/imagenes/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+                            <h6><a href="#">Agam facilisis</a></h6>
+                            <p>1x - <span class="price">$40.00</span></p>
+                        </li>
+                        <li class="total">
+                            <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
+                            <span class="float-right"><strong>Total</strong>: $180.00</span>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+            <!-- End Side Menu -->
+        </nav>
+        <!-- End Navigation -->
+    </header>
+    <!-- End Main Top -->
+    <!-- Start Top Search -->
+    <div class="top-search">
+        <div class="container">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
             </div>
         </div>
     </div>
+    <!-- End Top Search -->
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+    @RenderBody()
+    <!-- Start Footer  -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-top-box">
+                            <h3>Horarios de atención</h3>
+                            <ul class="list-time">
+                                <li>Lunes - Viernes: 08:00 A.M a 05:00 P.M</li>
+                                <li>Sábado: 08:00 A.M a 12:00 M.D</li>
+                                <li>Domingo: 08:00 A.M a 12:00 M.D</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Contactános</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Dirección: Montes de San Bartolo 3,<br>Soyapango,<br>San Salvador</p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Teléfonos: <a href="#">2290-1865</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Correo electrónico: <a href="mailto:BurgerCity@gmail.com">BurgerCity@gmail.com</a></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-top-box">
+                            <h3>Redes Sociales</h3>
+                            <ul>
+                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer  -->
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">
+            All Rights Reserved. &copy; 2018 <a href="#">ThewayShop</a> Design By :
+            <a href="https://html.design/">html design</a>
+        </p>
     </div>
+    <!-- End copyright  -->
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <a href="#" id="back-to-top" title="Subir" style="display: none;background-color:#fc4703"><i class="fa fa-arrow-up"></i></a>
+
+    <!-- ALL JS FILES -->
+    @Scripts.Render("~/Scripts/js/jquery-3.2.1.min.js")
+    @Scripts.Render("~/Scripts/js/popper.min.js")
+    @Scripts.Render("~/Scripts/js/bootstrap.min.js")
+    <!-- ALL PLUGINS -->
+    @Scripts.Render("~/Scripts/js/jquery.superslides.min.js")
+    @Scripts.Render("~/Scripts/js/bootstrap-select.js")
+    @Scripts.Render("~/Scripts/js/inewsticker.js")
+    @Scripts.Render("~/Scripts/js/bootsnav.js")
+    @Scripts.Render("~/Scripts/js/images-loded.min.js")
+    @Scripts.Render("~/Scripts/js/isotope.min.js")
+    @Scripts.Render("~/Scripts/js/owl.carousel.min.js")
+    @Scripts.Render("~/Scripts/js/baguetteBox.min.js")
+    @Scripts.Render("~/Scripts/js/form-validator.min.js")
+    @Scripts.Render("~/Scripts/js/contact-form-script.js")
+    @Scripts.Render("~/Scripts/js/custom.js")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
