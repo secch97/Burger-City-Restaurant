@@ -22,6 +22,8 @@ CREATE TABLE CuentasClientes(
 	TelefonoFijo VARCHAR(9),
 	TelefonoCelular VARCHAR(9),
 	Correo  VARCHAR(255),
+	Validado BIT,
+	Clave VARCHAR(500),
 	Direccion VARCHAR(255),
 	DireccionEntrega VARCHAR(255),
 	Fecha DATETIME
@@ -98,6 +100,7 @@ CREATE TABLE PedidosClientes(
 	IdPedido VARCHAR(20) NOT NULL,
 	IdCliente VARCHAR(20) NOT NULL,
 	TelefonoContacto VARCHAR(9),
+	DireccionEntrega VARCHAR(500),
 	Fecha DATETIME,
 	Cancelado BIT
 )
