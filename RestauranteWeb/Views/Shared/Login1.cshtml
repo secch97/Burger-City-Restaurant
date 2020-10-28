@@ -1,0 +1,60 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Start Contact Us  -->
+                <div class="contact-box-main">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="contact-form-right">
+                                    <h2>INICIA SESION</h2>
+                                    <p>
+                                        BIENVENIDO <br />
+                                        Accede con tu cuenta o créate una si aún no la tienes
+                                    </p>
+                                    <form id="LoginForm">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control" id="txtCorreoLogin" name="txtCorreoLogin" placeholder="Introduce tu correo electronico" required data-error="Por favor Introduce tu Correo">
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="password" placeholder="Introduce tu contraseña" id="txtPassworkLogin" class="form-control" name="txtPassworkLogin" required data-error="Por favor Introduce tu contraseña">
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                         
+                                       
+                                            <div class="col-md-12">
+                                                <a style="color:orange;" data-toggle="modal" data-target="#modalRecuperarEmail" href="#">¿Olvidaste tu contraseña?</a><br />
+                                                <span>¿No tienes Cuenta aun? <a style="color:orange;" href="@Url.Action("Registrarme", "Cliente")"> Registrarme</a></span>
+                                               
+                                                <div class="submit-button text-center">
+                                                    <br />
+                                                    <button class="btn hvr-hover" id="submit" type="submit">Iniciar Sesion</button>
+                                                    <div id="msgSubmitLogin" class="h3 text-center hidden"></div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
