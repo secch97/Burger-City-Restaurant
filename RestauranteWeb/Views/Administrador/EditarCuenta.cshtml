@@ -38,7 +38,7 @@
                             @Html.AntiForgeryToken()
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Usuario:</label>
                                             <div class="input-group">
@@ -49,6 +49,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Rol:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Rol asignado" id="rolEmpleado" value="Administrador" readonly required>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Nombres:</label>
@@ -56,7 +67,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleado" value="Saúl Ernesto" required>
+                                                <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleado" maxlength="100" value="Saúl Ernesto" required>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +78,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleado" value="Castillo Chamagua" required>
+                                                <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleado" maxlength="100" value="Castillo Chamagua" required>
                                             </div>
                                         </div>
                                     </div>
