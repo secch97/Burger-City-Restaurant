@@ -9,7 +9,11 @@ namespace RestauranteWeb.Controllers
     public class AdministradorController : Controller
     {
         // GET: Administrador
-        public ActionResult Index()
+        public ActionResult Inicio()
+        {
+            return View();
+        }
+        public ActionResult Roles()
         {
             return View();
         }
