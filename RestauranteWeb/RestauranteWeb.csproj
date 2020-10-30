@@ -2367,6 +2367,7 @@
     <Content Include="Views\Shared\Login.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Administrador\Roles.cshtml" />
+    <Content Include="Views\Administrador\EditarCuenta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

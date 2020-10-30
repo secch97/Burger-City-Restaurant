@@ -17,5 +17,10 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult EditarCuenta()
+        {
+            return View();
+        }
     }
 }

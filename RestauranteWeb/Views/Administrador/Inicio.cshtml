@@ -164,7 +164,7 @@
                                         <td>2</td>
                                         <td>Saúl Ernesto Castillo Chamagua</td>
                                         <td>29/10/2020</td>
-                                        <td>$12.00</td>
+                                        <td>$13.49</td>
                                         <td><span class="badge badge-info" style="font-weight:bold;">Procesada</span></td>
                                         <td>
                                             <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
@@ -225,14 +225,25 @@
                     <hr style="border-color:white" />
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Nombre completo:</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="far fa-user"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" readonly>
+                                        <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" value="Saúl Ernesto Castillo Chamagua" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Dirección de entrega:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marked"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Dirección de entrega del cliente" id="direccionCliente" value="Soyapango, Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +254,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Teléfono de contacto" id="telefonoCliente" data-inputmask='"mask": "9999-9999"' data-mask readonly >
+                                        <input type="text" class="form-control" placeholder="Teléfono de contacto" id="telefonoCliente" data-inputmask='"mask": "9999-9999"' data-mask value="7442-2219" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -254,18 +265,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" data-inputmask="'alias': 'email'" data-mask readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Dirección de entrega:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-map-marked"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="Dirección de entrega del cliente" id="direccionCliente" readonly>
+                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" data-inputmask="'alias': 'email'" data-mask value="secch97@gmail.com" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +284,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-code"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Código de orden" id="codigoOrden" readonly>
+                                        <input type="text" class="form-control" placeholder="Código de orden" id="codigoOrden" value="2" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +295,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-clock"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Fecha y hora de orden" id="fechaOrden" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy HH:MM" data-mask readonly>
+                                        <input type="text" class="form-control" placeholder="Fecha y hora de orden" id="fechaOrden" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy HH:MM" data-mask value="29/10/2020 14:30" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -306,7 +306,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Estado del pedido" id="estadoOrden" readonly>
+                                        <input type="text" class="form-control" placeholder="Estado de la orden" id="estadoOrden" value="Procesada" readonly>
                                     </div>
                                 </div>
                             </div>
