@@ -1,6 +1,6 @@
 USE [master]
 
-
+GO
 
 CREATE DATABASE ProyectoASP_Restaurante
 GO
@@ -74,14 +74,21 @@ CREATE TABLE ProductosRestaurante(
 
 GO
 
-CREATE TABLE CombosProductos(
+CREATE TABLE Combos(
+	IdCombo VARCHAR(20) NOT NULL,
+	Nombre VARCHAR(100),
+	Descripcion VARCHAR(150),
+	Precio NUMERIC(4,2),
+	IdEstado INT
+)
+	
+
+GO
+
+CREATE TABLE CombosDetalle(
 	IdCombo VARCHAR(20) NOT NULL,
 	Correlativo INT IDENTITY,
-	IdProducto VARCHAR(20),
-	Nombre VARCHAR(50),
-	Descripcion VARCHAR(500),
-	Precio numeric(4,2),
-	IdEstado INT 	
+	IdProducto VARCHAR(20)
 )
 
 GO
@@ -90,6 +97,7 @@ CREATE TABLE OfertasProductos(
 	IdOferta varchar(20) NOT NULL,
 	IdObjeto VARCHAR(20) NOT NULL, --	Producto completo o Combo
 	Nombre VARCHAR(100),
+	Precio NUMBER(4,2),
 	Activo BIT,
 	Fecha DATETIME
 )
@@ -135,10 +143,12 @@ CREATE TABLE HistorialPedidos(
 	Fecha DATETIME,
 	UsuarioGrabacion VARCHAR(20)
 )
-	
-CREATE TABLE PromocionesCarrusel(
-	IdItem INT NOT NULL IDENTITY,
-    Nombre VARCHAR(100),
+
+GO
+
+
+CREATE TABLE ImagenesObjetos(
+	IdObjeto VARCHAR(20) NOT NULL, -- Producto,oferta,combo
 	RutaImagen VARCHAR(100)
 )
     
@@ -190,9 +200,21 @@ GO
 	
 	GO
 	
-	ALTER TABLE CombosProductos
-	ADD CONSTRAINT PK_CombosProductos
+	ALTER TABLE Combos
+	ADD CONSTRAINT PK_Combos
+	PRIMARY KEY(IdCombo)
+	
+	GO
+	
+	ALTER TABLE CombosDetalle
+	ADD CONSTRAINT PK_CombosDetalle
 	PRIMARY KEY(IdCombo,Correlativo)
+	
+	GO
+	
+	ALTER TABLE CombosDetalle
+	ADD CONSTRAINT FK_CombosDetalle_Combos
+	FOREIGN KEY(IdCombo) REFERENCES Combos(IdCombo)
 	
 	GO
 	
@@ -254,9 +276,9 @@ GO
 	
 	GO
 	
-	ALTER TABLE PromocionesCarrusel
-	ADD CONSTRAINT PK_PromocionesCarrusel
-	PRIMARY KEY (IdItem)
+	ALTER TABLE ImagenesObjetos
+	ADD CONSTRAINT PK_ImagenesObjetos
+	PRIMARY KEY (IdObjeto)
 	
 	GO
 	
@@ -331,7 +353,6 @@ GO
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT FK_TrackeoPedidosClientes_EtapasPedidos
 	FOREIGN KEY (IdEtapa) REFERENCES EtapasPedidos(IdEtapa)
-	
 	
 	
 	/*FIN DEL SCRIPT*/
