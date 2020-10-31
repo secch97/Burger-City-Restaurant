@@ -2369,6 +2369,7 @@
     <Content Include="Views\Administrador\Roles.cshtml" />
     <Content Include="Views\Administrador\EditarCuenta.cshtml" />
     <Content Include="Views\Administrador\ActualizarContraseña.cshtml" />
+    <Content Include="Views\Administrador\Empleados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

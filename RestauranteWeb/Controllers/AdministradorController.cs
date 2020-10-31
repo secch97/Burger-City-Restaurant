@@ -27,5 +27,10 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Empleados()
+        {
+            return View();
+        }
     }
 }

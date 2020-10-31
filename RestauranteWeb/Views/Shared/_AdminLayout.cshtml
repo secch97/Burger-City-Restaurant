@@ -154,13 +154,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Roles", "Administrador")" " class="nav-link @(pageUrl.ToLower().Contains("/administrador/roles") ? "active" : string.Empty)">
+                                    <a href="@Url.Action("Roles", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/roles") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Roles</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link @(pageUrl.ToLower().Contains("/administrador/empleados") ? "active" : string.Empty)">
+                                    <a href="@Url.Action("Empleados", "Administrador")"" class="nav-link @(pageUrl.ToLower().Contains("/administrador/empleados") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Empleados</p>
                                     </a>
