@@ -172,6 +172,22 @@
     <Content Include="Content\administracion\chart.js\Chart.js" />
     <Content Include="Content\administracion\chart.js\Chart.min.css" />
     <Content Include="Content\administracion\chart.js\Chart.min.js" />
+    <Content Include="Content\administracion\chosen\chosen.css" />
+    <Content Include="Content\administracion\chosen\chosen.jquery.js" />
+    <Content Include="Content\administracion\chosen\chosen.jquery.min.js" />
+    <Content Include="Content\administracion\chosen\chosen.min.css" />
+    <Content Include="Content\administracion\chosen\chosen.proto.js" />
+    <Content Include="Content\administracion\chosen\chosen.proto.min.js" />
+    <Content Include="Content\administracion\chosen\docsupport\chosen.png" />
+    <Content Include="Content\administracion\chosen\docsupport\init.js" />
+    <Content Include="Content\administracion\chosen\docsupport\init.proto.js" />
+    <Content Include="Content\administracion\chosen\docsupport\jquery-1.12.4.min.js" />
+    <Content Include="Content\administracion\chosen\docsupport\jquery-3.2.1.min.js" />
+    <Content Include="Content\administracion\chosen\docsupport\oss-credit.png" />
+    <Content Include="Content\administracion\chosen\docsupport\prism.css" />
+    <Content Include="Content\administracion\chosen\docsupport\prism.js" />
+    <Content Include="Content\administracion\chosen\docsupport\prototype-1.7.0.0.js" />
+    <Content Include="Content\administracion\chosen\docsupport\style.css" />
     <Content Include="Content\administracion\codemirror\addon\comment\comment.js" />
     <Content Include="Content\administracion\codemirror\addon\comment\continuecomment.js" />
     <Content Include="Content\administracion\codemirror\addon\dialog\dialog.css" />
@@ -2370,6 +2386,7 @@
     <Content Include="Views\Administrador\EditarCuenta.cshtml" />
     <Content Include="Views\Administrador\ActualizarContraseña.cshtml" />
     <Content Include="Views\Administrador\Empleados.cshtml" />
+    <Content Include="Views\Administrador\Clientes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

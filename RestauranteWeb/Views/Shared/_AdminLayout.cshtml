@@ -160,13 +160,13 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Empleados", "Administrador")"" class="nav-link @(pageUrl.ToLower().Contains("/administrador/empleados") ? "active" : string.Empty)">
+                                    <a href="@Url.Action("Empleados", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/empleados") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Empleados</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link @(pageUrl.ToLower().Contains("/administrador/clientes") ? "active" : string.Empty)">
+                                    <a href="@Url.Action("Clientes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/clientes") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Clientes</p>
                                     </a>
@@ -445,6 +445,70 @@
             }).buttons().container().appendTo('#tablaRoles_wrapper .col-md-6:eq(0)');
         });
     </script>
+    <!-- Tabla 3: TablaEmpleados - /Administrador/Empleados -->
+    <script>
+        $(function () {
+            $("#tablaEmpleados").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"], [1, "asc"], [2, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEmpleados_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 4: TablaClientes - /Administrador/Clientes -->
+    <script>
+        $(function () {
+            $("#tablaClientes").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[1, "asc"], [2, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaClientes_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
     <!-- ======================================================================================================== -->
     <!-- =                                      SCRIPTS DE MODALES                                                -->
@@ -478,6 +542,57 @@
         $(document).ready(function () {
             $(".eliminar-rol").click(function () {
                 $("#ModalBorrarRol").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 4: ModalAñadirEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-empleado").click(function () {
+                $("#ModalAñadirEmpleado").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 5: ModalEditarEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-empleado").click(function () {
+                //var rol = $(this).data('nombre');
+                //$(".modal-body #rolEmpleado").val(rol).change();
+                $("#ModalEditarEmpleado").modal('show');
+
+            });
+        });
+    </script>
+    <!-- Modal 6: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            $(".resetear-contraseña-empleado").click(function () {
+                $("#ModalContraseñaEmpleado").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 7: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-empleado").click(function () {
+                $("#ModalEliminarEmpleado").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 8: ModalDetallesCliente - /Administrador/Clientes -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles-cliente").click(function () {
+                $("#ModalDetallesCliente").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 7: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-cliente").click(function () {
+                $("#ModalEliminarCliente").modal('show');
             });
         });
     </script>
@@ -608,6 +723,24 @@
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!-- Script para habilitar select2-->
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                placeholder: "Seleccionar una opción",
+                language: {
+                    "noResults": function () {
+                        return "No se encontraron resultados";
+                    }
+                }
+            });
+            $('.select2 span').css('background-color', 'white');
+            $('.select2 span').css('color', 'black');
+
         });
     </script>
     @RenderSection("scripts", required: false)
