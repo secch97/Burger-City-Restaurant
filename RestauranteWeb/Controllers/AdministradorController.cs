@@ -22,5 +22,10 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult ActualizarContraseña()
+        {
+            return View();
+        }
     }
 }

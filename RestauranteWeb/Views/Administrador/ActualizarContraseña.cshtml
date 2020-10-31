@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Edición de cuenta";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Actualización de contraseña</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de cuenta</a></li>
+                        <li class="breadcrumb-item active">Contraseña</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                <section class="col-lg-7 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">CONTRASEÑA DE LA CUENTA</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Nueva contraseña:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Digitar nueva contraseña" id="contraseñaEmpleado"  
+                                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" 
+                                                       title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número" 
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Confirmar contraseña:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Confirmar contraseña" id="confirmarContraseñaEmpleado" 
+                                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" 
+                                                       title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número" 
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div style="display:flex;justify-content:center;align-items:center;">
+                                    <button type="submit" class="btn btn-success btn-sm rounded-sm" title="Actualizar datos" data-toggle="tooltip">
+                                        <i class="fa fa-pen" style="color:white;"></i>
+                                        Actualizar contraseña
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+        </div>
+    </section>
+</div>
