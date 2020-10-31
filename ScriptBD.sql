@@ -97,7 +97,7 @@ CREATE TABLE OfertasProductos(
 	IdOferta varchar(20) NOT NULL,
 	IdObjeto VARCHAR(20) NOT NULL, --	Producto completo o Combo
 	Nombre VARCHAR(100),
-	Precio numeric(4,2),
+	Precio NUMERIC(4,2),
 	Activo BIT,
 	Fecha DATETIME
 )
@@ -309,14 +309,14 @@ GO
 	
 	--CombosProductos
 	
-	ALTER TABLE CombosProductos
-	ADD CONSTRAINT FK_CombosProductos_ProductosRestaurante
+	ALTER TABLE CombosDetalle
+	ADD CONSTRAINT FK_CombosDetalle_ProductosRestaurante
 	FOREIGN KEY (IdProducto) REFERENCES ProductosRestaurante(IdProducto)
 	
 	GO
 	
-	ALTER TABLE CombosProductos
-	ADD CONSTRAINT FK_CombosProductos_EstadosProductos
+	ALTER TABLE Combos
+	ADD CONSTRAINT FK_Combos_EstadosProductos
 	FOREIGN KEY (IdEstado) REFERENCES EstadosProductos(IdEstado)
 	
 	
