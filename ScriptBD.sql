@@ -97,7 +97,7 @@ CREATE TABLE OfertasProductos(
 	IdOferta varchar(20) NOT NULL,
 	IdObjeto VARCHAR(20) NOT NULL, --	Producto completo o Combo
 	Nombre VARCHAR(100),
-	Precio NUMBER(4,2),
+	Precio numeric(4,2),
 	Activo BIT,
 	Fecha DATETIME
 )
