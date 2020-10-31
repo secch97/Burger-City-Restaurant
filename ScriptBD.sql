@@ -78,7 +78,7 @@ CREATE TABLE Combos(
 	IdCombo VARCHAR(20) NOT NULL,
 	Nombre VARCHAR(100),
 	Descripcion VARCHAR(150),
-	Precio NUMERIC(4,2),
+	Precio numeric(4,2),
 	IdEstado INT
 )
 	
