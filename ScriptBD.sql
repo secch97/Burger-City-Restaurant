@@ -2,6 +2,7 @@ USE [master]
 
 GO
 
+
 CREATE DATABASE ProyectoASP_Restaurante
 GO
 

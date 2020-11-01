@@ -13,7 +13,15 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        [HttpGet]
         public ActionResult Roles()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RolesPost()
         {
             return View();
         }
