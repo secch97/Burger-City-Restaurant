@@ -88,7 +88,8 @@ GO
 CREATE TABLE CombosDetalle(
 	IdCombo VARCHAR(20) NOT NULL,
 	Correlativo INT IDENTITY,
-	IdProducto VARCHAR(20)
+	IdProducto VARCHAR(20),
+	Cantidad INT
 )
 
 GO
