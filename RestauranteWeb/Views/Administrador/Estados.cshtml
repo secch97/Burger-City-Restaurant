@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Gestión de roles";
+    ViewBag.Title = "Gestión de estados";
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Gestión de roles</h1>
+                    <h1 class="m-0">Gestión de estados</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Gestión de usuarios</a></li>
-                        <li class="breadcrumb-item active">Roles</li>
+                        <li class="breadcrumb-item"><a href="#">Gestión de productos</a></li>
+                        <li class="breadcrumb-item active">Estados</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,21 +30,21 @@
                 <section class="col-lg-12 connectedSortable">
                     <div class="card card-navy">
                         <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
-                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">ROLES DISPONIBLES EN EL SISTEMA</h3>
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">ESTADOS DE PRODUCTOS DEL RESTAURANTE</h3>
                         </div>
                         <br />
                         <div style="display:flex;justify-content:center;align-items:center;">
-                            <button class="añadir-rol btn btn-info btn-sm rounded-sm">
+                            <button class="añadir-estado btn btn-info btn-sm rounded-sm">
                                 <i class="fa fa-plus" style="color:white;"></i>
-                                Agregar rol
+                                Agregar estado
                             </button>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="tablaRoles" class="table table-bordered table-striped" style="text-align:center;">
+                            <table id="tablaEstados" class="table table-bordered table-striped" style="text-align:center;">
                                 <thead>
                                     <tr>
-                                        <th>ID Rol</th>
+                                        <th>ID Categoría</th>
                                         <th>Nombre</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -52,24 +52,28 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td>Administrador</td>
                                         <td>
-                                            <a class="editar-rol btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                            Disponible
+                                        </td>
+                                        <td>
+                                            <a class="editar-estado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
-                                            <a class="eliminar-rol btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                            <a class="eliminar-estado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
-                                        <td>Empleado</td>
                                         <td>
-                                            <a class="editar-rol btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                            No disponible
+                                        </td>
+                                        <td>
+                                            <a class="editar-estado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
-                                            <a class="eliminar-rol btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                            <a class="eliminar-estado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
@@ -87,11 +91,11 @@
         </div>
     </section>
 
-    <div class="modal fade" id="ModalAñadirRol">
+    <div class="modal fade" id="ModalAñadirEstado">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">ROLES</h4>
+                    <h4 class="modal-title">REGISTRO DE ESTADO</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -101,10 +105,9 @@
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
-                            REGISTRO DE NUEVO ROL
+                            DATOS DEL ESTADO
                         </div>
                         <hr style="border-color:white" />
-
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -112,9 +115,9 @@
                                         <label>Nombre:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="nombreRol" maxlength="50" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del estado del producto" id="nombreEstado" maxlength="100" required>
                                         </div>
                                     </div>
                                 </div>
@@ -135,11 +138,12 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <div class="modal fade" id="ModalEditarRol">
+
+    <div class="modal fade" id="ModalEditarEstado">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">ROLES</h4>
+                    <h4 class="modal-title">REGISTRO DE ESTADO</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -149,10 +153,9 @@
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
-                            EDICIÓN DE ROL
+                            DATOS DEL ESTADO
                         </div>
                         <hr style="border-color:white" />
-
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -160,9 +163,9 @@
                                         <label>Nombre:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="nombreRol" maxlength="50" value="Administrador" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del estado del producto" id="nombreEstado" maxlength="100" value="Disponible" required>
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +174,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">
-                            <i class="fa fa-pen"></i>
+                            <i class="fas fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -183,12 +186,12 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <!-- /.modal -->
-    <div class="modal fade" id="ModalBorrarRol">
+
+    <div class="modal fade" id="ModalEliminarEstado">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">ROLES</h4>
+                    <h4 class="modal-title">ESTADOS</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -198,7 +201,7 @@
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
-                            ¿Está seguro que desea eliminar este rol?
+                            ¿Está seguro que desea eliminar este estado?
                             <br />
                             <br />
                             <button type="submit" class="btn btn-danger">

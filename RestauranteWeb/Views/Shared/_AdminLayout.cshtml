@@ -173,8 +173,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "active" : string.Empty)">
                                 <i class="nav-icon fas fa-hamburger"></i>
                                 <p>
                                     Gestionar productos
@@ -183,13 +183,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
+                                    <a href="@Url.Action("Categorias", "Administrador")" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Categorías</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="@Url.Action("Estados", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/estados") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Estados</p>
                                     </a>
@@ -509,6 +509,70 @@
             }).buttons().container().appendTo('#tablaClientes_wrapper .col-md-6:eq(0)');
         });
     </script>
+    <!-- Tabla 4: TablaClientes - /Administrador/Clientes -->
+    <script>
+        $(function () {
+            $("#tablaCategorias").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaCategorias_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 5: TablaEstados - /Administrador/Estados -->
+    <script>
+        $(function () {
+            $("#tablaEstados").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEstados_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
     <!-- ======================================================================================================== -->
     <!-- =                                      SCRIPTS DE MODALES                                                -->
@@ -525,6 +589,13 @@
     <script>
         $(document).ready(function () {
             $(".añadir-rol").click(function () {
+                $("#ModalAñadirRol")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
                 $("#ModalAñadirRol").modal('show');
             });
         });
@@ -549,6 +620,13 @@
     <script>
         $(document).ready(function () {
             $(".añadir-empleado").click(function () {
+                $("#ModalAñadirEmpleado")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
                 $("#ModalAñadirEmpleado").modal('show');
             });
         });
@@ -568,11 +646,18 @@
     <script>
         $(document).ready(function () {
             $(".resetear-contraseña-empleado").click(function () {
+                $("#ModalContraseñaEmpleado")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
                 $("#ModalContraseñaEmpleado").modal('show');
             });
         });
     </script>
-    <!-- Modal 7: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <!-- Modal 7: ModalEliminarEmpleado - /Administrador/Empleados -->
     <script>
         $(document).ready(function () {
             $(".eliminar-empleado").click(function () {
@@ -588,11 +673,84 @@
             });
         });
     </script>
-    <!-- Modal 7: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <!-- Modal 9: ModalEliminarCliente - /Administrador/Clientes -->
     <script>
         $(document).ready(function () {
             $(".eliminar-cliente").click(function () {
                 $("#ModalEliminarCliente").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 10: ModalAñadirCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-categoria").click(function () {
+                $("#ModalAñadirCategoria")
+                    .find("input,textarea,select")
+                    .val("")
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraCategoriaRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraCategoriaRegistro').html("Escoger imagen");
+                $("#ModalAñadirCategoria").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 11: ModalDetallesCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles-categoria").click(function () {
+                $("#ModalDetallesCategoria").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 12: ModalEditarCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-categoria").click(function () {
+
+                $("#ModalEditarCategoria").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 13: ModalEliminarCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-categoria").click(function () {
+                $("#ModalEliminarCategoria").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 14: ModalAñadirEstado - /Administrador/Estados -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-estado").click(function () {
+                $("#ModalAñadirEstado")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAñadirEstado").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 15: ModalEditarEstado - /Administrador/Estados -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-estado").click(function () {
+                $("#ModalEditarEstado").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 16: ModalEliminarCategoria - /Administrador/Estados -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-estado").click(function () {
+                $("#ModalEliminarEstado").modal('show');
             });
         });
     </script>
@@ -742,6 +900,22 @@
             $('.select2 span').css('color', 'black');
 
         });
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaRegistro-->
+    <script>
+        $('#imagenCategoriaRegistro').on('change', function (e) {
+            imagenMuestraCategoriaRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraCategoriaRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaRegistro-->
+    <script>
+        $('#imagenCategoriaEdicion').on('change', function (e) {
+            imagenMuestraCategoriaEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraCategoriaEdicion').html(fileName);
+        })
     </script>
     @RenderSection("scripts", required: false)
 

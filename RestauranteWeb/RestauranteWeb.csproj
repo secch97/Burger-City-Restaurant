@@ -2387,6 +2387,8 @@
     <Content Include="Views\Administrador\ActualizarContraseña.cshtml" />
     <Content Include="Views\Administrador\Empleados.cshtml" />
     <Content Include="Views\Administrador\Clientes.cshtml" />
+    <Content Include="Views\Administrador\Categorias.cshtml" />
+    <Content Include="Views\Administrador\Estados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
