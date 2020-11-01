@@ -45,5 +45,15 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Categorias()
+        {
+            return View();
+        }
+       
+        public ActionResult Estados()
+        {
+            return View();
+        }
     }
 }

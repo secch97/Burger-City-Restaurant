@@ -1,0 +1,404 @@
+﻿
+@{
+    ViewBag.Title = "Gestión de categorías";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Gestión de categorías</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de productos</a></li>
+                        <li class="breadcrumb-item active">Categorías</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">CATEGORÍAS DE PRODUCTOS DEL RESTAURANTE</h3>
+                        </div>
+                        <br />
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <button class="añadir-categoria btn btn-info btn-sm rounded-sm">
+                                <i class="fa fa-plus" style="color:white;"></i>
+                                Agregar categoría
+                            </button>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="tablaCategorias" class="table table-bordered table-striped" style="text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th>ID Categoría</th>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <img class="img-fluid" src="~/Content/imagenes/Categorias/Hamburguesas.png" style="width:100px;height:100px" alt="" />
+                                        </td>
+                                        <td>Hamburguesas</td>
+                                        <td>
+                                            <a class="detalles-categoria btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                                <i class="fa fa-eye" style="color:white;"></i>
+                                            </a>
+                                            <a class="editar-categoria btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-categoria btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <img class="img-fluid" src="~/Content/imagenes/Categorias/Acompañamientos.png" style="width:100px;height:100px" alt="" />
+                                        </td>
+                                        <td>Acompañamientos</td>
+                                        <td>
+                                            <a class="detalles-categoria btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                                <i class="fa fa-eye" style="color:white;"></i>
+                                            </a>
+                                            <a class="editar-categoria btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-categoria btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <img class="img-fluid" src="~/Content/imagenes/Categorias/Bebidas.png" style="width:100px;height:100px" alt="" />
+                                        </td>
+                                        <td>Bebidas</td>
+                                        <td>
+                                            <a class="detalles-categoria btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                                <i class="fa fa-eye" style="color:white;"></i>
+                                            </a>
+                                            <a class="editar-categoria btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-categoria btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>
+                                            <img class="img-fluid" src="~/Content/imagenes/Categorias/Postres.png" style="width:100px;height:100px" alt="" />
+                                        </td>
+                                        <td>Postre</td>
+                                        <td>
+                                            <a class="detalles-categoria btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                                <i class="fa fa-eye" style="color:white;"></i>
+                                            </a>
+                                            <a class="editar-categoria btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-categoria btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="ModalAñadirCategoria">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">REGISTRO DE CATEGORÍA</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE CATEGORÍA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraCategoriaRegistro" class="img-circle img-bordered-sm text-center" src="~/Content/imagenes/bandeja-de-salida.png"
+                                             style="width:150px; height:150px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                    <label>Imagen:</label>
+                                    <div class="input-group">
+                                        <input name="imagenCategoriaRegistro" id="imagenCategoriaRegistro" class="custom-file-input" type="file" accept="image/*" maxlength="100" required>
+                                        <label id="lblImagenMuestraCategoriaRegistro" class="custom-file-label" for="customFile">Escoger imagen</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE CATEGORÍA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre de la categoría" id="nombreCategoria" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción de la categoría" id="descripcionCategoria" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalDetallesCategoria">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">DETALLES DE CATEGORÍA</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE CATEGORÍA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestra" class="img-circle img-bordered-sm text-center" src="~/Content/imagenes/Categorias/Hamburguesas.png"
+                                             style="width:150px; height:150px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE CATEGORÍA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre de la categoría" id="nombreCategoria" maxlength="100" value="Hamburguesas" required readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción de la categoría"
+                                                      id="descripcionCategoria" maxlength="500"
+                                                      required readonly>Esta categoría permite alojar las hamburguesas que como restaurante se ofrecen al cliente
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEditarCategoria">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE CATEGORÍA</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE CATEGORÍA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraCategoriaEdicion" class="img-circle img-bordered-sm text-center" src="~/Content/imagenes/Categorias/Hamburguesas.png"
+                                             style="width:150px; height:150px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                    <label>Imagen:</label>
+                                    <div class="input-group">
+                                        <!--OJO ACA: EN EDICION NO HAY FORMA DE ASIGNARLE UN VALOR PREDEFINIDO AL INPUT TYPE FILE, POR LO QUE EN EL CONTROLADOR
+                                            DEBERAS DE HACER UNA VALIDACION EN LA QUE SI ESTE CONTROL SE ENVIA VACIO PUES EL USUARIO DECIDE OPTAR
+                                            POR DEJAR LA MISMA IMAGEN, SI SE ENVIA CON DATO ES QUE HA OPTADO CAMBIAR LA IMAGEN-->
+                                        <input name="imagenCategoriaEdicion" id="imagenCategoriaEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100">
+                                        <label id="lblImagenMuestraCategoriaEdicion" class="custom-file-label" for="customFile">Hamburguesas.png</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE CATEGORÍA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre de la categoría" id="nombreCategoria" maxlength="100" value="Hamburguesas" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" 
+                                                      placeholder="Breve descripción de la categoría" 
+                                                      id="descripcionCategoria" 
+                                                      maxlength="500" required>Esta categoría permite alojar las hamburguesas que como restaurante se ofrecen al cliente</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEliminarCategoria">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">CATEGORÍAS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            ¿Está seguro que desea eliminar esta categoría?
+                            <br />
+                            <br />
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                                Eliminar
+                            </button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
