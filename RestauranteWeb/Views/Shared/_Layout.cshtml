@@ -27,7 +27,7 @@
     <header class="main-header">
         @{
             string pageUrl = Request.Url.PathAndQuery.ToString();
-            
+
         }
         <!-- Start Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
@@ -48,18 +48,27 @@
                         <li class="nav-item"><a class="nav-link" href="index.html">MENÚ</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">SOBRE NOSOTROS</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">CONÓCENOS</a></li>
-                        <li class="nav-item">
-                            @if (@HttpContext.Current.User.Identity.Name.Length == 0)
+                        <li class="dropdown">
+                            @if (Session["id"] == null)
                             {
                                 <a class="nav-link" href="#" data-toggle="modal" data-target="#modalLogin"><i class="fa fa-user s_color"></i> INICIAR SESIÓN</a>
                             }
                             else
                             {
-                                using (Html.BeginForm("Logout", "Cliente", FormMethod.Post, new { id = "logoutForm" }))
-                                {
-                                    <a href="javascript_document.getElementById('logoutForm').Submit">Cerrar Session</a>
+                                <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown"><i class="fa fa-user s_color"></i> @Session["nombre"]</a>
+                                <ul style="background-color:white;" class="dropdown-menu">
+                                    <li style="color:black;"><a href="#">Perfil</a></li>
+                                    <li style="color:black;">
+                                        @using (Html.BeginForm("Logout", "Cliente", FormMethod.Post, new { id = "logoutForm" }))
+                                        {
 
-                                }
+                                            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Session</a>
+
+                                        }
+                                    </li>
+
+                                </ul>
+
                             }
                         </li>
 
@@ -123,12 +132,12 @@
         </div>
     </div>
     <!-- End Top Search -->
-   @*@Html.Partial("Registrarte")*@
-                                   
+    @*@Html.Partial("Registrarte")*@
 
-    @Html.Partial("Login")
+
+    @Html.Partial("Login1")
     @Html.Partial("RecuperarEmail")
-    
+
     @RenderBody()
     <!-- Start Footer  -->
     <footer>
@@ -189,6 +198,8 @@
     <!-- End copyright  -->
 
     <a href="#" id="back-to-top" title="Subir" style="display: none;background-color:#fc4703"><i class="fa fa-arrow-up"></i></a>
+    <!--Direccionamientos por medio de hidden-->
+
 
     <!-- ALL JS FILES -->
     @Scripts.Render("~/Scripts/js/jquery-3.2.1.min.js")

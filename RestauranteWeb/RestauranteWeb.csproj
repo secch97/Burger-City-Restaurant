@@ -429,6 +429,7 @@
     <Content Include="Views\Cliente\Registrarme.cshtml" />
     <Content Include="Views\Cliente\VerificarCuenta.cshtml" />
     <Content Include="Views\Shared\Login.cshtml" />
+    <Content Include="Views\Cliente\CambiarContra.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

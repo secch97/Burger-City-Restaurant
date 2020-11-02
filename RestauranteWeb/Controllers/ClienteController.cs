@@ -132,17 +132,16 @@ namespace RestauranteWeb.Controllers
 
 
         //Login
-        [HttpGet]
+       /* [HttpGet]
         public ActionResult Login()
         {
             return View();
-        }
+        }*/
         //Login POST
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(UserLogin login,string returnUrl)
+        public JsonResult Login(Logiarme login,string returnUrl)
         {
-            string message = "";
+            
             using(ProyectoASP_RestauranteEntities pr = new ProyectoASP_RestauranteEntities())
             {
                 var v = pr.CuentasClientes.Where(a => a.Correo == login.Correo).FirstOrDefault();
@@ -157,19 +156,16 @@ namespace RestauranteWeb.Controllers
                         cookie.Expires = DateTime.Now.AddMinutes(timeout);
                         cookie.HttpOnly = true;
                         Response.Cookies.Add(cookie);
+                        Session["nombre"] = v.Nombres;
+                        Session["id"] = v.IdCliente;
+                        Session["email"] = v.Correo;
+                        Session["user"] = "Cliente";
 
-                        if (Url.IsLocalUrl(returnUrl))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("inicio", "Cliente");
-                        }
+                        return Json(1);
                     }
                     else
                     {
-                        message = "Credenciales incorrectas";
+                        return Json(3);
                     }
 
                 }
@@ -188,30 +184,21 @@ namespace RestauranteWeb.Controllers
                             cookie.HttpOnly = true;
                             Response.Cookies.Add(cookie);
 
-                            if (Url.IsLocalUrl(returnUrl))
-                            {
-                                return Redirect(returnUrl);
-                            }
-                            else
-                            {
-                                //hay que hacer la comparacion si es delivery , admin o restaurante
-                                return RedirectToAction("Index", "Administrador");
-                            }
+                            //hay que hacer la comparacion si es delivery , admin o restaurante
+                            return Json(2);
                         }
                         else
                         {
-                            message = "Credenciales incorrectas";
+                            return Json(3);
                         }
                     }
                     else
                     {
-                        message = "Este correo no esta registrado";
+                        return Json(4);
                     }
                 }
             }
-
-            ViewBag.Message = message;
-            return View();
+            
         }
 
         //Logout
@@ -220,11 +207,104 @@ namespace RestauranteWeb.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session["nombre"] = null;
+            Session["id"] = null;
+            Session["email"] = null;
+            Session["user"] = null;
             return RedirectToAction("inicio","Cliente");
         }
 
-        
 
+
+        [HttpPost]
+        public JsonResult RecuperacionCuenta(string Correo)
+        {
+            using (ProyectoASP_RestauranteEntities pr = new ProyectoASP_RestauranteEntities())
+            {
+                pr.Configuration.ValidateOnSaveEnabled = false;
+                var cl = pr.CuentasClientes.Where(a => a.Correo == Correo).FirstOrDefault();
+                if(cl != null)
+                {
+                    string nueva = "EsperandoClave";
+                    cl.Clave = Crypto.Hash(nueva);
+                    cl.Validado = false;
+                    string id = cl.IdCliente;
+                    pr.SaveChanges();
+                    
+                    mandarCorreo(Correo,id);
+                    return Json(1); //Existosamente guardado
+
+                }
+                else
+                {
+                    return Json(3);
+                }
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult MandarAdmin()
+        {
+            return RedirectToAction("Index","Administrador");
+        }
+
+        [HttpGet]
+        public ActionResult MandarDelivery()
+        {
+            return RedirectToAction("Index", "Delivery");
+        }
+
+        [HttpGet]
+        public ActionResult MandarRestaurante()
+        {
+            return RedirectToAction("Index", "Restaurante");
+        }
+
+
+
+        [HttpGet]
+        public ActionResult CambiarContra(string id)
+        {
+            using (ProyectoASP_RestauranteEntities pr = new ProyectoASP_RestauranteEntities())
+            {
+                string nueva = "EsperandoClave";
+                nueva = Crypto.Hash(nueva);
+                var cl = pr.CuentasClientes.Where(a => a.IdCliente == id).Where(b=>b.Clave==nueva).FirstOrDefault();
+                if(cl != null)
+                {
+                    ViewBag.idCliente = id;
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("inicio", "Cliente");
+                }
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CambiarContraNueva(string contra,string id)
+        {
+            using (ProyectoASP_RestauranteEntities pr = new ProyectoASP_RestauranteEntities())
+            {
+                pr.Configuration.ValidateOnSaveEnabled = false;// esta linea confirma que las contraseñas no coinsidas
+                string nueva = Crypto.Hash(contra);
+                var cl = pr.CuentasClientes.Where(a => a.IdCliente == id).FirstOrDefault();
+                if (cl != null)
+                {
+                    cl.Clave = nueva;
+                    cl.Validado = true;
+                    pr.SaveChanges();
+                    return Json(1);
+                }
+                else
+                {
+                    //Usuario no encontrado
+                    return Json(2);
+                }
+            }
+        }
 
 
         [NonAction]
@@ -257,7 +337,7 @@ namespace RestauranteWeb.Controllers
             var toEmail = new MailAddress(email);
             var fromEmailContra = "pruebas-8";
             string subject = "Tu cuenta fue creada exitosamente";
-            string body = "<br><br> Estamso felices que quieras esta en la familia de Burger" +
+            string body = "<br><br> Estamos felices que quieras esta en la familia de Burger" +
                 "Creado exitosamente. Por favor Ingrese a el siguiente link para varificar su cuenta" +
                 "<br><br><a href='"+link+"'>"+link+"</a>";
 
@@ -279,5 +359,51 @@ namespace RestauranteWeb.Controllers
             smtp.Send(message);
         }
 
+        //Correo de reuperacion de cuenta
+        [NonAction]
+        public void mandarCorreo(string email, string id)
+        {
+
+            var verificarurl = "/Cliente/CambiarContra/" + id;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verificarurl);
+
+            var fromEmail = new MailAddress("isidroprueba005@gmail.com", "Burger - Recurperar cuenta");
+            var toEmail = new MailAddress(email);
+            var fromEmailContra = "pruebas-8";
+            string subject = "Contraseña Existosa";
+            string body = "<br><br> Tu contraseña se cambio existosamente en Burger" +
+                "Cambien contra en el siguiente link" +
+                "<br><br><a href='" + link + "'>" + link + "</a>";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailContra)
+            };
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
+
+
     }
+
+
+    public class Logiarme
+    {
+        public string Correo { get; set; }
+        public string Clave { get; set; }
+        public bool recordarme { get; set; }
+
+    }
+
+   
 }

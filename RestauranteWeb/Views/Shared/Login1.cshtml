@@ -19,7 +19,7 @@
                                         BIENVENIDO <br />
                                         Accede con tu cuenta o créate una si aún no la tienes
                                     </p>
-                                    <form id="LoginForm">
+                                    <form id="LoginForm" action="@Url.Action("Login", "Cliente")">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -33,12 +33,20 @@
                                                     <div class="help-block with-errors"></div>
                                                 </div>
                                             </div>
-                                         
-                                       
+                                            <div class="col-md-12">
+                                                <div class="form-check">
+                                                    <label for="txtRecuerdame">
+                                                        <input class="form-check-input" type="checkbox" id="txtRecuerdame" name="txtRecuerdame" /><label class="form-check-label"  for="txtRecuerdame"> Recordarme</label>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+
                                             <div class="col-md-12">
                                                 <a style="color:orange;" data-toggle="modal" data-target="#modalRecuperarEmail" href="#">¿Olvidaste tu contraseña?</a><br />
                                                 <span>¿No tienes Cuenta aun? <a style="color:orange;" href="@Url.Action("Registrarme", "Cliente")"> Registrarme</a></span>
-                                               
+
                                                 <div class="submit-button text-center">
                                                     <br />
                                                     <button class="btn hvr-hover" id="submit" type="submit">Iniciar Sesion</button>

@@ -1,0 +1,46 @@
+﻿
+                <!-- Start Contact Us  -->
+                <div class="contact-box-main">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="contact-form-right">
+                                    <h2>Cambiar Contraseña</h2>
+                                    <p>
+                                        BIENVENIDO <br />
+                                        Accede con tu cuenta o créate una si aún no la tienes
+                                    </p>
+                                    <form id="CambiarClaveForm" action="@Url.Action("CambiarContraNueva", "Cliente")">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" id="txtContraCambiar" name="txtContraCambiar" placeholder="Introduce una contraseña" required data-error="Por favor Introduce tu contraseña">
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="password" placeholder="Introduce tu confirmacion de contraseña" id="txtContraCambiarConfir" class="form-control" name="txtContraCambiarConfir" required data-error="Por favor Introduce tu confirmacion de contraseña">
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+
+
+                                                <div class="submit-button text-center">
+                                                    <br />
+                                                    <button class="btn hvr-hover" id="submit" type="submit">Guardar Contraseña</button>
+                                                    <div id="msgSubmitCambiarClaveForm" class="h3 text-center hidden"></div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <input type="hidden" value="@ViewBag.idCliente" id="txtIdCliente" name="txtIdCliente" placeholder="IdCliente"  data-error="id_cleitne" />
+                        </div>
+                    </div>
+                </div>
