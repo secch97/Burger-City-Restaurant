@@ -92,11 +92,6 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -173,8 +168,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "menu-open" : string.Empty)">
-                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "active" : string.Empty)">
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "active" : string.Empty)">
                                 <i class="nav-icon fas fa-hamburger"></i>
                                 <p>
                                     Gestionar productos
@@ -195,21 +190,15 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
+                                    <a href="@Url.Action("Productos", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/productos") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Productos</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
+                                    <a href="@Url.Action("Combos", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Combos</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Ofertas</p>
                                     </a>
                                 </li>
                             </ul>
@@ -509,14 +498,14 @@
             }).buttons().container().appendTo('#tablaClientes_wrapper .col-md-6:eq(0)');
         });
     </script>
-    <!-- Tabla 4: TablaClientes - /Administrador/Clientes -->
+    <!-- Tabla 4: TablaCategorias - /Administrador/Categorias -->
     <script>
         $(function () {
             $("#tablaCategorias").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "pageLength": 10,
+                "pageLength": 5,
                 "buttons":
                     [
                         { extend: 'pdf', text: 'PDF' },
@@ -571,6 +560,120 @@
                     }
                 }
             }).buttons().container().appendTo('#tablaEstados_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 6: TablaProductos - /Administrador/Productos -->
+    <script>
+        $(function () {
+            $("#tablaProductos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[3, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaProductos_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 7: TablaCombos - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaCombos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaCombos_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 8: tablaAgregarProductos- - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaAgregarProductos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "order": [[3, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Tabla 9: tablaProductosCombo-Eliminar - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaProductosCombo-Eliminar").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "order": [[3, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
         });
     </script>
 
@@ -754,6 +857,114 @@
             });
         });
     </script>
+    <!-- Modal 17: ModalAñadirProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-producto").click(function () {
+                $("#ModalAñadirProducto")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraProductoRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraProductoRegistro').html("Escoger imagen");
+                $("#ModalAñadirProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 18: ModalDetallesProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles-producto").click(function () {
+                $("#ModalDetallesProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 19: ModalEditarProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-producto").click(function () {
+
+                $("#ModalEditarProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 20: ModalEliminarProducto - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-producto").click(function () {
+                $("#ModalEliminarProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 21: ModalAñadirCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-combo").click(function () {
+                $("#ModalAñadirCombo")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraComboRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraComboRegistro').html("Escoger imagen");
+                $("#ModalAñadirCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 22: ModalDetallesCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles-combo").click(function () {
+                $("#ModalDetallesCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 23: ModalEditarProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-combo").click(function () {
+
+                $("#ModalEditarCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 24: ModalEliminarProducto - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-combo").click(function () {
+                $("#ModalEliminarCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 25: ModalAñadirCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".agregar-producto-combo").click(function () {
+                $("#ModalAgregarProductoCombo")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAgregarProductoCombo").modal('show');
+            });
+        });
+    </script>
 
     <!-- ======================================================================================= -->
     <!--                                        MASCARAS                                          -->
@@ -909,12 +1120,44 @@
             $('#lblImagenMuestraCategoriaRegistro').html(fileName);
         })
     </script>
-    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaRegistro-->
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaEdicion-->
     <script>
         $('#imagenCategoriaEdicion').on('change', function (e) {
             imagenMuestraCategoriaEdicion.src = URL.createObjectURL(event.target.files[0]);
             var fileName = e.target.files[0].name;
             $('#lblImagenMuestraCategoriaEdicion').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenProductoRegistro-->
+    <script>
+        $('#imagenProductoRegistro').on('change', function (e) {
+            imagenMuestraProductoRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraProductoRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenProductoEdicion-->
+    <script>
+        $('#imagenProductoEdicion').on('change', function (e) {
+            imagenMuestraProductoEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraProductoEdicion').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenComboRegistro-->
+    <script>
+        $('#imagenComboRegistro').on('change', function (e) {
+            imagenMuestraComboRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraComboRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenComboEdicion-->
+    <script>
+        $('#imagenComboEdicion').on('change', function (e) {
+            imagenMuestraComboEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraComboEdicion').html(fileName);
         })
     </script>
     @RenderSection("scripts", required: false)

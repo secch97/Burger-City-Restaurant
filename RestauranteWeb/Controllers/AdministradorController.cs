@@ -47,5 +47,20 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Productos()
+        {
+            return View();
+        }
+
+        public ActionResult Combos()
+        {
+            return View();
+        }
+
+        public ActionResult GestionarCombo()
+        {
+            return View();
+        }
     }
 }
