@@ -62,5 +62,15 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        public ActionResult Etapas()
+        {
+            return View();
+        }
+
+        public ActionResult HistorialDeOrdenes()
+        {
+            return View();
+        }
     }
 }

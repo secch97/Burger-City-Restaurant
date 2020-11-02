@@ -210,8 +210,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/etapas") || pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link @(pageUrl.ToLower().Contains("/administrador/etapas") || pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
                                 <i class="nav-icon fas fa-shopping-bag"></i>
                                 <p>
                                     Gestionar ordenes
@@ -220,13 +220,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
+                                    <a href="@Url.Action("Etapas", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/etapas") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Etapas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="@Url.Action("HistorialDeOrdenes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Historial</p>
                                     </a>
@@ -688,6 +688,70 @@
             });
         });
     </script>
+    <!-- Tabla 10: tablaEtapas - /Administrador/Etapas -->
+    <script>
+        $(function () {
+            $("#tablaEtapas").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEtapas_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 1: TablaOrdenes-Hoy - /Administrador/Inicio -->
+    <script>
+        $(function () {
+            $("#tablaOrdenes").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaOrdenes_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
     <!-- ======================================================================================================== -->
     <!-- =                                      SCRIPTS DE MODALES                                                -->
@@ -697,6 +761,22 @@
         $(document).ready(function () {
             $(".mostrar-orden-detallehoy").click(function () {
                 $("#ModalOrden-DetallesHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 2: ModalHistorialEtapasHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-historialetapashoy").click(function () {
+                $("#ModalHistorialEtapasHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 3: ModalEditarEtapaHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapahoy").click(function () {
+                $("#ModalEditarEtapaHoy").modal('show');
             });
         });
     </script>
@@ -977,7 +1057,65 @@
             });
         });
     </script>
+    <!-- Modal 26: ModalAñadirEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-etapa").click(function () {
+                $("#ModalAgregarEtapa")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAgregarEtapa").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 27: ModalEditarEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapa").click(function () {
 
+                $("#ModalEditarEtapa").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 24: ModalEliminarEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-etapa").click(function () {
+                $("#ModalBorrarEtapa").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 25: ModalOrden-Detalles - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-orden-detalle").click(function () {
+                $("#ModalOrden-Detalles").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 26: ModalHistorialEtapas - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-historialetapas").click(function () {
+                $("#ModalHistorialEtapas").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 27: ModalEditarEtapa - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapa").click(function () {
+                $("#ModalEditarEtapa").modal('show');
+            });
+        });
+    </script>
     <!-- ======================================================================================= -->
     <!--                                        MASCARAS                                          -->
     <!-- ======================================================================================= -->

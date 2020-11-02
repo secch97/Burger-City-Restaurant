@@ -2392,6 +2392,8 @@
     <Content Include="Views\Administrador\Productos.cshtml" />
     <Content Include="Views\Administrador\Combos.cshtml" />
     <Content Include="Views\Administrador\GestionarCombo.cshtml" />
+    <Content Include="Views\Administrador\Etapas.cshtml" />
+    <Content Include="Views\Administrador\HistorialDeOrdenes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
