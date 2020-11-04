@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RestauranteWeb.Models.CuentasClientes>
 @{
     ViewBag.Title = "Gestión de clientes";
 }
@@ -45,33 +45,23 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
                                     <tr>
-                                        <td>1</td>
-                                        <td>María Adela Morataya de Chamagua</td>
-                                        <td>30/10/2020 15:00</td>
+                                        <td>@item.IdCliente</td>
+                                        <td>@item.Nombres @item.Apellidos</td>
+                                        <td>@item.Fecha</td>
                                         <td>
-                                            <a class="detalles-cliente btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                            <a class="detalles-cliente btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip" data-idcliente="@item.IdCliente">
                                                 <i class="fa fa-eye" style="color:white;"></i>
                                             </a>
-                                            <a class="eliminar-cliente btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                            <a class="eliminar-cliente btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idcliente="@item.IdCliente">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Luis Alexander Abrego Zepeda</td>
-                                        <td>30/10/2020 19:00</td>
-                                        <td>
-                                            <a class="detalles-cliente btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-cliente btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -108,7 +98,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Nombres del cliente" id="nombresCliente" value="Luis Alexander" readonly>
+                                        <input type="text" class="form-control" placeholder="Nombres del cliente" id="nombresCliente"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +109,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Apellidos del cliente" id="apellidosCliente" value="Abrego Zepeda" readonly>
+                                        <input type="text" class="form-control" placeholder="Apellidos del cliente" id="apellidosCliente"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +128,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Teléfono fijo de contacto" id="telefonoFijoCliente" data-inputmask='"mask": "9999-9999"' data-mask value="2290-1865" readonly>
+                                        <input type="text" class="form-control" placeholder="Teléfono fijo de contacto" id="telefonoCliente" data-inputmask='"mask": "9999-9999"' data-mask  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +139,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Teléfono móvil de contacto" id="telefonoMóvilCliente" data-inputmask='"mask": "9999-9999"' data-mask value="7442-2219" readonly>
+                                        <input type="text" class="form-control" placeholder="Teléfono móvil de contacto" id="movilCliente" data-inputmask='"mask": "9999-9999"' data-mask  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +150,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" data-inputmask="'alias': 'email'" data-mask value="laaz13@gmail.com" readonly>
+                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" data-inputmask="'alias': 'email'" data-mask  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +161,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-map"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Dirección de domicilio del cliente" id="direccionDomicilioCliente" value="Soyapango, Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82" readonly>
+                                        <input type="text" class="form-control" placeholder="Dirección de domicilio del cliente" id="direccionDomicilioCliente" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +172,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-map-marked"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Dirección de entrega del cliente" id="direccionEntregaCliente" value="Soyapango, Universidad Don Bosco" readonly>
+                                        <input type="text" class="form-control" placeholder="Dirección de entrega del cliente" id="direccionEntregaCliente"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -207,22 +197,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             ¿Está seguro que desea eliminar al presente cliente?
                             <br />
                             <br />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="button" id="btnEliminarCliente" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>

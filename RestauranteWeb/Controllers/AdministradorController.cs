@@ -165,11 +165,57 @@ namespace RestauranteWeb.Controllers
             return Json(empleadosClean, JsonRequestBehavior.AllowGet);
         }
         //FIN METODOS CUENTAS EMPLEADOS
+
+        //INICIO METODOS CUENTAS CLIENTES
         public ActionResult Clientes()
         {
-            return View();
+            return View(db.CuentasClientes.ToList());
         }
 
+        [HttpPost]
+        public JsonResult obtenerCliente(string idCliente)
+        {
+            CuentasClientes cuentasClientes = db.CuentasClientes.Find(idCliente);
+            
+            return Json(new { nombres = cuentasClientes.Nombres,
+                              apellidos= cuentasClientes.Apellidos,
+                              telefono = cuentasClientes.TelefonoFijo,
+                              movil = cuentasClientes.TelefonoCelular,
+                              correo = cuentasClientes.Correo,
+                              direccionCliente = cuentasClientes.Direccion,
+                              direccionEntrega= cuentasClientes.DireccionEntrega});
+        }
+
+        [HttpPost]
+        public JsonResult eliminarCliente(string idCliente)
+        {
+            try
+            {
+                CuentasClientes cuentasClientes = db.CuentasClientes.Find(idCliente);
+                db.CuentasClientes.Remove(cuentasClientes);
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+
+        [HttpPost]
+        public JsonResult reloadClientes()
+        {
+            List<CuentasClientes> clientes = new List<CuentasClientes>();
+            clientes = db.CuentasClientes.ToList();
+            var clientesClean = clientes.Select(s => new {
+                s.IdCliente,
+                s.Nombres,
+                s.Apellidos,
+                s.Fecha
+            });
+            return Json(clientesClean, JsonRequestBehavior.AllowGet);
+        }
+
+        //FIN METODOS CUENTAS CLIENTES
         public ActionResult Categorias()
         {
             return View();
