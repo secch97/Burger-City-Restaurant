@@ -96,11 +96,6 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -177,8 +172,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "menu-open" : string.Empty)">
-                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "active" : string.Empty)">
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "active" : string.Empty)">
                                 <i class="nav-icon fas fa-hamburger"></i>
                                 <p>
                                     Gestionar productos
@@ -199,27 +194,21 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
+                                    <a href="@Url.Action("Productos", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/productos") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Productos</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
+                                    <a href="@Url.Action("Combos", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Combos</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Ofertas</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/etapas") || pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link @(pageUrl.ToLower().Contains("/administrador/etapas") || pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
                                 <i class="nav-icon fas fa-shopping-bag"></i>
                                 <p>
                                     Gestionar ordenes
@@ -228,13 +217,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
+                                    <a href="@Url.Action("Etapas", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/etapas") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Etapas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="@Url.Action("HistorialDeOrdenes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Historial</p>
                                     </a>
@@ -516,14 +505,14 @@
             }).buttons().container().appendTo('#tablaClientes_wrapper .col-md-6:eq(0)');
         });
     </script>
-    <!-- Tabla 4: TablaClientes - /Administrador/Clientes -->
+    <!-- Tabla 4: TablaCategorias - /Administrador/Categorias -->
     <script>
         $(function () {
             $("#tablaCategorias").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "pageLength": 10,
+                "pageLength": 5,
                 "buttons":
                     [
                         { extend: 'pdf', text: 'PDF' },
@@ -580,6 +569,184 @@
             }).buttons().container().appendTo('#tablaEstados_wrapper .col-md-6:eq(0)');
         });
     </script>
+    <!-- Tabla 6: TablaProductos - /Administrador/Productos -->
+    <script>
+        $(function () {
+            $("#tablaProductos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[3, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaProductos_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 7: TablaCombos - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaCombos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaCombos_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 8: tablaAgregarProductos- - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaAgregarProductos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "order": [[3, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Tabla 9: tablaProductosCombo-Eliminar - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaProductosCombo-Eliminar").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "order": [[3, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Tabla 10: tablaEtapas - /Administrador/Etapas -->
+    <script>
+        $(function () {
+            $("#tablaEtapas").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEtapas_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 1: TablaOrdenes-Hoy - /Administrador/Inicio -->
+    <script>
+        $(function () {
+            $("#tablaOrdenes").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaOrdenes_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
     <!-- ======================================================================================================== -->
     <!-- =                                      SCRIPTS DE MODALES                                                -->
@@ -592,7 +759,23 @@
             });
         });
     </script>
-    <!-- Modal 2: ModalAñadirRol - /Administrador/Roles -->
+    <!-- Modal 2: ModalHistorialEtapasHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-historialetapashoy").click(function () {
+                $("#ModalHistorialEtapasHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 3: ModalEditarEtapaHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapahoy").click(function () {
+                $("#ModalEditarEtapaHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 4: ModalAñadirRol - /Administrador/Roles -->
     <script>
         $(document).ready(function () {
             var Rol = '';
@@ -638,7 +821,7 @@
 
         });
     </script>
-    <!-- Modal 2: ModalEditarRol - /Administrador/Roles -->
+    <!-- Modal 5: ModalEditarRol - /Administrador/Roles -->
     <script>
         $(document).ready(function () {
             var idRol = 0;
@@ -680,7 +863,7 @@
             });
         });
     </script>
-    <!-- Modal 3: ModalBorrarRol - /Administrador/Roles -->
+    <!-- Modal 6: ModalBorrarRol - /Administrador/Roles -->
     <script>
         $(document).ready(function () {
             var idRol = 0;
@@ -717,7 +900,7 @@
             });
         });
     </script>
-    <!-- Modal 4: ModalAñadirEmpleado - /Administrador/Empleados -->
+    <!-- Modal 7: ModalAñadirEmpleado - /Administrador/Empleados -->
     <script>
         $(document).ready(function () {
             var nombres = '';
@@ -772,7 +955,7 @@
             });
         });
     </script>
-    <!-- Modal 5: ModalEditarEmpleado - /Administrador/Empleados -->
+    <!-- Modal 8: ModalEditarEmpleado - /Administrador/Empleados -->
     <script>
         $(document).ready(function () {
             var nombres = '';
@@ -826,7 +1009,7 @@
             })
         });
     </script>
-    <!-- Modal 6: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <!-- Modal 9: ModalContraseñaEmpleado - /Administrador/Empleados -->
     <script>
         $(document).ready(function () {
             var clave = '';
@@ -877,7 +1060,7 @@
             });
         });
     </script>
-    <!-- Modal 7: ModalEliminarEmpleado - /Administrador/Empleados -->
+    <!-- Modal 10: ModalEliminarEmpleado - /Administrador/Empleados -->
     <script>
         $(document).ready(function () {
             var usuario = '';
@@ -908,7 +1091,7 @@
             });
         });
     </script>
-    <!-- Modal 8: ModalDetallesCliente - /Administrador/Clientes -->
+    <!-- Modal 11: ModalDetallesCliente - /Administrador/Clientes -->
     <script>
         $(document).ready(function () {
             var idCliente = '';
@@ -940,7 +1123,7 @@
             });
         });
     </script>
-    <!-- Modal 9: ModalEliminarCliente - /Administrador/Clientes -->
+    <!-- Modal 12: ModalEliminarCliente - /Administrador/Clientes -->
     <script>
         $(document).ready(function () {
             var idCliente = '';
@@ -971,7 +1154,7 @@
             });
         });
     </script>
-    <!-- Modal 10: ModalAñadirCategoria - /Administrador/Categorias -->
+    <!-- Modal 13: ModalAñadirCategoria - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
             $(".añadir-categoria").click(function () {
@@ -988,7 +1171,7 @@
             });
         });
     </script>
-    <!-- Modal 11: ModalDetallesCategoria - /Administrador/Categorias -->
+    <!-- Modal 14: ModalDetallesCategoria - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
             $(".detalles-categoria").click(function () {
@@ -996,7 +1179,7 @@
             });
         });
     </script>
-    <!-- Modal 12: ModalEditarCategoria - /Administrador/Categorias -->
+    <!-- Modal 15: ModalEditarCategoria - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
             $(".editar-categoria").click(function () {
@@ -1005,7 +1188,7 @@
             });
         });
     </script>
-    <!-- Modal 13: ModalEliminarCategoria - /Administrador/Categorias -->
+    <!-- Modal 16: ModalEliminarCategoria - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
             $(".eliminar-categoria").click(function () {
@@ -1013,7 +1196,7 @@
             });
         });
     </script>
-    <!-- Modal 14: ModalAñadirEstado - /Administrador/Estados -->
+    <!-- Modal 17: ModalAñadirEstado - /Administrador/Estados -->
     <script>
         $(document).ready(function () {
             $(".añadir-estado").click(function () {
@@ -1028,7 +1211,7 @@
             });
         });
     </script>
-    <!-- Modal 15: ModalEditarEstado - /Administrador/Estados -->
+    <!-- Modal 18: ModalEditarEstado - /Administrador/Estados -->
     <script>
         $(document).ready(function () {
             $(".editar-estado").click(function () {
@@ -1036,7 +1219,7 @@
             });
         });
     </script>
-    <!-- Modal 16: ModalEliminarCategoria - /Administrador/Estados -->
+    <!-- Modal 19: ModalEliminarCategoria - /Administrador/Estados -->
     <script>
         $(document).ready(function () {
             $(".eliminar-estado").click(function () {
@@ -1044,7 +1227,173 @@
             });
         });
     </script>
+    <!-- Modal 20: ModalAñadirProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-producto").click(function () {
+                $("#ModalAñadirProducto")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraProductoRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraProductoRegistro').html("Escoger imagen");
+                $("#ModalAñadirProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 21: ModalDetallesProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles-producto").click(function () {
+                $("#ModalDetallesProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 22: ModalEditarProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-producto").click(function () {
 
+                $("#ModalEditarProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 23: ModalEliminarProducto - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-producto").click(function () {
+                $("#ModalEliminarProducto").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 24: ModalAñadirCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-combo").click(function () {
+                $("#ModalAñadirCombo")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraComboRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraComboRegistro').html("Escoger imagen");
+                $("#ModalAñadirCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 25: ModalDetallesCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles-combo").click(function () {
+                $("#ModalDetallesCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 26: ModalEditarProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-combo").click(function () {
+
+                $("#ModalEditarCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 27: ModalEliminarProducto - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-combo").click(function () {
+                $("#ModalEliminarCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 28: ModalAñadirCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".agregar-producto-combo").click(function () {
+                $("#ModalAgregarProductoCombo")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAgregarProductoCombo").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 29: ModalAñadirEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-etapa").click(function () {
+                $("#ModalAgregarEtapa")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAgregarEtapa").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 30: ModalEditarEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapa").click(function () {
+
+                $("#ModalEditarEtapa").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 31: ModalEliminarEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            $(".eliminar-etapa").click(function () {
+                $("#ModalBorrarEtapa").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 32: ModalOrden-Detalles - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-orden-detalle").click(function () {
+                $("#ModalOrden-Detalles").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 33: ModalHistorialEtapas - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-historialetapas").click(function () {
+                $("#ModalHistorialEtapas").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 34: ModalEditarEtapa - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapa").click(function () {
+                $("#ModalEditarEtapa").modal('show');
+            });
+        });
+    </script>
     <!-- ======================================================================================= -->
     <!--                                      SCRIPTS AUXILIARES                                 -->
     <!-- ======================================================================================= -->
@@ -1351,6 +1700,161 @@
 
         });
     </script>
+    <!-- Script para activar alertas-->
+    <script type="text/javascript">
+        $(function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            $('.swalDefaultSuccess').click(function () {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultInfo').click(function () {
+                Toast.fire({
+                    icon: 'info',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultError').click(function () {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultWarning').click(function () {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultQuestion').click(function () {
+                Toast.fire({
+                    icon: 'question',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+
+            $('.toastrDefaultSuccess').click(function () {
+                toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+            $('.toastrDefaultInfo').click(function () {
+                toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+            $('.toastrDefaultError').click(function () {
+                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+            $('.toastrDefaultWarning').click(function () {
+                toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+
+            $('.toastsDefaultDefault').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultTopLeft').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    position: 'topLeft',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultBottomRight').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    position: 'bottomRight',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultBottomLeft').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    position: 'bottomLeft',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultAutohide').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    autohide: true,
+                    delay: 750,
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultNotFixed').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    fixed: false,
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultFull').click(function () {
+                $(document).Toasts('create', {
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    icon: 'fas fa-envelope fa-lg',
+                })
+            });
+            $('.toastsDefaultFullImage').click(function () {
+                $(document).Toasts('create', {
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    image: '../../dist/img/user3-128x128.jpg',
+                    imageAlt: 'User Picture',
+                })
+            });
+            $('.toastsDefaultSuccess').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-success',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultInfo').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-info',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultWarning').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-warning',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultDanger').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-danger',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultMaroon').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-maroon',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+        });
+    </script>
     <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaRegistro-->
     <script>
         $('#imagenCategoriaRegistro').on('change', function (e) {
@@ -1359,12 +1863,44 @@
             $('#lblImagenMuestraCategoriaRegistro').html(fileName);
         })
     </script>
-    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaRegistro-->
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaEdicion-->
     <script>
         $('#imagenCategoriaEdicion').on('change', function (e) {
             imagenMuestraCategoriaEdicion.src = URL.createObjectURL(event.target.files[0]);
             var fileName = e.target.files[0].name;
             $('#lblImagenMuestraCategoriaEdicion').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenProductoRegistro-->
+    <script>
+        $('#imagenProductoRegistro').on('change', function (e) {
+            imagenMuestraProductoRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraProductoRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenProductoEdicion-->
+    <script>
+        $('#imagenProductoEdicion').on('change', function (e) {
+            imagenMuestraProductoEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraProductoEdicion').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenComboRegistro-->
+    <script>
+        $('#imagenComboRegistro').on('change', function (e) {
+            imagenMuestraComboRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraComboRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenComboEdicion-->
+    <script>
+        $('#imagenComboEdicion').on('change', function (e) {
+            imagenMuestraComboEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraComboEdicion').html(fileName);
         })
     </script>
     @RenderSection("scripts", required: false)

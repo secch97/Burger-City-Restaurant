@@ -1,6 +1,6 @@
-﻿@model IEnumerable<RestauranteWeb.Models.RolesEmpleados>
+﻿
 @{
-    ViewBag.Title = "Gestión de roles";
+    ViewBag.Title = "Gestión de etapas";
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Gestión de roles</h1>
+                    <h1 class="m-0">Gestión de etapas</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Gestión de usuarios</a></li>
-                        <li class="breadcrumb-item active">Roles</li>
+                        <li class="breadcrumb-item"><a href="#">Gestión de ordenes</a></li>
+                        <li class="breadcrumb-item active">Etapas</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,45 +30,74 @@
                 <section class="col-lg-12 connectedSortable">
                     <div class="card card-navy">
                         <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
-                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">ROLES DISPONIBLES EN EL SISTEMA</h3>
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">ETAPAS DE ORDENES</h3>
                         </div>
                         <br />
                         <div style="display:flex;justify-content:center;align-items:center;">
-                            <button class="añadir-rol btn btn-info btn-sm rounded-sm">
+                            <button class="añadir-etapa btn btn-info btn-sm rounded-sm">
                                 <i class="fa fa-plus" style="color:white;"></i>
-                                Agregar rol
+                                Agregar etapa
                             </button>
                         </div>
                         <!-- /.card-header -->
-                        <div id="tabla" class="card-body">
-                            <table id="tablaRoles" class="table table-bordered table-striped" style="text-align:center;">
+                        <div class="card-body">
+                            <table id="tablaEtapas" class="table table-bordered table-striped" style="text-align:center;">
                                 <thead>
                                     <tr>
-                                        <th>ID Rol</th>
+                                        <th>ID Etapa</th>
                                         <th>Nombre</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody class="contenido">
-                                  
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.IdRol)
-                                            </td>
-                                            <td> @Html.DisplayFor(modelItem => item.Rol)</td>
-                                            <td>
-                                                <a class="editar-rol btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idrol="@item.IdRol" data-rol="@item.Rol">
-                                                    <i class="fa fa-pen" style="color:white;"></i>
-                                                </a>
-                                                <a class="eliminar-rol btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idrol="@item.IdRol">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                              
-                                            </td>
-                                        </tr>
-                                    }
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Solicitada</td>
+                                        <td>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-etapa btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Procesada</td>
+                                        <td>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-etapa btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Entregada</td>
+                                        <td>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-etapa btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Cancelada</td>
+                                        <td>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-etapa btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -82,19 +111,21 @@
         </div>
     </section>
 
-    <div class="modal fade" id="ModalAñadirRol">
+    <div class="modal fade" id="ModalAgregarEtapa">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">REGISTRO DE ROLES</h4>
+                    <h4 class="modal-title">REGISTRO DE ETAPAS</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
-                            DATOS DEL ROL
+                            DATOS DE LA ETAPA
                         </div>
                         <hr style="border-color:white" />
 
@@ -105,9 +136,9 @@
                                         <label>Nombre:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="Rol" name="Rol" maxlength="50" required>
+                                            <input type="text" class="form-control" placeholder="Nombre de la etapa" id="nombreEtapa" maxlength="50" required>
                                         </div>
                                     </div>
                                 </div>
@@ -115,30 +146,34 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnRegistrarRol"  class="btn btn-success">
+                        <button type="submit" class="btn btn-success">
                             <i class="fas fa-plus"></i>
                             Registrar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
+                }
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <div class="modal fade" id="ModalEditarRol">
+    <div class="modal fade" id="ModalEditarEtapa">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">EDICIÓN DE ROLES</h4>
+                    <h4 class="modal-title">EDICIÓN DE ETAPAS</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
-                            DATOS DEL ROL
+                            DATOS DE ETAPA
                         </div>
                         <hr style="border-color:white" />
 
@@ -149,9 +184,9 @@
                                         <label>Nombre:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="cEditarRol" maxlength="50"  required>
+                                            <input type="text" class="form-control" placeholder="Nombre de la etapa" id="nombreEtapa" maxlength="50" value="Procesada" required>
                                         </div>
                                     </div>
                                 </div>
@@ -159,13 +194,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnActualizar" class="btn btn-success">
+                        <button type="submit" class="btn btn-success">
                             <i class="fa fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                
+                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -173,29 +208,31 @@
     </div>
     <!-- /.modal -->
     <!-- /.modal -->
-    <div class="modal fade" id="ModalBorrarRol">
+    <div class="modal fade" id="ModalBorrarEtapa">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">ROLES</h4>
+                    <h4 class="modal-title">ETAPAS</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-          
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
-                            ¿Está seguro que desea eliminar este rol?
+                            ¿Está seguro que desea eliminar esta etapa?
                             <br />
                             <br />
-                            <button type="button" id="btnEliminar" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-
+                }
             </div>
             <!-- /.modal-content -->
         </div>

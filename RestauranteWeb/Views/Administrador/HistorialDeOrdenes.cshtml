@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Inicio";
+    ViewBag.Title = "Historial de ordenes";
 }
 
 <!-- Content Wrapper. Contains page content -->
@@ -10,12 +10,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Tablero de estadísticas</h1>
+                    <h1 class="m-0">Historial de ordenes</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                        <li class="breadcrumb-item active">Tablero de estadísticas</li>
+                        <li class="breadcrumb-item"><a href="#">Gestión de ordenes</a></li>
+                        <li class="breadcrumb-item active">Historial</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -25,111 +25,17 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-gradient-info">
-                        <div class="inner">
-                            <h3>150<sup style="font-size: 30px">+</sup></h3>
-                            <p>Nuevas ordenes</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-hamburger"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-gradient-success">
-                        <div class="inner">
-                            <h3>53</h3>
-                            <p>Ordenes realizadas</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-gradient-maroon">
-                        <div class="inner">
-                            <h3>44<sup style="font-size: 30px">+</sup></h3>
-                            <p>Nuevos clientes</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-gradient-purple">
-                        <div class="inner">
-                            <h3>65</h3>
-                            <p>Clientes registrados</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-person"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./col -->
-            </div>
             <!-- Main row -->
             <div class="row">
                 <section class="col-lg-12 connectedSortable">
-                    <!-- solid sales graph -->
-                    <div class="card bg-gradient-navy">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">
-                                <i class="fas fa-th mr-1"></i>
-                                Gráfico de ventas en línea - 2020
-                            </h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn bg-gradient-navy btn-sm" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">HISTORIAL DE ORDENES</h3>
                         </div>
-                        <div class="card-body">
-                            <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer bg-transparent">
-                            <div class="row">
-                                <div class="col-6 text-center">
-                                    <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                           data-fgColor="#39CCCC">
-
-                                    <div class="text-white">% Productos individuales</div>
-                                </div>
-                                <!-- ./col -->
-                                <div class="col-6 text-center">
-                                    <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                           data-fgColor="#39CCCC">
-
-                                    <div class="text-white">% Combos</div>
-                                </div>
-                                <!-- ./col -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.card-footer -->
-                    </div>
-                    <!-- /.card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Ordenes realizadas el día de hoy</h3>
-                        </div>
+                        <br />
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="tablaOrdenes-Hoy" class="table table-bordered table-striped" style="text-align:center;">
+                            <table id="tablaOrdenes" class="table table-bordered table-striped" style="text-align:center;">
                                 <thead>
                                     <tr>
                                         <th>ID Orden</th>
@@ -148,13 +54,13 @@
                                         <td>$30.00</td>
                                         <td><span class="badge badge-warning" style="font-weight:bold;">Solicitada</span></td>
                                         <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
+                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
                                                 <i class="fa fa-list"></i>
                                             </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
                                         </td>
@@ -166,13 +72,13 @@
                                         <td>$13.49</td>
                                         <td><span class="badge badge-info" style="font-weight:bold;">Procesada</span></td>
                                         <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
+                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
                                                 <i class="fa fa-list"></i>
                                             </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
                                         </td>
@@ -184,14 +90,14 @@
                                         <td>$10.00</td>
                                         <td><span class="badge badge-success" style="font-weight:bold;">Entregada</span></td>
                                         <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
+                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
                                                 <i class="fa fa-list"></i>
                                             </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
+                                                <i class="fa fa-pen" style=" color:white;"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -202,13 +108,13 @@
                                         <td>$17.00</td>
                                         <td><span class="badge badge-danger" style="font-weight:bold;">Cancelada</span></td>
                                         <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
+                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
                                                 <i class="fa fa-list"></i>
                                             </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
                                         </td>
@@ -226,7 +132,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="ModalOrden-DetallesHoy">
+    <div class="modal fade" id="ModalOrden-Detalles">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
@@ -383,7 +289,8 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    <div class="modal fade" id="ModalHistorialEtapasHoy">
+
+    <div class="modal fade" id="ModalHistorialEtapas">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
@@ -445,7 +352,7 @@
         </div>
         <!-- /.modal -->
     </div>
-    <div class="modal fade" id="ModalEditarEtapaHoy">
+    <div class="modal fade" id="ModalEditarEtapa">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
@@ -466,12 +373,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <select id="etapaOrden-EdicionHoy" class="form-control select2" required>
+                                        <select id="etapaOrden-Edicion" class="form-control select2" required>
                                             <option></option>
                                             <option value="1" selected>Solicitada</option>
-                                            <option value="2">Procesada</option>
-                                            <option value="3">Entregada</option>
-                                            <option value="4">Cancelada</option>
+                                            <option value="2" >Procesada</option>
+                                            <option value="3" >Entregada</option>
+                                            <option value="4" >Cancelada</option>
                                         </select>
                                     </div>
                                 </div>
@@ -492,4 +399,3 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-</div>
