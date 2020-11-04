@@ -12,17 +12,9 @@ namespace RestauranteWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CombosProductos
+    public partial class ImagenesObjetos
     {
-        public string IdCombo { get; set; }
-        public int Correlativo { get; set; }
-        public string IdProducto { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public Nullable<decimal> Precio { get; set; }
-        public Nullable<int> IdEstado { get; set; }
-    
-        public virtual EstadosProductos EstadosProductos { get; set; }
-        public virtual ProductosRestaurante ProductosRestaurante { get; set; }
+        public string IdObjeto { get; set; }
+        public string RutaImagen { get; set; }
     }
 }

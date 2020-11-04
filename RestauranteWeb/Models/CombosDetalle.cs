@@ -12,10 +12,14 @@ namespace RestauranteWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PromocionesCarrusel
+    public partial class CombosDetalle
     {
-        public int IdItem { get; set; }
-        public string Nombre { get; set; }
-        public string RutaImagen { get; set; }
+        public string IdCombo { get; set; }
+        public int Correlativo { get; set; }
+        public string IdProducto { get; set; }
+        public Nullable<int> Cantidad { get; set; }
+    
+        public virtual Combos Combos { get; set; }
+        public virtual ProductosRestaurante ProductosRestaurante { get; set; }
     }
 }

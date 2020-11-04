@@ -17,7 +17,7 @@ namespace RestauranteWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductosRestaurante()
         {
-            this.CombosProductos = new HashSet<CombosProductos>();
+            this.CombosDetalle = new HashSet<CombosDetalle>();
         }
     
         public string IdProducto { get; set; }
@@ -28,8 +28,8 @@ namespace RestauranteWeb.Models
         public Nullable<int> IdEstado { get; set; }
     
         public virtual CategoriasProductos CategoriasProductos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CombosProductos> CombosProductos { get; set; }
         public virtual EstadosProductos EstadosProductos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CombosDetalle> CombosDetalle { get; set; }
     }
 }

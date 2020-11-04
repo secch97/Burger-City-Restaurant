@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProyectoASP_RestauranteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProyectoASP_RestauranteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CategoriasProductos">
           <Key>
             <PropertyRef Name="IdCategoria" />
@@ -13,7 +13,17 @@
           <Property Name="Nombre" Type="varchar" MaxLength="100" />
           <Property Name="Descripcion" Type="varchar" MaxLength="500" />
         </EntityType>
-        <EntityType Name="CombosProductos">
+        <EntityType Name="Combos">
+          <Key>
+            <PropertyRef Name="IdCombo" />
+          </Key>
+          <Property Name="IdCombo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" />
+          <Property Name="Precio" Type="numeric" Precision="4" Scale="2" />
+          <Property Name="IdEstado" Type="int" />
+        </EntityType>
+        <EntityType Name="CombosDetalle">
           <Key>
             <PropertyRef Name="IdCombo" />
             <PropertyRef Name="Correlativo" />
@@ -21,10 +31,7 @@
           <Property Name="IdCombo" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Correlativo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdProducto" Type="varchar" MaxLength="20" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
-          <Property Name="Precio" Type="numeric" Precision="4" Scale="2" />
-          <Property Name="IdEstado" Type="int" />
+          <Property Name="Cantidad" Type="int" />
         </EntityType>
         <EntityType Name="CuentasClientes">
           <Key>
@@ -75,6 +82,13 @@
           <Property Name="Fecha" Type="datetime" />
           <Property Name="UsuarioGrabacion" Type="varchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="ImagenesObjetos">
+          <Key>
+            <PropertyRef Name="IdObjeto" />
+          </Key>
+          <Property Name="IdObjeto" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RutaImagen" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="OfertasProductos">
           <Key>
             <PropertyRef Name="IdOferta" />
@@ -83,6 +97,7 @@
           <Property Name="IdOferta" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IdObjeto" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Precio" Type="numeric" Precision="4" Scale="2" />
           <Property Name="Activo" Type="bit" />
           <Property Name="Fecha" Type="datetime" />
         </EntityType>
@@ -116,14 +131,6 @@
           <Property Name="Precio" Type="numeric" Precision="4" Scale="2" />
           <Property Name="IdEstado" Type="int" />
         </EntityType>
-        <EntityType Name="PromocionesCarrusel">
-          <Key>
-            <PropertyRef Name="IdItem" />
-          </Key>
-          <Property Name="IdItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="100" />
-          <Property Name="RutaImagen" Type="varchar" MaxLength="100" />
-        </EntityType>
         <EntityType Name="RolesEmpleados">
           <Key>
             <PropertyRef Name="IdRol" />
@@ -141,26 +148,38 @@
           <Property Name="IdEtapa" Type="int" />
           <Property Name="Fecha" Type="datetime" />
         </EntityType>
-        <Association Name="FK_CombosProductos_EstadosProductos">
+        <Association Name="FK_Combos_EstadosProductos">
           <End Role="EstadosProductos" Type="Self.EstadosProductos" Multiplicity="0..1" />
-          <End Role="CombosProductos" Type="Self.CombosProductos" Multiplicity="*" />
+          <End Role="Combos" Type="Self.Combos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EstadosProductos">
               <PropertyRef Name="IdEstado" />
             </Principal>
-            <Dependent Role="CombosProductos">
+            <Dependent Role="Combos">
               <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CombosProductos_ProductosRestaurante">
+        <Association Name="FK_CombosDetalle_Combos">
+          <End Role="Combos" Type="Self.Combos" Multiplicity="1" />
+          <End Role="CombosDetalle" Type="Self.CombosDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combos">
+              <PropertyRef Name="IdCombo" />
+            </Principal>
+            <Dependent Role="CombosDetalle">
+              <PropertyRef Name="IdCombo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CombosDetalle_ProductosRestaurante">
           <End Role="ProductosRestaurante" Type="Self.ProductosRestaurante" Multiplicity="0..1" />
-          <End Role="CombosProductos" Type="Self.CombosProductos" Multiplicity="*" />
+          <End Role="CombosDetalle" Type="Self.CombosDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ProductosRestaurante">
               <PropertyRef Name="IdProducto" />
             </Principal>
-            <Dependent Role="CombosProductos">
+            <Dependent Role="CombosDetalle">
               <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
@@ -263,26 +282,31 @@
         </Association>
         <EntityContainer Name="ProyectoASP_RestauranteModelStoreContainer">
           <EntitySet Name="CategoriasProductos" EntityType="Self.CategoriasProductos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CombosProductos" EntityType="Self.CombosProductos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Combos" EntityType="Self.Combos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CombosDetalle" EntityType="Self.CombosDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuentasClientes" EntityType="Self.CuentasClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuentasEmpleados" EntityType="Self.CuentasEmpleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosProductos" EntityType="Self.EstadosProductos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EtapasPedidos" EntityType="Self.EtapasPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HistorialPedidos" EntityType="Self.HistorialPedidos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImagenesObjetos" EntityType="Self.ImagenesObjetos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OfertasProductos" EntityType="Self.OfertasProductos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedidosClientes" EntityType="Self.PedidosClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedidosClientesDetalles" EntityType="Self.PedidosClientesDetalles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductosRestaurante" EntityType="Self.ProductosRestaurante" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PromocionesCarrusel" EntityType="Self.PromocionesCarrusel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RolesEmpleados" EntityType="Self.RolesEmpleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackeoPedidosClientes" EntityType="Self.TrackeoPedidosClientes" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_CombosProductos_EstadosProductos" Association="Self.FK_CombosProductos_EstadosProductos">
+          <AssociationSet Name="FK_Combos_EstadosProductos" Association="Self.FK_Combos_EstadosProductos">
             <End Role="EstadosProductos" EntitySet="EstadosProductos" />
-            <End Role="CombosProductos" EntitySet="CombosProductos" />
+            <End Role="Combos" EntitySet="Combos" />
           </AssociationSet>
-          <AssociationSet Name="FK_CombosProductos_ProductosRestaurante" Association="Self.FK_CombosProductos_ProductosRestaurante">
+          <AssociationSet Name="FK_CombosDetalle_Combos" Association="Self.FK_CombosDetalle_Combos">
+            <End Role="Combos" EntitySet="Combos" />
+            <End Role="CombosDetalle" EntitySet="CombosDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CombosDetalle_ProductosRestaurante" Association="Self.FK_CombosDetalle_ProductosRestaurante">
             <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
-            <End Role="CombosProductos" EntitySet="CombosProductos" />
+            <End Role="CombosDetalle" EntitySet="CombosDetalle" />
           </AssociationSet>
           <AssociationSet Name="FK_CuentasEmpleados_RolesEmpleados" Association="Self.FK_CuentasEmpleados_RolesEmpleados">
             <End Role="RolesEmpleados" EntitySet="RolesEmpleados" />
@@ -317,8 +341,7 @@
             <End Role="TrackeoPedidosClientes" EntitySet="TrackeoPedidosClientes" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoASP_RestauranteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -330,21 +353,6 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ProductosRestaurante" Relationship="Self.FK_ProductosRestaurante_CategoriasProductos" FromRole="CategoriasProductos" ToRole="ProductosRestaurante" />
-        </EntityType>
-        <EntityType Name="CombosProductos">
-          <Key>
-            <PropertyRef Name="IdCombo" />
-            <PropertyRef Name="Correlativo" />
-          </Key>
-          <Property Name="IdCombo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Correlativo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdProducto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Precio" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="IdEstado" Type="Int32" />
-          <NavigationProperty Name="EstadosProductos" Relationship="Self.FK_CombosProductos_EstadosProductos" FromRole="CombosProductos" ToRole="EstadosProductos" />
-          <NavigationProperty Name="ProductosRestaurante" Relationship="Self.FK_CombosProductos_ProductosRestaurante" FromRole="CombosProductos" ToRole="ProductosRestaurante" />
         </EntityType>
         <EntityType Name="CuentasClientes">
           <Key>
@@ -380,8 +388,8 @@
           </Key>
           <Property Name="IdEstado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CombosProductos" Relationship="Self.FK_CombosProductos_EstadosProductos" FromRole="EstadosProductos" ToRole="CombosProductos" />
           <NavigationProperty Name="ProductosRestaurante" Relationship="Self.FK_ProductosRestaurante_EstadosProductos" FromRole="EstadosProductos" ToRole="ProductosRestaurante" />
+          <NavigationProperty Name="Combos" Relationship="ProyectoASP_RestauranteModel.FK_Combos_EstadosProductos" FromRole="EstadosProductos" ToRole="Combos" />
         </EntityType>
         <EntityType Name="EtapasPedidos">
           <Key>
@@ -411,6 +419,7 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Activo" Type="Boolean" />
           <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Precio" Type="Decimal" Precision="4" Scale="2" />
         </EntityType>
         <EntityType Name="PedidosClientes">
           <Key>
@@ -447,16 +456,8 @@
           <Property Name="Precio" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="IdEstado" Type="Int32" />
           <NavigationProperty Name="CategoriasProductos" Relationship="Self.FK_ProductosRestaurante_CategoriasProductos" FromRole="ProductosRestaurante" ToRole="CategoriasProductos" />
-          <NavigationProperty Name="CombosProductos" Relationship="Self.FK_CombosProductos_ProductosRestaurante" FromRole="ProductosRestaurante" ToRole="CombosProductos" />
           <NavigationProperty Name="EstadosProductos" Relationship="Self.FK_ProductosRestaurante_EstadosProductos" FromRole="ProductosRestaurante" ToRole="EstadosProductos" />
-        </EntityType>
-        <EntityType Name="PromocionesCarrusel">
-          <Key>
-            <PropertyRef Name="IdItem" />
-          </Key>
-          <Property Name="IdItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RutaImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CombosDetalle" Relationship="ProyectoASP_RestauranteModel.FK_CombosDetalle_ProductosRestaurante" FromRole="ProductosRestaurante" ToRole="CombosDetalle" />
         </EntityType>
         <EntityType Name="RolesEmpleados">
           <Key>
@@ -487,30 +488,6 @@
             </Principal>
             <Dependent Role="ProductosRestaurante">
               <PropertyRef Name="IdCategoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CombosProductos_EstadosProductos">
-          <End Role="EstadosProductos" Type="Self.EstadosProductos" Multiplicity="0..1" />
-          <End Role="CombosProductos" Type="Self.CombosProductos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadosProductos">
-              <PropertyRef Name="IdEstado" />
-            </Principal>
-            <Dependent Role="CombosProductos">
-              <PropertyRef Name="IdEstado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CombosProductos_ProductosRestaurante">
-          <End Role="ProductosRestaurante" Type="Self.ProductosRestaurante" Multiplicity="0..1" />
-          <End Role="CombosProductos" Type="Self.CombosProductos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductosRestaurante">
-              <PropertyRef Name="IdProducto" />
-            </Principal>
-            <Dependent Role="CombosProductos">
-              <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -600,7 +577,6 @@
         </Association>
         <EntityContainer Name="ProyectoASP_RestauranteEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CategoriasProductos" EntityType="Self.CategoriasProductos" />
-          <EntitySet Name="CombosProductos" EntityType="Self.CombosProductos" />
           <EntitySet Name="CuentasClientes" EntityType="Self.CuentasClientes" />
           <EntitySet Name="CuentasEmpleados" EntityType="Self.CuentasEmpleados" />
           <EntitySet Name="EstadosProductos" EntityType="Self.EstadosProductos" />
@@ -610,20 +586,11 @@
           <EntitySet Name="PedidosClientes" EntityType="Self.PedidosClientes" />
           <EntitySet Name="PedidosClientesDetalles" EntityType="Self.PedidosClientesDetalles" />
           <EntitySet Name="ProductosRestaurante" EntityType="Self.ProductosRestaurante" />
-          <EntitySet Name="PromocionesCarrusel" EntityType="Self.PromocionesCarrusel" />
           <EntitySet Name="RolesEmpleados" EntityType="Self.RolesEmpleados" />
           <EntitySet Name="TrackeoPedidosClientes" EntityType="Self.TrackeoPedidosClientes" />
           <AssociationSet Name="FK_ProductosRestaurante_CategoriasProductos" Association="Self.FK_ProductosRestaurante_CategoriasProductos">
             <End Role="CategoriasProductos" EntitySet="CategoriasProductos" />
             <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CombosProductos_EstadosProductos" Association="Self.FK_CombosProductos_EstadosProductos">
-            <End Role="EstadosProductos" EntitySet="EstadosProductos" />
-            <End Role="CombosProductos" EntitySet="CombosProductos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CombosProductos_ProductosRestaurante" Association="Self.FK_CombosProductos_ProductosRestaurante">
-            <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
-            <End Role="CombosProductos" EntitySet="CombosProductos" />
           </AssociationSet>
           <AssociationSet Name="FK_PedidosClientes_CuentasClientes" Association="Self.FK_PedidosClientes_CuentasClientes">
             <End Role="CuentasClientes" EntitySet="CuentasClientes" />
@@ -653,7 +620,89 @@
             <End Role="PedidosClientes" EntitySet="PedidosClientes" />
             <End Role="TrackeoPedidosClientes" EntitySet="TrackeoPedidosClientes" />
           </AssociationSet>
+          <EntitySet Name="Combos" EntityType="ProyectoASP_RestauranteModel.Combos" />
+          <EntitySet Name="CombosDetalle" EntityType="ProyectoASP_RestauranteModel.CombosDetalle" />
+          <EntitySet Name="ImagenesObjetos" EntityType="ProyectoASP_RestauranteModel.ImagenesObjetos" />
+          <AssociationSet Name="FK_Combos_EstadosProductos" Association="ProyectoASP_RestauranteModel.FK_Combos_EstadosProductos">
+            <End Role="EstadosProductos" EntitySet="EstadosProductos" />
+            <End Role="Combos" EntitySet="Combos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CombosDetalle_Combos" Association="ProyectoASP_RestauranteModel.FK_CombosDetalle_Combos">
+            <End Role="Combos" EntitySet="Combos" />
+            <End Role="CombosDetalle" EntitySet="CombosDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CombosDetalle_ProductosRestaurante" Association="ProyectoASP_RestauranteModel.FK_CombosDetalle_ProductosRestaurante">
+            <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
+            <End Role="CombosDetalle" EntitySet="CombosDetalle" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Combos">
+          <Key>
+            <PropertyRef Name="IdCombo" />
+          </Key>
+          <Property Name="IdCombo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="IdEstado" Type="Int32" />
+          <NavigationProperty Name="EstadosProductos" Relationship="ProyectoASP_RestauranteModel.FK_Combos_EstadosProductos" FromRole="Combos" ToRole="EstadosProductos" />
+          <NavigationProperty Name="CombosDetalle" Relationship="ProyectoASP_RestauranteModel.FK_CombosDetalle_Combos" FromRole="Combos" ToRole="CombosDetalle" />
+        </EntityType>
+        <EntityType Name="CombosDetalle">
+          <Key>
+            <PropertyRef Name="IdCombo" />
+            <PropertyRef Name="Correlativo" />
+          </Key>
+          <Property Name="IdCombo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Correlativo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <NavigationProperty Name="Combos" Relationship="ProyectoASP_RestauranteModel.FK_CombosDetalle_Combos" FromRole="CombosDetalle" ToRole="Combos" />
+          <NavigationProperty Name="ProductosRestaurante" Relationship="ProyectoASP_RestauranteModel.FK_CombosDetalle_ProductosRestaurante" FromRole="CombosDetalle" ToRole="ProductosRestaurante" />
+        </EntityType>
+        <EntityType Name="ImagenesObjetos">
+          <Key>
+            <PropertyRef Name="IdObjeto" />
+          </Key>
+          <Property Name="IdObjeto" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RutaImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Combos_EstadosProductos">
+          <End Type="ProyectoASP_RestauranteModel.EstadosProductos" Role="EstadosProductos" Multiplicity="0..1" />
+          <End Type="ProyectoASP_RestauranteModel.Combos" Role="Combos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadosProductos">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="Combos">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CombosDetalle_Combos">
+          <End Type="ProyectoASP_RestauranteModel.Combos" Role="Combos" Multiplicity="1" />
+          <End Type="ProyectoASP_RestauranteModel.CombosDetalle" Role="CombosDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combos">
+              <PropertyRef Name="IdCombo" />
+            </Principal>
+            <Dependent Role="CombosDetalle">
+              <PropertyRef Name="IdCombo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CombosDetalle_ProductosRestaurante">
+          <End Type="ProyectoASP_RestauranteModel.ProductosRestaurante" Role="ProductosRestaurante" Multiplicity="0..1" />
+          <End Type="ProyectoASP_RestauranteModel.CombosDetalle" Role="CombosDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductosRestaurante">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="CombosDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -666,19 +715,6 @@
                 <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CombosProductos">
-            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.CombosProductos">
-              <MappingFragment StoreEntitySet="CombosProductos">
-                <ScalarProperty Name="IdCombo" ColumnName="IdCombo" />
-                <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
-                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -739,6 +775,7 @@
           <EntitySetMapping Name="OfertasProductos">
             <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.OfertasProductos">
               <MappingFragment StoreEntitySet="OfertasProductos">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="IdOferta" ColumnName="IdOferta" />
                 <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -780,15 +817,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PromocionesCarrusel">
-            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.PromocionesCarrusel">
-              <MappingFragment StoreEntitySet="PromocionesCarrusel">
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="RutaImagen" ColumnName="RutaImagen" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RolesEmpleados">
             <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.RolesEmpleados">
               <MappingFragment StoreEntitySet="RolesEmpleados">
@@ -804,6 +832,35 @@
                 <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
                 <ScalarProperty Name="IdEtapa" ColumnName="IdEtapa" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Combos">
+            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.Combos">
+              <MappingFragment StoreEntitySet="Combos">
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCombo" ColumnName="IdCombo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CombosDetalle">
+            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.CombosDetalle">
+              <MappingFragment StoreEntitySet="CombosDetalle">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
+                <ScalarProperty Name="IdCombo" ColumnName="IdCombo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImagenesObjetos">
+            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.ImagenesObjetos">
+              <MappingFragment StoreEntitySet="ImagenesObjetos">
+                <ScalarProperty Name="RutaImagen" ColumnName="RutaImagen" />
+                <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

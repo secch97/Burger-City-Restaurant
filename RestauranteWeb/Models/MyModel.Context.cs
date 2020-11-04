@@ -26,7 +26,6 @@ namespace RestauranteWeb.Models
         }
     
         public virtual DbSet<CategoriasProductos> CategoriasProductos { get; set; }
-        public virtual DbSet<CombosProductos> CombosProductos { get; set; }
         public virtual DbSet<CuentasClientes> CuentasClientes { get; set; }
         public virtual DbSet<CuentasEmpleados> CuentasEmpleados { get; set; }
         public virtual DbSet<EstadosProductos> EstadosProductos { get; set; }
@@ -36,8 +35,10 @@ namespace RestauranteWeb.Models
         public virtual DbSet<PedidosClientes> PedidosClientes { get; set; }
         public virtual DbSet<PedidosClientesDetalles> PedidosClientesDetalles { get; set; }
         public virtual DbSet<ProductosRestaurante> ProductosRestaurante { get; set; }
-        public virtual DbSet<PromocionesCarrusel> PromocionesCarrusel { get; set; }
         public virtual DbSet<RolesEmpleados> RolesEmpleados { get; set; }
         public virtual DbSet<TrackeoPedidosClientes> TrackeoPedidosClientes { get; set; }
+        public virtual DbSet<Combos> Combos { get; set; }
+        public virtual DbSet<CombosDetalle> CombosDetalle { get; set; }
+        public virtual DbSet<ImagenesObjetos> ImagenesObjetos { get; set; }
     }
 }

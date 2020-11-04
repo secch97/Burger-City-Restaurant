@@ -19,5 +19,6 @@ namespace RestauranteWeb.Models
         public string Nombre { get; set; }
         public Nullable<bool> Activo { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
+        public Nullable<decimal> Precio { get; set; }
     }
 }

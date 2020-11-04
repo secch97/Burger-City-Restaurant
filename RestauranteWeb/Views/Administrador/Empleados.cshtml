@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RestauranteWeb.Models.CuentasEmpleados>
 @{
     ViewBag.Title = "Gestión de empleados";
 }
@@ -51,44 +51,30 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="contenido" >
+                                    @foreach (var item in Model)
+                                    {
                                     <tr>
-                                        <td>CC160510</td>
-                                        <td>Saúl Ernesto Castillo Chamagua</td>
+                                        <td>@item.Usuario</td>
+                                        <td>@item.Nombres @item.Apellidos</td>
+                                        <td>@item.RolesEmpleados.Rol</td>
                                         <td>
-                                            <span class="badge badge-primary" style="font-weight:bold;">Administrador</span>
-                                        </td>
-                                        <td>
-                                            <a class="resetear-contraseña-empleado btn btn-success btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                            <a class="resetear-contraseña-empleado btn btn-success btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-usuario=@item.Usuario>
                                                 <i class="fa fa-lock" style="color:white;"></i>
                                             </a>
-                                            <a class="editar-empleado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                            <a class="editar-empleado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" 
+                                               data-nombres="@item.Nombres"
+                                               data-apellidos="@item.Apellidos"
+                                               data-usuario="@item.Usuario"
+                                               data-idrol="@item.RolesEmpleados.IdRol">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
-                                            <a class="eliminar-empleado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                            <a class="eliminar-empleado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-usuario="@item.Usuario">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>ML160457</td>
-                                        <td>Javier Isaac Melara Lopez</td>
-                                        <td>
-                                            <span class="badge badge-success" style="font-weight:bold;">Empleado</span>
-                                        </td>
-                                        <td>
-                                            <a class="resetear-contraseña-empleado btn btn-success btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-lock" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-empleado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip"
-                                               data-nombre="1">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-empleado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -111,9 +97,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             DATOS PERSONALES
@@ -168,8 +151,10 @@
                                         <div class="input-group">
                                             <select id="rolEmpleado-Registro" class="form-control select2" required>
                                                 <option></option>
-                                                <option value="1">Administrador</option>
-                                                <option value="2">Empleado</option>
+                                                @foreach (var item in ViewBag.IdRoles)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -192,13 +177,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnRegistrarEmpleado" class="btn btn-success">
                             <i class="fas fa-plus"></i>
                             Registrar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -213,9 +197,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             CAMBIO DE CONTRASEÑA
@@ -230,7 +211,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                             </div>
-                                            <input type="password" class="form-control" placeholder="Digitar nueva contraseña" id="contraseñaEmpleado"
+                                            <input type="password" class="form-control" placeholder="Digitar nueva contraseña" id="cambiarContraseñaEmpleado"
                                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                                    title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
                                                    required>
@@ -255,13 +236,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnActualizarClave" class="btn btn-success">
                             <i class="fas fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -278,9 +258,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             DATOS PERSONALES
@@ -295,7 +272,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleado" maxlength="100" value="Saúl Ernesto" required>
+                                            <input type="text" class="form-control" placeholder="Nombres del empleado" id="editarNombresEmpleado" maxlength="100" value="Saúl Ernesto" required>
                                         </div>
                                     </div>
                                 </div>
@@ -306,7 +283,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleado" maxlength="100" value="Castillo Chamagua" required>
+                                            <input type="text" class="form-control" placeholder="Apellidos del empleado" id="editarApellidosEmpleado" maxlength="100" value="Castillo Chamagua" required>
                                         </div>
                                     </div>
                                 </div>
@@ -325,7 +302,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Digitar usuario" id="usuarioEmpleado" maxlength="100" value="CC160510" required>
+                                            <input type="text" class="form-control" placeholder="Digitar usuario" id="editarUsuarioEmpleado" disabled="disabled" maxlength="100" >
                                         </div>
                                     </div>
                                 </div>
@@ -335,8 +312,10 @@
                                         <div class="input-group">
                                             <select id="rolEmpleado-Edicion" class="form-control select2" required>
                                                 <option></option>
-                                                <option value="1" selected>Administrador</option>
-                                                <option value="2">Empleado</option>
+                                                @foreach (var item in ViewBag.IdRoles)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -345,13 +324,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" id="btnActualizarEmpleado" class="btn btn-success">
                             <i class="fas fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -367,22 +345,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             ¿Está seguro que desea eliminar al presente empleado?
                             <br />
                             <br />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="button" id="btnEliminarEmpleado" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -391,4 +365,3 @@
     <!-- /.modal -->
 </div>
 <!-- Script para habilitar select2-->
-

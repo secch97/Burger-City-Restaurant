@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RestauranteWeb.Models.RolesEmpleados>
 @{
     ViewBag.Title = "Gestión de roles";
 }
@@ -40,7 +40,7 @@
                             </button>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div id="tabla" class="card-body">
                             <table id="tablaRoles" class="table table-bordered table-striped" style="text-align:center;">
                                 <thead>
                                     <tr>
@@ -49,31 +49,26 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Administrador</td>
-                                        <td>
-                                            <a class="editar-rol btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-rol btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Empleado</td>
-                                        <td>
-                                            <a class="editar-rol btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-rol btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tbody class="contenido">
+                                  
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IdRol)
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => item.Rol)</td>
+                                            <td>
+                                                <a class="editar-rol btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idrol="@item.IdRol" data-rol="@item.Rol">
+                                                    <i class="fa fa-pen" style="color:white;"></i>
+                                                </a>
+                                                <a class="eliminar-rol btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idrol="@item.IdRol">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                              
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -96,9 +91,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             REGISTRO DE NUEVO ROL
@@ -114,7 +107,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="nombreRol" maxlength="50" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="Rol" name="Rol" maxlength="50" required>
                                         </div>
                                     </div>
                                 </div>
@@ -122,13 +115,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnRegistrarRol"  class="btn btn-success">
                             <i class="fas fa-plus"></i>
                             Registrar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -144,9 +136,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             EDICIÓN DE ROL
@@ -162,7 +151,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="nombreRol" maxlength="50" value="Administrador" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del rol" id="cEditarRol" maxlength="50"  required>
                                         </div>
                                     </div>
                                 </div>
@@ -170,13 +159,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnActualizar" class="btn btn-success">
                             <i class="fa fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
+                
             </div>
             <!-- /.modal-content -->
         </div>
@@ -193,22 +182,20 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+          
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             ¿Está seguro que desea eliminar este rol?
                             <br />
                             <br />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="button" id="btnEliminar" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-                }
+
             </div>
             <!-- /.modal-content -->
         </div>
