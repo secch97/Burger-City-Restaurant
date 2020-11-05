@@ -1097,7 +1097,7 @@
             var idCliente = '';
             $(".contenido").on("click", ".detalles-cliente", function () {
                 idCliente = $(this).data('idcliente');
-              
+
                 $.ajax({
                     type: 'POST',
                     url: '/Administrador/obtenerCliente',
@@ -1119,7 +1119,7 @@
                         alerta('error', 'No es posible mostrar el cliente');
                     }
                 });
-                
+
             });
         });
     </script>
@@ -1169,12 +1169,53 @@
                 $('#lblImagenMuestraCategoriaRegistro').html("Escoger imagen");
                 $("#ModalAñadirCategoria").modal('show');
             });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormAgregarCategoria").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/Categorias',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCategorias();
+                            $("#ModalAñadirCategoria").modal('hide');
+                            alerta("success", data.message)
+                        } else {
+                            alerta("error", data.message)
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Error del servidor");
+                    }
+                });
+
+            });
         });
     </script>
     <!-- Modal 14: ModalDetallesCategoria - /Administrador/Categorias -->
     <script>
+        var idCategoria = '';
+        var nombre = '';
+        var descripcion = '';
+        var imagen = '';
         $(document).ready(function () {
-            $(".detalles-categoria").click(function () {
+            $(".contenido").on("click", ".detalles-categoria", function () {
+                $("#detalleImagenMuestra").attr("src",$(this).data('imagen'));
+                $("#detalleNombreCategoria").val($(this).data('nombre'))
+                $("#detalleDescripcionCategoria").val($(this).data('descripcion'));
                 $("#ModalDetallesCategoria").modal('show');
             });
         });
@@ -1182,23 +1223,95 @@
     <!-- Modal 15: ModalEditarCategoria - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
-            $(".editar-categoria").click(function () {
-
+            var idCategoria = '';
+            var nombre = '';
+            var descripcion = '';
+            var imagen = '';
+            $(".contenido").on("click",".editar-categoria",function () {
+                $("#editarImagenMuestraCategoria").attr("src", $(this).data('imagen'));
+                imagen = $(this).data('imagen');
+                idCategoria = $(this).data('idcategoria');
+                $("#editarNombreCategoria").val($(this).data('nombre'))
+                $("#editarDescripcionCategoria").val($(this).data('descripcion'));
                 $("#ModalEditarCategoria").modal('show');
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormEditarCategoria").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //imagen = $("#")
+                parametros.append('imagenActual', imagen);
+                parametros.append('idCategoria', idCategoria);
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/editarCategorias',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCategorias();
+                            $("#ModalEditarCategoria").modal('hide');
+                            alerta("success", data.message);
+                        } else {
+                            alerta("error", data.message);
+                        }
+                        
+                    },
+                    error: function (data) {
+
+                        alerta("error", "Error del servidor. Contacte a Soporte");
+                    }
+                });
+
             });
         });
     </script>
     <!-- Modal 16: ModalEliminarCategoria - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
-            $(".eliminar-categoria").click(function () {
+            var idCategoria = '';
+            $(".contenido").on("click", ".eliminar-categoria", function () {
+                idCategoria = $(this).data('idcategoria');
                 $("#ModalEliminarCategoria").modal('show');
             });
+
+            $("#btnEliminarCategoria").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarCategoria',
+                    data: { 'idCategoria': idCategoria },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCategorias();
+                            $("#ModalEliminarCategoria").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarCategoria").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+
         });
     </script>
     <!-- Modal 17: ModalAñadirEstado - /Administrador/Estados -->
     <script>
         $(document).ready(function () {
+            var estado = '';
             $(".añadir-estado").click(function () {
                 $("#ModalAñadirEstado")
                     .find("input,textarea,select")
@@ -1209,21 +1322,101 @@
                     .end();
                 $("#ModalAñadirEstado").modal('show');
             });
+
+            $("#btnRegistrarEstado").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                estado = $("#nombreEstado").val();
+
+                variables.push(estado);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/Estados',
+                        data: { 'IdEstado': 0, 'Nombre': estado },
+                        success: function () {
+                            reloadEstados();
+                            $("#ModalAñadirEstado").modal('hide');
+                            alerta('success', 'El estado se registro con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo registrar el estado');
+                        }
+                    });
+                }//fin else
+            });
         });
     </script>
     <!-- Modal 18: ModalEditarEstado - /Administrador/Estados -->
     <script>
         $(document).ready(function () {
-            $(".editar-estado").click(function () {
+            var idEstado = 0;
+            var estado = '';
+            $(".contenido").on("click", ".editar-estado", function () {
+                idEstado = $(this).data('idestado');
+                $('#editarNombreEstado').val($(this).data('estado'));
                 $("#ModalEditarEstado").modal('show');
             });
+
+            $("#btnActualizarEstado").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                estado = $("#editarNombreEstado").val();
+
+                variables.push(estado);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/editarEstados',
+                        data: { 'IdEstado': idEstado, 'Nombre': estado },
+                        success: function () {
+                            reloadEstados();
+                            $("#ModalEditarEstado").modal('hide');
+                            alerta('success', 'El estado se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo editar el estado');
+                        }
+                    });
+                }//fin else
+            });
+
         });
     </script>
-    <!-- Modal 19: ModalEliminarCategoria - /Administrador/Estados -->
+    <!-- Modal 19: ModalEliminarEstado - /Administrador/Estados -->
     <script>
         $(document).ready(function () {
-            $(".eliminar-estado").click(function () {
+            var idEstado = 0;
+            $(".contenido").on("click", ".eliminar-estado", function () {
+                idEstado = $(this).data('idestado');
                 $("#ModalEliminarEstado").modal('show');
+            });
+
+            $("#btnEliminarEstado").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarEstado',
+                    data: { 'idEstado': idEstado },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadEstados();
+                            $("#ModalEliminarEstado").modal('hide');
+                            alerta('success', 'Estado eliminado con éxito');
+                        } else {
+                            $("#ModalEliminarEstado").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
             });
         });
     </script>
@@ -1514,6 +1707,91 @@
         }
     </script>
     <script>
+        function reloadEstados() {
+            $("#tablaEstados tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadEstados',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdEstado + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>"
+                            + "<a class='editar-estado btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idestado=\"" + item.IdEstado + "\" data-estado=\"" + item.Nombre + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-estado btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idestado=\"" + item.IdEstado + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaEstados tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadCategorias() {
+            $("#tablaCategorias tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadCategorias',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.IdCategoria + "</td>"
+                            + "<td>" +"<img class='img-fluid' src=\""+item.Imagen+"\" style='width:100px;height:100px' alt='' />"+"</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>"
+                            + "<a class='detalles-categoria btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
+                            + "data-idcategoria=\"" + item.IdCategoria + "\" "
+                            + "data-nombre=\"" + item.Nombre + "\" "
+                            + "data-descripcion=\"" + item.Descripcion + "\" "
+                            + "data-imagen=\"" + item.Imagen + "\" "
+                            + ">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-categoria btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip'"
+                            + "data-idcategoria=\"" + item.IdCategoria + "\" "
+                            + "data-nombre=\"" + item.Nombre + "\" "
+                            + "data-descripcion=\"" + item.Descripcion +"\" "
+                            + "data-imagen=\"" + item.Imagen + "\" "
+                            + ">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-categoria btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcategoria=" + item.IdCategoria  + ">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaCategorias tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
+            return false;
+        }
+    </script>
+    <script>
         function fieldEmpty(variables) {
             var bandera = true;
             for (var i = 0; i < variables.length; i++) {
@@ -1526,12 +1804,12 @@
         }
     </script>
     <script>
-    function ToJavaScriptDate(value) {
-      var pattern = /Date\(([^)]+)\)/;
-      var results = pattern.exec(value);
-      var dt = new Date(parseFloat(results[1]));
-      return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
-    }
+        function ToJavaScriptDate(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        }
     </script>
     <!-- ======================================================================================= -->
     <!--                                        ALERTAS                                          -->
@@ -1865,8 +2143,8 @@
     </script>
     <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaEdicion-->
     <script>
-        $('#imagenCategoriaEdicion').on('change', function (e) {
-            imagenMuestraCategoriaEdicion.src = URL.createObjectURL(event.target.files[0]);
+        $('#editarNuevaimagenCategoria').on('change', function (e) {
+            editarImagenMuestraCategoria.src = URL.createObjectURL(event.target.files[0]);
             var fileName = e.target.files[0].name;
             $('#lblImagenMuestraCategoriaEdicion').html(fileName);
         })

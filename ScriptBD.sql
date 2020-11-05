@@ -52,7 +52,8 @@ GO
 CREATE TABLE CategoriasProductos(
 	IdCategoria VARCHAR(20) NOT NULL,
 	Nombre VARCHAR(100),
-	Descripcion VARCHAR(500) -- Opcional 
+	Descripcion VARCHAR(500), -- Opcional 
+	Imagen VARCHAR(150)
 )
 
 GO
@@ -70,7 +71,8 @@ CREATE TABLE ProductosRestaurante(
 	Nombre VARCHAR(100),
 	Descripcion VARCHAR(500),--Opcional
 	Precio numeric(4,2),
-	IdEstado INT 
+	IdEstado INT,
+	Imagen VARCHAR(150)
 )
 
 GO
@@ -80,7 +82,8 @@ CREATE TABLE Combos(
 	Nombre VARCHAR(100),
 	Descripcion VARCHAR(150),
 	Precio numeric(4,2),
-	IdEstado INT
+	IdEstado INT,
+	Imagen VARCHAR(150)
 )
 	
 
@@ -149,13 +152,6 @@ CREATE TABLE HistorialPedidos(
 GO
 
 
-CREATE TABLE ImagenesObjetos(
-	IdObjeto VARCHAR(20) NOT NULL, -- Producto,oferta,combo
-	RutaImagen VARCHAR(100)
-)
-    
-GO
-	
 	/*Restricciones de objetos
 	
 	*Llaves primarias*/
@@ -278,11 +274,6 @@ GO
 	
 	GO
 	
-	ALTER TABLE ImagenesObjetos
-	ADD CONSTRAINT PK_ImagenesObjetos
-	PRIMARY KEY (IdObjeto)
-	
-	GO
 	
 	/*Llaves For�neas */
 	
@@ -355,6 +346,6 @@ GO
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT FK_TrackeoPedidosClientes_EtapasPedidos
 	FOREIGN KEY (IdEtapa) REFERENCES EtapasPedidos(IdEtapa)
-	
-	
+		
 	/*FIN DEL SCRIPT*/
+	

@@ -10,9 +10,12 @@
 namespace RestauranteWeb.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Linq;
+
     public partial class ProyectoASP_RestauranteEntities : DbContext
     {
         public ProyectoASP_RestauranteEntities()
@@ -39,6 +42,23 @@ namespace RestauranteWeb.Models
         public virtual DbSet<TrackeoPedidosClientes> TrackeoPedidosClientes { get; set; }
         public virtual DbSet<Combos> Combos { get; set; }
         public virtual DbSet<CombosDetalle> CombosDetalle { get; set; }
-        public virtual DbSet<ImagenesObjetos> ImagenesObjetos { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
+
+    public partial class ProyectoASP_RestauranteEntities
+    {
+        [DbFunction("ProyectoASP_RestauranteModel.Store", "GeneradorIdObjetos")]
+        public string GeneradorIdOjetos(string prefijo)
+        {
+            var objectContext = ((IObjectContextAdapter)this).ObjectContext;
+
+            var parameters = new List<ObjectParameter>();
+            parameters.Add(new ObjectParameter("Prefijo", prefijo));
+
+            return objectContext.CreateQuery<string>("ProyectoASP_RestauranteModel.Store.GeneradorIdObjetos(@Prefijo)", parameters.ToArray())
+                 .Execute(MergeOption.NoTracking)
+                 .FirstOrDefault();
+        }
+    }
+
 }

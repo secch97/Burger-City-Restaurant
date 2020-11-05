@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RestauranteWeb.Models.EstadosProductos>
 @{
     ViewBag.Title = "Gestión de estados";
 }
@@ -49,35 +49,22 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
                                     <tr>
-                                        <td>1</td>
+                                        <td>@item.IdEstado</td>
+                                        <td>@item.Nombre</td>
                                         <td>
-                                            Disponible
-                                        </td>
-                                        <td>
-                                            <a class="editar-estado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
+                                            <a class="editar-estado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idestado="@item.IdEstado" data-estado="@item.Nombre">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
-                                            <a class="eliminar-estado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
+                                            <a class="eliminar-estado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idestado="@item.IdEstado">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            No disponible
-                                        </td>
-                                        <td>
-                                            <a class="editar-estado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-estado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -100,9 +87,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             DATOS DEL ESTADO
@@ -125,13 +109,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnRegistrarEstado" class="btn btn-success">
                             <i class="fas fa-plus"></i>
                             Registrar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -143,14 +126,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-navy">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title">REGISTRO DE ESTADO</h4>
+                    <h4 class="modal-title">ACTUALIZACIÓN DE ESTADO</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             DATOS DEL ESTADO
@@ -165,7 +145,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del estado del producto" id="nombreEstado" maxlength="100" value="Disponible" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del estado del producto" id="editarNombreEstado" maxlength="100" value="Disponible" required>
                                         </div>
                                     </div>
                                 </div>
@@ -173,13 +153,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnActualizarEstado" class="btn btn-success">
                             <i class="fas fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -196,22 +175,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             ¿Está seguro que desea eliminar este estado?
                             <br />
                             <br />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="button" id="btnEliminarEstado" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>

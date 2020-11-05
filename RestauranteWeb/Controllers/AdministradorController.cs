@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -216,15 +217,192 @@ namespace RestauranteWeb.Controllers
         }
 
         //FIN METODOS CUENTAS CLIENTES
-        public ActionResult Categorias()
-        {
-            return View();
-        }
-       
+
+        //INCIO METODOS ESTADOS
         public ActionResult Estados()
         {
-            return View();
+            return View(db.EstadosProductos.ToList());
         }
+
+        [HttpPost]
+        public void Estados([Bind(Include = "IdEstado,Nombre")] EstadosProductos estadosProductos)
+        {
+            if (ModelState.IsValid)
+            {
+                db.EstadosProductos.Add(estadosProductos);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void editarEstados([Bind(Include = "IdEstado,Nombre")] EstadosProductos estadosProductos)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(estadosProductos).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult eliminarEstado(int idEstado)
+        {
+            try
+            {
+                EstadosProductos estadosProductos = db.EstadosProductos.Find(idEstado);
+                db.EstadosProductos.Remove(estadosProductos);
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+
+        [HttpPost]
+        public JsonResult reloadEstados()
+        {
+            List<EstadosProductos> estados= new List<EstadosProductos>();
+            estados = db.EstadosProductos.ToList();
+            var clientesClean = estados.Select(s => new {
+                s.IdEstado,
+                s.Nombre
+            });
+            return Json(clientesClean, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //FIN METODOS ESTADOS
+
+        //INICIO METODOS CATEGORIAS
+        public ActionResult Categorias()
+        {
+            List<CategoriasProductos> list;
+            list = db.CategoriasProductos.ToList();
+            return View(db.CategoriasProductos.ToList());
+        }
+
+        [HttpPost]
+        public JsonResult Categorias( HttpPostedFileBase imagenCategoriaRegistro, string nombreCategoria, string descripcionCategoria)
+        {
+            string rutaBase = "/Content/imagenes/";
+            string carpeta = "Categorias/";
+            string ruta = "";
+            
+            
+            if (ModelState.IsValid)
+            {
+                //Verificando que archivo no exista 
+                ruta = obtenerRuta(imagenCategoriaRegistro, rutaBase, carpeta, -1);
+
+                if (operacionesImagenes(null, ruta, 0))
+                {
+                    //El archivo ya existe
+                    return Json(new { success = false, message = "Un archivo con el nombre "+obtenerRuta(imagenCategoriaRegistro,"","",0)+" ya se encuentra registrado" });
+                }
+                //Guardando registro de categoria
+                CategoriasProductos categoriasProductos = new CategoriasProductos();
+                categoriasProductos.IdCategoria = db.GeneradorIdOjetos("CAT");
+                categoriasProductos.Nombre = nombreCategoria;
+                categoriasProductos.Descripcion = descripcionCategoria;
+                categoriasProductos.Imagen = obtenerRuta(imagenCategoriaRegistro, rutaBase, carpeta, 1);
+                db.CategoriasProductos.Add(categoriasProductos);
+                db.SaveChanges();
+
+                //Guardando imagen
+                imagenCategoriaRegistro.SaveAs(ruta);
+                
+                //respuesta
+                return Json(new { success = true, message = "Categoría registrada con éxito" });
+
+            }
+
+              return Json(new { success = false, message = "El modelo no fue válido. Contacte a soporte"});
+
+        }
+
+        [HttpPost]
+        public JsonResult editarCategorias(HttpPostedFileBase editarNuevaimagenCategoria, string editarNombreCategoria, string editarDescripcionCategoria, string imagenActual, string idCategoria)
+        {
+            string rutaBase = "/Content/imagenes/";
+            string carpeta = "Categorias/";
+            string ruta = "";
+
+            CategoriasProductos categoria = new CategoriasProductos();
+
+            categoria = db.CategoriasProductos.Find(idCategoria);
+            categoria.Nombre = editarNombreCategoria;
+            categoria.Descripcion = editarDescripcionCategoria;
+
+            if (editarNuevaimagenCategoria != null)
+            {
+                //Verificando que el nuevo archivo no exista
+                ruta = obtenerRuta(editarNuevaimagenCategoria, rutaBase, carpeta, -1);
+
+                if(operacionesImagenes(null, ruta, 0))
+                {
+                    //El archivo ya existe
+                    return Json(new { success = false, message = "Un archivo con el nombre " + obtenerRuta(editarNuevaimagenCategoria, "", "", 0) + " ya se encuentra registrado" });
+                }
+
+
+                //eliminando imagen anterior
+                operacionesImagenes(null, imagenActual, -1);
+
+                //Asignando ruta nueva imagen
+                categoria.Imagen = obtenerRuta(editarNuevaimagenCategoria, rutaBase, carpeta, 1);
+
+                //almacenando nueva imagen
+                operacionesImagenes(editarNuevaimagenCategoria, ruta, 1);
+                
+            }
+
+            //Registrando cambios
+
+            db.Entry(categoria).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //Respuesta
+            return Json(new { success = true, message = "Se actualizó con éxito" });
+
+        }
+
+        [HttpPost]
+        public JsonResult eliminarCategoria(string idCategoria)
+        {
+            try
+            {
+                CategoriasProductos categorias = db.CategoriasProductos.Find(idCategoria);
+                db.CategoriasProductos.Remove(categorias);
+                db.SaveChanges();
+
+                //eliminando imagen asociada
+                operacionesImagenes(null, categorias.Imagen, -1);
+
+                return Json(new { success = true, message = "Se eliminó con éxito" });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+
+        [HttpPost]
+        public JsonResult reloadCategorias()
+        {
+            List<CategoriasProductos> categorias = new List<CategoriasProductos>();
+            categorias = db.CategoriasProductos.ToList();
+            var categoriasClean = categorias.Select(s => new {
+                s.IdCategoria,
+                s.Nombre,
+                s.Imagen,
+                s.Descripcion
+            });
+            return Json(categoriasClean, JsonRequestBehavior.AllowGet);
+        }
+
+        //FIN METODOS CATEGORIAS
+
+
+
 
         public ActionResult Productos()
         {
@@ -250,5 +428,53 @@ namespace RestauranteWeb.Controllers
         {
             return View();
         }
+
+        // INICIO METODOS AUXILIARES
+        private bool operacionesImagenes(HttpPostedFileBase imagen, string ruta, int operacion)
+        {/*las operaciones posibles
+            -1 --> Eliminar
+             0 --> verificar existencia
+             1 --> Guardar*/
+            bool respuesta = false;
+
+            try
+            {
+                switch (operacion)
+                {
+                    case -1:
+                        System.IO.File.Delete(Server.MapPath(ruta));
+                        respuesta = true;
+                        break;
+
+                    case 0:
+                        respuesta = System.IO.File.Exists(ruta);
+                        break;
+
+                    case 1:
+                        imagen.SaveAs(ruta);
+                        respuesta = true;
+                        break;
+                }
+            }catch(Exception ex)
+            {
+                respuesta = false;
+            }
+
+            return respuesta;
+        }
+
+        private String obtenerRuta(HttpPostedFileBase imagen, string rutaBase, string carpeta,int opcion)
+        {
+            var nombreImagen = Path.GetFileName(imagen.FileName);
+
+            if (opcion == -1)
+                return Path.Combine(Server.MapPath(rutaBase + carpeta), nombreImagen);
+            else if (opcion == 0)
+                return nombreImagen;
+            else
+                return rutaBase + carpeta + nombreImagen;
+        }
+
+        // FIN METODOS AUXILIARES
     }
 }

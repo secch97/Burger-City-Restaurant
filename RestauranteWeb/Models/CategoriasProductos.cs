@@ -23,6 +23,7 @@ namespace RestauranteWeb.Models
         public string IdCategoria { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        public string Imagen { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductosRestaurante> ProductosRestaurante { get; set; }

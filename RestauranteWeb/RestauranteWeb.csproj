@@ -2307,9 +2307,6 @@
     <Compile Include="Models\HistorialPedidos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ImagenesObjetos.cs">
-      <DependentUpon>MyModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\MyModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2338,6 +2335,9 @@
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RolesEmpleados.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrackeoPedidosClientes.cs">

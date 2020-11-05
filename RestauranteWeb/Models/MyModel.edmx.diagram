@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ace7739573de438ebd9704a46d77f319" Name="Diagram1" ZoomLevel="109">
+      <Diagram DiagramId="ace7739573de438ebd9704a46d77f319" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.CategoriasProductos" Width="1.5" PointX="10.75" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.CuentasClientes" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.CuentasEmpleados" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
@@ -27,10 +27,10 @@
         <AssociationConnector Association="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_PedidosClientes" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.Combos" Width="1.5" PointX="10" PointY="14.75" />
         <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.CombosDetalle" Width="1.5" PointX="15.25" PointY="12.75" />
-        <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.ImagenesObjetos" Width="1.5" PointX="7.375" PointY="7.75" />
         <AssociationConnector Association="ProyectoASP_RestauranteModel.FK_Combos_EstadosProductos" />
         <AssociationConnector Association="ProyectoASP_RestauranteModel.FK_CombosDetalle_Combos" />
         <AssociationConnector Association="ProyectoASP_RestauranteModel.FK_CombosDetalle_ProductosRestaurante" />
+        <EntityTypeShape EntityType="ProyectoASP_RestauranteModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

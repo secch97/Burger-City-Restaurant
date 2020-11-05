@@ -25,6 +25,7 @@ namespace RestauranteWeb.Models
         public string Descripcion { get; set; }
         public Nullable<decimal> Precio { get; set; }
         public Nullable<int> IdEstado { get; set; }
+        public string Imagen { get; set; }
     
         public virtual EstadosProductos EstadosProductos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
