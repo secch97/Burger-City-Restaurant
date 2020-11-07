@@ -41,8 +41,8 @@ namespace RestauranteWeb.Models
         public virtual DbSet<RolesEmpleados> RolesEmpleados { get; set; }
         public virtual DbSet<TrackeoPedidosClientes> TrackeoPedidosClientes { get; set; }
         public virtual DbSet<Combos> Combos { get; set; }
-        public virtual DbSet<CombosDetalle> CombosDetalle { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<CombosDetalle> CombosDetalle { get; set; }
     }
 
     public partial class ProyectoASP_RestauranteEntities
@@ -60,5 +60,4 @@ namespace RestauranteWeb.Models
                  .FirstOrDefault();
         }
     }
-
 }

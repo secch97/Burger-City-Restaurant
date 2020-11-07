@@ -401,23 +401,381 @@ namespace RestauranteWeb.Controllers
 
         //FIN METODOS CATEGORIAS
 
-
-
-
+        //INICIO METODOS PRODUCTOS
         public ActionResult Productos()
         {
-            return View();
+            ViewBag.IdEstados = new SelectList(db.EstadosProductos, "IdEstado", "Nombre");
+            ViewBag.IdCategorias = new SelectList(db.CategoriasProductos, "IdCategoria", "Nombre");
+            var productos = db.ProductosRestaurante.Include(c => c.EstadosProductos)
+                                                   .Include(c => c.CategoriasProductos);
+           
+            return View(productos.ToList());
         }
 
+        [HttpPost]
+        public JsonResult Productos(FormCollection formCollection)
+        {
+
+            string rutaBase = "/Content/imagenes/";
+            string carpeta = "Productos/";
+            string ruta = "";
+            HttpPostedFileBase imagen = Request.Files["imagenProductoRegistro"];
+
+
+            if (ModelState.IsValid)
+            {
+                //Verificando que archivo no exista 
+                ruta = obtenerRuta(imagen, rutaBase, carpeta, -1);
+
+                if (operacionesImagenes(null, ruta, 0))
+                {
+                    //El archivo ya existe
+                    return Json(new { success = false, message = "Un archivo con el nombre " + obtenerRuta(imagen, "", "", 0) + " ya se encuentra registrado" });
+                }
+                //Guardando registro de Producto
+                ProductosRestaurante productosRestaurante = new ProductosRestaurante();
+                productosRestaurante.IdProducto = db.GeneradorIdOjetos("PRO");
+                productosRestaurante.IdCategoria = formCollection["categoriaProductoRegistro"];
+                productosRestaurante.Nombre = formCollection["nombreProducto"];
+                productosRestaurante.Descripcion = formCollection["descripcionProducto"];
+                productosRestaurante.Precio = Convert.ToDecimal(formCollection["precioProducto"]);
+                productosRestaurante.IdEstado = Convert.ToInt32(formCollection["estadoProductoRegistro"]);
+                productosRestaurante.Imagen = obtenerRuta(imagen, rutaBase, carpeta, 1);
+                db.ProductosRestaurante.Add(productosRestaurante);
+                db.SaveChanges();
+
+                //Guardando imagen
+                imagen.SaveAs(ruta);
+
+                //respuesta
+                return Json(new { success = true, message = "Producto registrado con éxito" });
+
+            }
+
+            return Json(new { success = false, message = "El modelo no fue válido. Contacte a soporte" });
+
+        }
+
+        [HttpPost]
+        public JsonResult obtenerProducto(string idProducto)
+        {
+            ProductosRestaurante producto = db.ProductosRestaurante.Find(idProducto);
+
+            return Json(new
+            {
+                nombreProducto = producto.Nombre,
+                idCategoria = producto.CategoriasProductos.IdCategoria,
+                nombreCategoria = producto.CategoriasProductos.Nombre,
+                descripcion = producto.Descripcion,
+                precio = producto.Precio,
+                idEstado = producto.EstadosProductos.IdEstado,
+                nombreEstado = producto.EstadosProductos.Nombre,
+                imagen = producto.Imagen
+            });
+        }
+
+        [HttpPost]
+        public JsonResult editarProductos(FormCollection formCollection)
+        {
+            string rutaBase = "/Content/imagenes/";
+            string carpeta = "Productos/";
+            string ruta = "";
+
+            HttpPostedFileBase imagen = Request.Files["imagenProductoEdicion"];
+            
+
+            ProductosRestaurante producto = new ProductosRestaurante();
+
+            producto = db.ProductosRestaurante.Find(formCollection["idProducto"]);
+            producto.IdCategoria = formCollection["categoriaProductoEdicion"];
+            producto.Nombre = formCollection["nombreProductoEdicion"];
+            producto.Descripcion = formCollection["descripcionProductoEdicion"];
+            producto.Precio = Convert.ToDecimal(formCollection["precioProductoEdicion"]);
+            producto.IdEstado = Convert.ToInt32(formCollection["estadoProductoEdicion"]);
+
+
+            if (imagen.FileName!="" )
+            {
+                //Verificando que el nuevo archivo no exista
+                ruta = obtenerRuta(imagen, rutaBase, carpeta, -1);
+
+                if (operacionesImagenes(null, ruta, 0))
+                {
+                    //El archivo ya existe
+                    return Json(new { success = false, message = "Un archivo con el nombre " + obtenerRuta(imagen, "", "", 0) + " ya se encuentra registrado" });
+                }
+
+
+                //eliminando imagen anterior
+                operacionesImagenes(null, producto.Imagen, -1);
+
+                //Asignando ruta nueva imagen
+                producto.Imagen = obtenerRuta(imagen, rutaBase, carpeta, 1);
+
+                //almacenando nueva imagen
+                operacionesImagenes(imagen, ruta, 1);
+
+            }
+
+            //Registrando cambios
+
+            db.Entry(producto).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //Respuesta
+            return Json(new { success = true, message = "Se actualizó con éxito" });
+
+        }
+
+        [HttpPost]
+        public JsonResult eliminarProducto(string idProducto)
+        {
+            try
+            {
+                ProductosRestaurante productos = db.ProductosRestaurante.Find(idProducto);
+                db.ProductosRestaurante.Remove(productos);
+                db.SaveChanges();
+
+                //eliminando imagen asociada
+                operacionesImagenes(null, productos.Imagen, -1);
+
+                return Json(new { success = true, message = "Se eliminó con éxito" });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+
+        [HttpPost]
+        public JsonResult reloadProductos()
+        {
+            List<ProductosRestaurante> productos = new List<ProductosRestaurante>();
+            productos = db.ProductosRestaurante.ToList();
+            var productosClean = productos.Select(s => new {
+                s.IdProducto,
+                CategoriaNombre = s.CategoriasProductos.Nombre,
+                s.Nombre,
+                s.Precio,
+                EstadoNombre = s.EstadosProductos.Nombre,
+                s.Imagen
+            });
+            return Json(productosClean, JsonRequestBehavior.AllowGet);
+        }
+        //FIN METODOS PRODUCTOS
+
+        //INICIO METODOS COMBOS
         public ActionResult Combos()
         {
-            return View();
+            ViewBag.IdEstados = new SelectList(db.EstadosProductos, "IdEstado", "Nombre");
+            return View(db.Combos.Include(c=>c.EstadosProductos).ToList());
         }
 
-        public ActionResult GestionarCombo()
+        [HttpPost]
+        public JsonResult Combos(FormCollection formCollection)
         {
-            return View();
+
+            string rutaBase = "/Content/imagenes/";
+            string carpeta = "Combos/";
+            string ruta = "";
+            HttpPostedFileBase imagen = Request.Files["imagenComboRegistro"];
+
+
+            if (ModelState.IsValid)
+            {
+                //Verificando que archivo no exista 
+                ruta = obtenerRuta(imagen, rutaBase, carpeta, -1);
+
+                if (operacionesImagenes(null, ruta, 0))
+                {
+                    //El archivo ya existe
+                    return Json(new { success = false, message = "Un archivo con el nombre " + obtenerRuta(imagen, "", "", 0) + " ya se encuentra registrado" });
+                }
+                //Guardando registro de Combo
+                Combos combos = new Combos();
+                combos.IdCombo = db.GeneradorIdOjetos("COM");
+                combos.Nombre = formCollection["nombreCombo"];
+                combos.Descripcion = formCollection["descripcionCombo"];
+                combos.Precio = Convert.ToDecimal(formCollection["precioCombo"]);
+                combos.IdEstado = Convert.ToInt32(formCollection["estadoComboRegistro"]);
+                combos.Imagen = obtenerRuta(imagen, rutaBase, carpeta, 1);
+                db.Combos.Add(combos);
+                db.SaveChanges();
+
+                //Guardando imagen
+                imagen.SaveAs(ruta);
+
+                //respuesta
+                return Json(new { success = true, message = "Combo registrado con éxito" });
+
+            }
+
+            return Json(new { success = false, message = "El modelo no fue válido. Contacte a soporte" });
+
         }
+
+        [HttpPost]
+        public JsonResult obtenerCombo(string idCombo)
+        {
+            Combos combos = db.Combos.Find(idCombo);
+
+            return Json(new
+            {
+                imagen = combos.Imagen,
+                idEstado = combos.EstadosProductos.IdEstado,
+                nombreEstado = combos.EstadosProductos.Nombre,
+                nombre = combos.Nombre,
+                precio = combos.Precio,
+                descripcion = combos.Descripcion
+            });
+        }
+
+        [HttpPost]
+        public JsonResult editarCombos(FormCollection formCollection)
+        {
+            string rutaBase = "/Content/imagenes/";
+            string carpeta = "Combos/";
+            string ruta = "";
+
+            HttpPostedFileBase imagen = Request.Files["imagenComboEdicion"];
+
+
+            Combos combo = new Combos();
+
+            combo = db.Combos.Find(formCollection["idCombo"]);
+            combo.Nombre = formCollection["editarNombreCombo"];
+            combo.Descripcion = formCollection["editarDescripcionCombo"];
+            combo.Precio = Convert.ToDecimal(formCollection["editarPrecioCombo"]);
+            combo.IdEstado = Convert.ToInt32(formCollection["estadoComboEdicion"]);
+
+            if (imagen.FileName != "")
+            {
+                //Verificando que el nuevo archivo no exista
+                ruta = obtenerRuta(imagen, rutaBase, carpeta, -1);
+
+                if (operacionesImagenes(null, ruta, 0))
+                {
+                    //El archivo ya existe
+                    return Json(new { success = false, message = "Un archivo con el nombre " + obtenerRuta(imagen, "", "", 0) + " ya se encuentra registrado" });
+                }
+
+
+                //eliminando imagen anterior
+                operacionesImagenes(null, combo.Imagen, -1);
+
+                //Asignando ruta nueva imagen
+                combo.Imagen = obtenerRuta(imagen, rutaBase, carpeta, 1);
+
+                //almacenando nueva imagen
+                operacionesImagenes(imagen, ruta, 1);
+
+            }
+
+            //Registrando cambios
+
+            db.Entry(combo).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //Respuesta
+            return Json(new { success = true, message = "Se actualizó con éxito" });
+
+        }
+
+        [HttpPost]
+        public JsonResult eliminarCombo(string idCombo)
+        {
+            try
+            {
+                Combos combo = db.Combos.Find(idCombo);
+                db.Combos.Remove(combo);
+                db.SaveChanges();
+
+                //eliminando imagen asociada
+                operacionesImagenes(null, combo.Imagen, -1);
+
+                return Json(new { success = true, message = "Se eliminó con éxito" });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+
+        [HttpPost]
+        public JsonResult reloadCombos()
+        {
+            List<Combos> combos = new List<Combos>();
+            combos = db.Combos.ToList();
+            var combosClean = combos.Select(s => new {
+                s.IdCombo,
+                s.Nombre,
+                s.Precio,
+                nombreEstado = s.EstadosProductos.Nombre,
+                s.Imagen
+            });
+            return Json(combosClean, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //FIN METODOS COMBOS
+
+        //INICIO METODOS GESTION COMBOS
+        public ActionResult GestionarCombo(string idCombo)
+        {
+            var model = new ModelGestionCombos();
+
+            model.Combos = db.Combos.Find(idCombo);
+            model.CombosDetalles = db.CombosDetalle.Where(a => a.IdCombo == idCombo).ToList();
+            model.Productos = db.ProductosRestaurante.ToList();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult GestionarCombo([Bind(Include = "IdCombo,IdProducto,Cantidad")] CombosDetalle combosDetalle)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.CombosDetalle.Add(combosDetalle);
+                    db.SaveChanges();
+                }
+                return Json(new { success = true, message = "El producto se registró con éxito" });
+            }
+            catch (DbUpdateException ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult obtenerDetalleCombo(string idCombo)
+        {
+            List<CombosDetalle> CombosDetalle = new List<CombosDetalle>();
+            CombosDetalle = db.CombosDetalle.Where(c=>c.IdCombo ==idCombo).ToList();
+            var productosClean = CombosDetalle.Select(s => new {
+                s.IdCombo,
+                s.IdProducto,
+                s.ProductosRestaurante.Imagen,
+                s.ProductosRestaurante.Nombre,
+                s.Cantidad
+            });
+            return Json(productosClean, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult eliminarProductoCombo(string idCombo, string idProducto)
+        {
+            try
+            {
+                CombosDetalle combo = db.CombosDetalle.Find(idCombo, idProducto);
+                db.CombosDetalle.Remove(combo);
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Se eliminó con éxito" });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+        //FIN METODOS GESTION COMBOS
+
 
         public ActionResult Etapas()
         {

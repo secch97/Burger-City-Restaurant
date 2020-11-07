@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RestauranteWeb.Models.ProductosRestaurante>
 @{
     ViewBag.Title = "Gestión de productos";
 }
@@ -53,145 +53,31 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Quesoburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Quesoburguesa</td>
-                                        <td>Hamburguesas</td>
-                                        <td>$1.99</td>
-                                        <td>
-                                            <span class="badge badge-success" style="font-weight:bold;">Disponible</span>
-                                        </td>
-                                        <td>
-                                            <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Baconburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Baconburguesa</td>
-                                        <td>Hamburguesas</td>
-                                        <td>$2.99</td>
-                                        <td>
-                                            <span class="badge badge-success" style="font-weight:bold;">Disponible</span>
-                                        </td>
-                                        <td>
-                                            <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Polloburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Polloburguesa</td>
-                                        <td>Hamburguesas</td>
-                                        <td>$2.50</td>
-                                        <td>
-                                            <span class="badge badge-danger" style="font-weight:bold;">No disponible</span>
-                                        </td>
-                                        <td>
-                                            <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Coca Cola en lata</td>
-                                        <td>Bebidas</td>
-                                        <td>$2.50</td>
-                                        <td>
-                                            <span class="badge badge-danger" style="font-weight:bold;">No disponible</span>
-                                        </td>
-                                        <td>
-                                            <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Papas fritas pequeñas</td>
-                                        <td>Acompañamientos</td>
-                                        <td>$1.00</td>
-                                        <td>
-                                            <span class="badge badge-success" style="font-weight:bold;">Disponible</span>
-                                        </td>
-                                        <td>
-                                            <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Sundae de Caramelo</td>
-                                        <td>Postres</td>
-                                        <td>$1.50</td>
-                                        <td>
-                                            <span class="badge badge-danger" style="font-weight:bold;">No disponible</span>
-                                        </td>
-                                        <td>
-                                            <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.IdProducto</td>
+                                            <td>
+                                                <img class="img-fluid" src="@item.Imagen" style="width:100px;height:100px" alt="" />
+                                            </td>
+                                            <td>@item.Nombre</td>
+                                            <td>@item.CategoriasProductos.Nombre</td>
+                                            <td>@item.Precio</td>
+                                            <td>@item.EstadosProductos.Nombre</td>
+                                            <td>
+                                                <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip" data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-eye" style="color:white;"></i>
+                                                </a>
+                                                <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-pen" style="color:white;"></i>
+                                                </a>
+                                                <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -214,7 +100,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormAgregarProducto" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
@@ -244,41 +130,55 @@
                         <hr style="border-color:white" />
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nombre:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-utensils"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del producto" id="nombreProducto" maxlength="100" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del producto" name="nombreProducto" id="nombreProducto" maxlength="100" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Categoría:</label>
-                                        <div class="input-group">
-                                            <select id="categoriaProducto-Registro" class="form-control select2" required>
-                                                <option></option>
-                                                <option value="1">Hamburguesas</option>
-                                                <option value="2">Acompañamientos</option>
-                                                <option value="3">Ensaladas</option>
-                                                <option value="4">Bebidas</option>
-                                                <option value="5">Postres</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Precio:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                                             </div>
-                                            <input type="number" class="form-control" placeholder="Precio del producto" id="precioProducto" 
+                                            <input type="number" class="form-control" placeholder="Precio del producto" name="precioProducto" id="precioProducto"
                                                    min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoría:</label>
+                                        <div class="input-group">
+                                            <select id="categoriaProducto-Registro" name="categoriaProductoRegistro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdCategorias)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Estado:</label>
+                                        <div class="input-group">
+                                            <select id="estadoProducto-Registro" name="estadoProductoRegistro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -289,7 +189,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-book-open"></i></span>
                                             </div>
-                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del producto" id="descripcionProducto" maxlength="500" required></textarea>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del producto" name="descripcionProducto" id="descripcionProducto" maxlength="500" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -319,9 +219,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             IMAGEN DE PRODUCTO
@@ -331,7 +228,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
-                                        <img id="imagenMuestraProductoDetalles" class="img-circle img-bordered-sm text-center" src="~/Content/imagenes/Productos/Quesoburguesa.png"
+                                        <img id="imagenMuestraProductoDetalles" class="img-circle img-bordered-sm text-center" src=""
                                              style="width:150px; height:150px;justify-content:center;justify-items:center;"
                                              onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
                                     </div>
@@ -351,7 +248,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Estado del producto" id="estadoProducto" maxlength="100" 
+                                            <input type="text" class="form-control" placeholder="Estado del producto" id="detalleEstadoProducto" maxlength="100" 
                                                    value="Disponible" readonly>
                                         </div>
                                     </div>
@@ -363,7 +260,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-utensils"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del producto" id="nombreProducto" maxlength="100" 
+                                            <input type="text" class="form-control" placeholder="Nombre del producto" id="detalleNombreProducto" maxlength="100" 
                                                    value="Quesoburguesa" readonly>
                                         </div>
                                     </div>
@@ -375,7 +272,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-folder-open"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Categoria del producto" id="categoriaProducto" maxlength="100"
+                                            <input type="text" class="form-control" placeholder="Categoria del producto" id="detalleCategoriaProducto" maxlength="100"
                                                    value="Hamburguesas" readonly>
                                         </div>
                                     </div>
@@ -387,7 +284,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                                             </div>
-                                            <input type="number" class="form-control" placeholder="Precio del producto" id="precioProducto"
+                                            <input type="number" class="form-control" placeholder="Precio del producto" id="detallePrecioProducto"
                                                    min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
                                                    value="1.99" readonly>
                                         </div>
@@ -401,7 +298,7 @@
                                                 <span class="input-group-text"><i class="fas fa-book-open"></i></span>
                                             </div>
                                             <textarea class="form-control" rows="3" placeholder="Breve descripción del producto" 
-                                                      id="descripcionProducto" maxlength="500" readonly>¡Disfruta de nuestra Quesoburguesa! Hamburguesa de carne acompañada de una rebanada de queso y vegetales</textarea>
+                                                      id="detalleDescripcionProducto" maxlength="500" readonly>¡Disfruta de nuestra Quesoburguesa! Hamburguesa de carne acompañada de una rebanada de queso y vegetales</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -411,7 +308,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>
@@ -427,7 +323,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormEditarProducto" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
@@ -439,14 +335,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
-                                        <img id="imagenMuestraProductoEdicion" class="img-circle img-bordered-sm text-center" src="~/Content/imagenes/Productos/Quesoburguesa.png"
+                                        <img id="imagenMuestraProductoEdicion" class="img-circle img-bordered-sm text-center" src=""
                                              style="width:150px; height:150px;justify-content:center;justify-items:center;"
                                              onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
                                     </div>
                                     <label>Imagen:</label>
                                     <div class="input-group">
-                                        <input name="imagenProductoEdicion" id="imagenProductoEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100" required>
-                                        <label id="lblImagenMuestraProductoEdicion" class="custom-file-label" for="customFile">Quesoburguesa.png</label>
+                                        <input name="imagenProductoEdicion" id="imagenProductoEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100">
+                                        <label id="lblImagenMuestraProductoEdicion" class="custom-file-label" for="customFile">Puede escoger una nueva imagen</label>
                                     </div>
                                 </div>
                             </div>
@@ -461,10 +357,12 @@
                                     <div class="form-group">
                                         <label>Estado:</label>
                                         <div class="input-group">
-                                            <select id="estadoProducto-Edicion" class="form-control select2" required>
+                                            <select id="estadoProductoEdicion" name="estadoProductoEdicion" class="form-control select2" required>
                                                 <option></option>
-                                                <option value="1" selected>Disponible</option>
-                                                <option value="2">No disponible</option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -476,7 +374,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-utensils"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del producto" id="nombreProducto" maxlength="100"
+                                            <input type="text" class="form-control" placeholder="Nombre del producto" name="nombreProductoEdicion" id="nombreProductoEdicion" maxlength="100"
                                                    value="Quesoburguesa" required>
                                         </div>
                                     </div>
@@ -485,13 +383,12 @@
                                     <div class="form-group">
                                         <label>Categoría:</label>
                                         <div class="input-group">
-                                            <select id="categoriaProducto-Edicion" class="form-control select2" required>
+                                            <select id="categoriaProductoEdicion" name="categoriaProductoEdicion" class="form-control select2" required>
                                                 <option></option>
-                                                <option value="1" selected>Hamburguesas</option>
-                                                <option value="2">Acompañamientos</option>
-                                                <option value="3">Ensaladas</option>
-                                                <option value="3">Bebidas</option>
-                                                <option value="4">Postres</option>
+                                                @foreach (var item in ViewBag.IdCategorias)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -503,7 +400,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                                             </div>
-                                            <input type="number" class="form-control" placeholder="Precio del producto" id="precioProducto"
+                                            <input type="number" class="form-control" placeholder="Precio del producto" name="precioProductoEdicion" id="precioProductoEdicion"
                                                    min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
                                                    value="1.99" required>
                                         </div>
@@ -517,7 +414,7 @@
                                                 <span class="input-group-text"><i class="fas fa-book-open"></i></span>
                                             </div>
                                             <textarea class="form-control" rows="3" placeholder="Breve descripción del producto"
-                                                      id="descripcionProducto" maxlength="500" required>¡Disfruta de nuestra Quesoburguesa! Hamburguesa de carne acompañada de una rebanada de queso y vegetales</textarea>
+                                                      id="descripcionProductoEdicion" name="descripcionProductoEdicion" maxlength="500" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -547,22 +444,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             ¿Está seguro que desea eliminar este producto?
                             <br />
                             <br />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="button" id="btnEliminarProducto" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>

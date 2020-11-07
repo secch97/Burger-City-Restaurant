@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<RestauranteWeb.Models.Combos>
 @{
     ViewBag.Title = "Gestión de combos";
 }
@@ -52,82 +52,33 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Promociones/Economico.png" style="width:300px;height:150px" alt="" />
-                                        </td>
-                                        <td>Paquete económico</td>
-                                        <td>$2.50</td>
-                                        <td>
-                                            <span class="badge badge-success" style="font-weight:bold;">Disponible</span>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("GestionarCombo", "Administrador")" class="gestionar-combo btn btn-dark btn-sm rounded-sm" title="Gestionar combo" data-toggle="tooltip">
-                                                <i class="fa fa-hamburger" style="color:white;"></i>
-                                            </a>
-                                            <a class="detalles-combo btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-combo btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-combo btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Promociones/DuoBurguesa.png" style="width:300px;height:150px" alt="" />
-                                        </td>
-                                        <td>Paquete Duoburguesa</td>
-                                        <td>$11.99</td>
-                                        <td>
-                                            <span class="badge badge-success" style="font-weight:bold;">Disponible</span>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("GestionarCombo", "Administrador")" class="gestionar-combo btn btn-dark btn-sm rounded-sm" title="Gestionar combo" data-toggle="tooltip">
-                                                <i class="fa fa-hamburger" style="color:white;"></i>
-                                            </a>
-                                            <a class="detalles-combo btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-combo btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-combo btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Promociones/Familiar.png" style="width:300px;height:150px" alt="" />
-                                        </td>
-                                        <td>Paquete Familiar</td>
-                                        <td>$14.99</td>
-                                        <td>
-                                            <span class="badge badge-danger" style="font-weight:bold;">No disponible</span>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("GestionarCombo", "Administrador")" class="gestionar-combo btn btn-dark btn-sm rounded-sm" title="Gestionar combo" data-toggle="tooltip">
-                                                <i class="fa fa-hamburger" style="color:white;"></i>
-                                            </a>
-                                            <a class="detalles-combo btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="color:white;"></i>
-                                            </a>
-                                            <a class="editar-combo btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                            <a class="eliminar-combo btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.IdCombo</td>
+                                            <td>
+                                                <img class="img-fluid" src="@item.Imagen" style="width:300px;height:150px" alt="" />
+                                            </td>
+                                            <td>@item.Nombre</td>
+                                            <td>@item.Precio</td>
+                                            <td>@item.EstadosProductos.Nombre</td>
+                                            <td>
+                                                <a href="@Url.Action("GestionarCombo", "Administrador",new { idCombo = @item.IdCombo})" class="gestionar-combo btn btn-dark btn-sm rounded-sm" title="Gestionar combo" data-toggle="tooltip">
+                                                    <i class="fa fa-hamburger" style="color:white;"></i>
+                                                </a>
+                                                <a class="detalles-combo btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip" data-idcombo="@item.IdCombo">
+                                                    <i class="fa fa-eye" style="color:white;"></i>
+                                                </a>
+                                                <a class="editar-combo btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idcombo="@item.IdCombo">
+                                                    <i class="fa fa-pen" style="color:white;"></i>
+                                                </a>
+                                                <a class="eliminar-combo btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idcombo="@item.IdCombo">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -150,7 +101,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormAgregarCombo" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
@@ -180,14 +131,28 @@
                         <hr style="border-color:white" />
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Nombre:</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-hamburger"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del combo" id="nombreCombo" maxlength="100" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del combo" name="nombreCombo" id="nombreCombo" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoría:</label>
+                                        <div class="input-group">
+                                            <select id="estadoComboRegistro" name="estadoComboRegistro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +163,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                                             </div>
-                                            <input type="number" class="form-control" placeholder="Precio del combo" id="precioCombo"
+                                            <input type="number" class="form-control" placeholder="Precio del combo" name="precioCombo" id="precioCombo"
                                                    min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
                                         </div>
                                     </div>
@@ -210,7 +175,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-book-open"></i></span>
                                             </div>
-                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del combo" id="descripcionCombo" maxlength="500" required></textarea>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del combo" name="descripcionCombo" id="descripcionCombo" maxlength="500" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -240,9 +205,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                                     IMAGEN DEL COMBO
@@ -252,7 +214,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
-                                        <img id="imagenMuestraComboDetalles" class="img-bordered-sm text-center" src="~/Content/imagenes/Promociones/Economico.png"
+                                        <img id="imagenMuestraComboDetalles" class="img-bordered-sm text-center" src=""
                                              style="width: 400px; height: 250px; justify-content: center; justify-items: center;"
                                              onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
                                     </div>
@@ -272,8 +234,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Estado del combo" id="estadoCombo" maxlength="100"
-                                                   value="Disponible" readonly>
+                                            <input type="text" class="form-control" placeholder="Estado del combo" id="detalleEstadoCombo" maxlength="100"
+                                                   value="" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -284,8 +246,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-utensils"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del combo" id="nombreCombo" maxlength="100"
-                                                   value="Paquete económico" readonly>
+                                            <input type="text" class="form-control" placeholder="Nombre del combo" id="detalleNombreCombo" maxlength="100"
+                                                   value="" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -296,9 +258,9 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                                             </div>
-                                            <input type="number" class="form-control" placeholder="Precio del combo" id="precioCombo"
+                                            <input type="number" class="form-control" placeholder="Precio del combo" id="detallePrecioCombo"
                                                    min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                                   value="2.50" readonly>
+                                                   value="" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -310,7 +272,7 @@
                                                 <span class="input-group-text"><i class="fas fa-book-open"></i></span>
                                             </div>
                                             <textarea class="form-control" rows="3" placeholder="Breve descripción del combo"
-                                                      id="descripcionCombo" maxlength="500" readonly>Nuestro Paquete Económico incluye una deliciosa Carneburguesa, Papas Pequeñas y una Coca Cola en lata</textarea>
+                                                      id="detalleDescripcionCombo" maxlength="500" readonly></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -322,7 +284,7 @@
                         <hr style="border-color:white" />
                         <div class="card-body">
                             <div class="col-12 table-responsive">
-                                <table class="table table-striped">
+                                <table id="tablaDetalleCombo" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>ID Producto</th>
@@ -331,7 +293,7 @@
                                             <th>Cantidad</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="subcontenido">
                                         <tr>
                                             <td>7</td>
                                             <td>
@@ -340,22 +302,7 @@
                                             <td>Carneburguesa</td>
                                             <td>1</td>
                                         </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>
-                                                <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:100px;height:100px" alt="" />
-                                            </td>
-                                            <td>Papas pequeñas</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>
-                                                <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:100px;height:100px" alt="" />
-                                            </td>
-                                            <td>Coca cola en lata</td>
-                                            <td>1</td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -364,7 +311,6 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                             </div>
-                        }
                     </div>
             <!-- /.modal-content -->
         </div>
@@ -380,7 +326,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormEditarCombo" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
@@ -392,13 +338,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
-                                        <img id="imagenMuestraComboEdicion" class="img-bordered-sm text-center" src="~/Content/imagenes/Promociones/Economico.png"
+                                        <img id="imagenMuestraComboEdicion" class="img-bordered-sm text-center" src=""
                                              style="width:400px; height:250px;justify-content:center;justify-items:center;"
                                              onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
                                     </div>
                                     <label>Imagen:</label>
                                     <div class="input-group">
-                                        <input name="imagenComboEdicion" id="imagenComboEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100" required>
+                                        <input name="imagenComboEdicion" id="imagenComboEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100">
                                         <label id="lblImagenMuestraComboEdicion" class="custom-file-label" for="customFile">Economico.png</label>
                                     </div>
                                 </div>
@@ -414,10 +360,12 @@
                                     <div class="form-group">
                                         <label>Estado:</label>
                                         <div class="input-group">
-                                            <select id="estadoCombo-Edicion" class="form-control select2" required>
+                                            <select id="estadoComboEdicion" name="estadoComboEdicion" class="form-control select2" required>
                                                 <option></option>
-                                                <option value="1" selected>Disponible</option>
-                                                <option value="2">No disponible</option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -429,8 +377,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-utensils"></i></span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nombre del combo" id="nombreCombo" maxlength="100"
-                                                   value="Paquete económico" required>
+                                            <input type="text" class="form-control" placeholder="Nombre del combo" name="editarNombreCombo" id="editarNombreCombo" maxlength="100"
+                                                   value="" required>
                                         </div>
                                     </div>
                                 </div>
@@ -441,7 +389,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
                                             </div>
-                                            <input type="number" class="form-control" placeholder="Precio del combo" id="precioCombo"
+                                            <input type="number" class="form-control" placeholder="Precio del combo" name="editarPrecioCombo" id="editarPrecioCombo"
                                                    min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
                                                    value="2.50" required>
                                         </div>
@@ -455,7 +403,7 @@
                                                 <span class="input-group-text"><i class="fas fa-book-open"></i></span>
                                             </div>
                                             <textarea class="form-control" rows="3" placeholder="Breve descripción del combo"
-                                                      id="descripcionCombo" maxlength="500" required>Nuestro Paquete Económico incluye una deliciosa Carneburguesa, Papas Pequeñas y una Coca Cola en lata</textarea>
+                                                       name ="editarDescripcionCombo" id="editarDescripcionCombo" maxlength="500" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -485,22 +433,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             ¿Está seguro que desea eliminar este combo?
                             <br />
                             <br />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="button" id="btnEliminarCombo" class="btn btn-danger">
                                 <i class="fa fa-trash"></i>
                                 Eliminar
                             </button>
                             <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>

@@ -1213,7 +1213,7 @@
         var imagen = '';
         $(document).ready(function () {
             $(".contenido").on("click", ".detalles-categoria", function () {
-                $("#detalleImagenMuestra").attr("src",$(this).data('imagen'));
+                $("#detalleImagenMuestra").attr("src", $(this).data('imagen'));
                 $("#detalleNombreCategoria").val($(this).data('nombre'))
                 $("#detalleDescripcionCategoria").val($(this).data('descripcion'));
                 $("#ModalDetallesCategoria").modal('show');
@@ -1227,7 +1227,7 @@
             var nombre = '';
             var descripcion = '';
             var imagen = '';
-            $(".contenido").on("click",".editar-categoria",function () {
+            $(".contenido").on("click", ".editar-categoria", function () {
                 $("#editarImagenMuestraCategoria").attr("src", $(this).data('imagen'));
                 imagen = $(this).data('imagen');
                 idCategoria = $(this).data('idcategoria');
@@ -1265,7 +1265,7 @@
                         } else {
                             alerta("error", data.message);
                         }
-                        
+
                     },
                     error: function (data) {
 
@@ -1438,30 +1438,189 @@
                 $('#lblImagenMuestraProductoRegistro').html("Escoger imagen");
                 $("#ModalAñadirProducto").modal('show');
             });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormAgregarProducto").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/Productos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadProductos();
+                            $("#ModalAñadirProducto").modal('hide');
+
+                            alerta("success", data.message)
+                        } else {
+                            $("#imagenProductoEdicion").value = "";
+                            alerta("error", data.message)
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Error del servidor");
+                    }
+                });
+
+            });
         });
     </script>
     <!-- Modal 21: ModalDetallesProducto - /Administrador/Productos -->
     <script>
         $(document).ready(function () {
-            $(".detalles-producto").click(function () {
-                $("#ModalDetallesProducto").modal('show');
+            var idProducto = '';
+            $(".contenido").on("click", ".detalles-producto", function () {
+
+                idProducto = $(this).data('idproducto');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerProducto',
+                    data: { 'idProducto': idProducto },
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#imagenMuestraProductoDetalles").attr("src", data.imagen);
+                        $("#detalleEstadoProducto").val(data.nombreEstado);
+                        $("#detalleNombreProducto").val(data.nombreProducto);
+                        $("#detalleCategoriaProducto").val(data.nombreCategoria);
+                        $("#detallePrecioProducto").val(data.precio);
+                        $("#detalleDescripcionProducto").val(data.descripcion);
+
+                        $("#ModalDetallesProducto").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el producto');
+                    }
+                });
+
+
             });
         });
     </script>
     <!-- Modal 22: ModalEditarProducto - /Administrador/Productos -->
     <script>
         $(document).ready(function () {
-            $(".editar-producto").click(function () {
+            var idProducto = '';
+            $(".contenido").on("click", ".editar-producto", function () {
 
-                $("#ModalEditarProducto").modal('show');
+                idProducto = $(this).data('idproducto');
+
+                $("#ModalEditarProducto")
+                    .find("input[type=file]")
+                    .val("").end();
+                $('#lblImagenMuestraProductoEdicion').html("Puede escoger una nueva imagen");
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerProducto',
+                    data: { 'idProducto': idProducto },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#imagenMuestraProductoEdicion").attr("src", data.imagen);
+                        $("#estadoProductoEdicion").val(data.idEstado);
+                        $("#estadoProductoEdicion").change();
+                        $("#nombreProductoEdicion").val(data.nombreProducto);
+                        $("#categoriaProductoEdicion").val(data.idCategoria);
+                        $("#categoriaProductoEdicion").change();
+                        $("#precioProductoEdicion").val(data.precio);
+                        $("#descripcionProductoEdicion").val(data.descripcion);
+
+
+
+
+                        $("#ModalEditarProducto").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el producto');
+                    }
+                });
+
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormEditarProducto").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //imagen = $("#")
+                parametros.append('idProducto', idProducto);
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/editarProductos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadProductos();
+                            $("#ModalEditarProducto").modal('hide');
+                            alerta("success", data.message);
+
+                        } else {
+                            alerta("error", data.message);
+
+                        }
+
+                    },
+                    error: function (data) {
+
+                        alerta("error", "Error del servidor. Contacte a Soporte");
+                    }
+                });
+
             });
         });
     </script>
     <!-- Modal 23: ModalEliminarProducto - /Administrador/Categorias -->
     <script>
         $(document).ready(function () {
-            $(".eliminar-producto").click(function () {
+            var idProducto = '';
+            $(".contenido").on("click", ".eliminar-producto", function () {
+                idProducto = $(this).data('idproducto');
+
                 $("#ModalEliminarProducto").modal('show');
+            });
+
+            $("#btnEliminarProducto").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarProducto',
+                    data: { 'idProducto': idProducto },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadProductos();
+                            $("#ModalEliminarProducto").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarProducto").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
             });
         });
     </script>
@@ -1483,36 +1642,199 @@
                 $('#lblImagenMuestraComboRegistro').html("Escoger imagen");
                 $("#ModalAñadirCombo").modal('show');
             });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormAgregarCombo").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/Combos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombos();
+                            $("#ModalAñadirCombo").modal('hide');
+                            alerta("success", data.message)
+
+                        } else {
+                            $("#ModalAñadirCombo").value = "";
+                            alerta("error", data.message)
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Error del servidor");
+                    }
+                });
+
+            });
+
         });
     </script>
     <!-- Modal 25: ModalDetallesCombo - /Administrador/Combos -->
     <script>
         $(document).ready(function () {
-            $(".detalles-combo").click(function () {
-                $("#ModalDetallesCombo").modal('show');
-            });
-        });
-    </script>
-    <!-- Modal 26: ModalEditarProducto - /Administrador/Productos -->
-    <script>
-        $(document).ready(function () {
-            $(".editar-combo").click(function () {
+            var idCombo = '';
+            $(".contenido").on("click", ".detalles-combo", function () {
+                idCombo = $(this).data('idcombo');
 
-                $("#ModalEditarCombo").modal('show');
+                var promise = $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerCombo',
+                    data: { 'idCombo': idCombo },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#imagenMuestraComboDetalles").attr("src", data.imagen);
+                        $("#detalleEstadoCombo").val(data.nombreEstado);
+                        $("#detalleNombreCombo").val(data.nombre);
+                        $("#detallePrecioCombo").val(data.precio);
+                        $("#detalleDescripcionCombo").val(data.descripcion);
+
+
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el combo');
+                    }
+                });
+                // solicitud para detalles del combo
+                promise.then(function () {
+                    reloadDetalleCombos(idCombo);
+                    //el modal se muestra en la funcion
+                });
+
+
+
+
             });
         });
     </script>
-    <!-- Modal 27: ModalEliminarProducto - /Administrador/Categorias -->
+    <!-- Modal 26: ModalEditarCombo - /Administrador/Combos -->
     <script>
         $(document).ready(function () {
-            $(".eliminar-combo").click(function () {
+            var idCombo = '';
+            $(".contenido").on("click", ".editar-combo", function () {
+                idCombo = $(this).data('idcombo');
+
+                $("#ModalEditarCombo")
+                    .find("input[type=file]")
+                    .val("").end();
+                $('#lblImagenMuestraComboEdicion').html("Puede escoger una nueva imagen");
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerCombo',
+                    data: { 'idCombo': idCombo },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#imagenMuestraComboEdicion").attr("src", data.imagen);
+                        $("#estadoComboEdicion").val(data.idEstado);
+                        $("#estadoComboEdicion").change();
+                        $("#editarNombreCombo").val(data.nombre);
+                        $("#editarPrecioCombo").val(data.precio);
+                        $("#editarDescripcionCombo").val(data.descripcion);
+
+                        $("#ModalEditarCombo").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el combo');
+                    }
+                });
+
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormEditarCombo").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //imagen = $("#")
+                parametros.append('idCombo', idCombo);
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/editarCombos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombos();
+                            $("#ModalEditarCombo").modal('hide');
+                            alerta("success", data.message);
+
+                        } else {
+                            alerta("error", data.message);
+                        }
+                    },
+                    error: function (data) {
+
+                        alerta("error", "Error del servidor. Contacte a Soporte");
+                    }
+                });
+
+            });
+
+
+        });
+    </script>
+    <!-- Modal 27: ModalEliminarCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            var idCombo = '';
+            $(".contenido").on("click", ".eliminar-combo", function () {
+                idCombo = $(this).data('idcombo');
                 $("#ModalEliminarCombo").modal('show');
+            });
+
+            $("#btnEliminarCombo").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarCombo',
+                    data: { 'idCombo': idCombo },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombos();
+                            $("#ModalEliminarCombo").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarCombo").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+
             });
         });
     </script>
     <!-- Modal 28: ModalAñadirCombo - /Administrador/Combos -->
     <script>
         $(document).ready(function () {
+            var idCombo = '';
+            var idProducto = '';
+            var cantidad = '';
             $(".agregar-producto-combo").click(function () {
                 $("#ModalAgregarProductoCombo")
                     .find("input,textarea")
@@ -1524,7 +1846,78 @@
                     .find("input[type=checkbox], input[type=radio]")
                     .prop("checked", "")
                     .end();
+                idCombo = $(this).data('idcombo');
+                idProducto = $(this).data('idproducto');
+
                 $("#ModalAgregarProductoCombo").modal('show');
+            });
+
+
+            $("#btnRegistrarProductoCombo").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                cantidad = $("#cantidadProductosCombo").val();
+
+                variables.push(cantidad);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Deben colocar una cantidad');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/GestionarCombo',
+                        data: { 'IdCombo': idCombo, 'IdProducto': idProducto, 'Cantidad': cantidad },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                reloadCombosGestion(idCombo);
+                                $("#ModalAgregarProductoCombo").modal('hide');
+                                alerta('success', data.message);
+                            } else {
+                                $("#ModalAgregarProductoCombo").modal('hide');
+                                alerta('error', data.message);
+                            }
+
+                        },
+                        error: function () {
+                            alerta('error', 'Error al solicitar registrar. Contacte a soporte');
+                        }
+                    });
+                }//fin else
+            });
+        });
+    </script>
+    <!-- Modal 28.1: ModalEliminarProductoCombo - /Administrador/GestionarCombo -->
+    <script>
+        $(document).ready(function () {
+            var idProducto = '';
+            var idCombo = '';
+            $(".contenido").on("click", ".eliminar-producto-combo", function () {
+                idProducto = $(this).data('idproducto');
+                idCombo = $(this).data('idcombo');
+
+                $("#ModalEliminarProductoCombo").modal('show');
+            });
+
+            $("#btnEliminarProductoCombo").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarProductoCombo',
+                    data: { 'idCombo': idCombo ,'idProducto': idProducto },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombosGestion(idCombo);
+                            $("#ModalEliminarProductoCombo").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarProductoCombo").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
             });
         });
     </script>
@@ -1752,7 +2145,7 @@
                     $.each(data, function (i, item) {
                         var rows = "<tr>"
                             + "<td>" + item.IdCategoria + "</td>"
-                            + "<td>" +"<img class='img-fluid' src=\""+item.Imagen+"\" style='width:100px;height:100px' alt='' />"+"</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
                             + "<td>" + item.Nombre + "</td>"
                             + "<td>"
                             + "<a class='detalles-categoria btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
@@ -1766,12 +2159,12 @@
                             + "<a class='editar-categoria btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip'"
                             + "data-idcategoria=\"" + item.IdCategoria + "\" "
                             + "data-nombre=\"" + item.Nombre + "\" "
-                            + "data-descripcion=\"" + item.Descripcion +"\" "
+                            + "data-descripcion=\"" + item.Descripcion + "\" "
                             + "data-imagen=\"" + item.Imagen + "\" "
                             + ">"
                             + " <i class='fa fa-pen' style='color:white;'></i>"
                             + "</a> "
-                            + "<a class='eliminar-categoria btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcategoria=" + item.IdCategoria  + ">"
+                            + "<a class='eliminar-categoria btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcategoria=" + item.IdCategoria + ">"
                             + " <i class='fa fa-trash'></i>"
                             + "</a>"
                             + "</td>"
@@ -1788,6 +2181,167 @@
 
             });
 
+            return false;
+        }
+    </script>
+    <script>
+        function reloadProductos() {
+            $("#tablaProductos tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadProductos',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.IdProducto + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.CategoriaNombre + "</td>"
+                            + "<td>" + item.Precio + "</td>"
+                            + "<td>" + item.EstadoNombre + "</td>"
+                            + "<td>"
+                            + "<a class='detalles-producto btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
+                            + "data-idproducto=\"" + item.IdProducto + "\">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-producto btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip'"
+                            + "data-idproducto=\"" + item.IdProducto + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-producto btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip'"
+                            + "data-idproducto=\"" + item.IdProducto + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaProductos tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
+            return false;
+        }
+    </script>
+    <script>
+        function reloadCombos() {
+            $("#tablaCombos tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadCombos',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdCombo + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:300px;height:150px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.Precio + "</td>"
+                            + "<td>" + item.nombreEstado + "</td>"
+                            + "<td>"
+                            + "<a href=/Administrador/GestionarCombo?idCombo=" + item.IdCombo + " class='gestionar-combo btn btn-dark btn-sm rounded-sm' title='Gestionar combo' data-toggle='tooltip'>"
+                            + "<i class='fa fa-hamburger' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='detalles-combo btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip' data-idcombo=\"" + item.IdCombo + "\">"
+                            + " <i class='fa fa-eye'></i>"
+                            + "</a> "
+                            + "<a class='editar-combo btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idcombo=\"" + item.IdCombo + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-combo btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcombo=\"" + item.IdCombo + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a> "
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaCombos tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadDetalleCombos(idCombo) {
+            $("#tablaDetalleCombo tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/obtenerDetalleCombo',
+                data: { 'idCombo': idCombo },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdProducto + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.Cantidad + "</td>"
+                            + "</tr>";
+                        $('#tablaDetalleCombo tbody').append(rows);
+                    });
+
+                    $("#ModalDetallesCombo").modal('show');
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadCombosGestion(idCombo) {
+            $("#tablaProductosComboEliminar tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/obtenerDetalleCombo',
+                data: { 'idCombo': idCombo },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdProducto + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.Cantidad + "</td>"
+                            + "<td>"
+                            + "<a class='eliminar-producto-combo btn btn-danger btn-sm rounded-sm' title='Eliminar del combo' data-toggle='tooltip'"
+                            + "data-idcombo=\"" + item.IdCombo + "\" "
+                            + "data-idproducto=\"" + item.IdProducto + "\" "
+                            + ">"
+                            + "<i class='fa fa-trash' style='color:white;'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaProductosComboEliminar tbody').append(rows);
+                    });
+
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
             return false;
         }
     </script>

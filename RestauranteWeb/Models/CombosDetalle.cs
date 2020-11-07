@@ -15,7 +15,6 @@ namespace RestauranteWeb.Models
     public partial class CombosDetalle
     {
         public string IdCombo { get; set; }
-        public int Correlativo { get; set; }
         public string IdProducto { get; set; }
         public Nullable<int> Cantidad { get; set; }
     

@@ -91,8 +91,7 @@ GO
 
 CREATE TABLE CombosDetalle(
 	IdCombo VARCHAR(20) NOT NULL,
-	Correlativo INT IDENTITY,
-	IdProducto VARCHAR(20),
+	IdProducto VARCHAR(20) NOT NULL,
 	Cantidad INT
 )
 
@@ -206,13 +205,19 @@ GO
 	
 	ALTER TABLE CombosDetalle
 	ADD CONSTRAINT PK_CombosDetalle
-	PRIMARY KEY(IdCombo,Correlativo)
+	PRIMARY KEY(IdCombo,IdProducto)
 	
 	GO
 	
 	ALTER TABLE CombosDetalle
 	ADD CONSTRAINT FK_CombosDetalle_Combos
 	FOREIGN KEY(IdCombo) REFERENCES Combos(IdCombo)
+	
+	GO
+	
+	ALTER TABLE CombosDetalle
+	ADD CONSTRAINT FK_CombosDetalle_ProductosRestaurante
+	FOREIGN KEY(IdProducto) REFERENCES ProductosRestaurante(IdProducto)
 	
 	GO
 	

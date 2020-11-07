@@ -1,4 +1,4 @@
-﻿
+﻿@model RestauranteWeb.Models.ModelGestionCombos
 @{
     ViewBag.Title = "Gestión de combo específico";
 }
@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div style="display:flex;justify-content:center;align-items:center;">
-                                    <img id="imagenMuestraComboDetalles" class="img-bordered-sm text-center" src="~/Content/imagenes/Promociones/Economico.png"
+                                    <img id="imagenMuestraComboDetalles" class="img-bordered-sm text-center" src="@Model.Combos.Imagen"
                                          style="width: 425px; height: 250px; justify-content: center; justify-items: center;"
                                          onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
                                 </div>
@@ -46,7 +46,7 @@
                                         <div class="info-box bg-gradient-navy">
                                             <div class="info-box-content">
                                                 <span class="info-box-number text-center">NOMBRE</span>
-                                                <span class="info-box-text text-center mb-0">Paquete económico</span>
+                                                <span class="info-box-text text-center mb-0">@Model.Combos.Nombre</span>
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                         <div class="info-box bg-gradient-navy">
                                             <div class="info-box-content">
                                                 <span class="info-box-number text-center">PRECIO</span>
-                                                <span class="info-box-text text-center mb-0">$2.50</span>
+                                                <span class="info-box-text text-center mb-0">$ @Model.Combos.Precio</span>
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +62,7 @@
                                         <div class="info-box bg-gradient-navy">
                                             <div class="info-box-content">
                                                 <span class="info-box-number text-center">ESTADO</span>
-                                                <span class="info-box-text text-center mb-0">Disponible</span>
+                                                <span class="info-box-text text-center mb-0">@Model.Combos.EstadosProductos.Nombre</span>
                                             </div>
                                         </div>
                                     </div>
@@ -89,84 +89,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Quesoburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Quesoburguesa</td>
-                                        <td>Hamburguesas</td>
-                                        <td>
-                                            <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip">
-                                                <i class="fa fa-plus" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Baconburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Baconburguesa</td>
-                                        <td>Hamburguesas</td>
-                                        <td>
-                                            <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip">
-                                                <i class="fa fa-plus" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Polloburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Polloburguesa</td>
-                                        <td>Hamburguesas</td>
-                                        <td>
-                                            <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip">
-                                                <i class="fa fa-plus" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Coca Cola en lata</td>
-                                        <td>Bebidas</td>
-                                        <td>
-                                            <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip">
-                                                <i class="fa fa-plus" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Papas fritas pequeñas</td>
-                                        <td>Acompañamientos</td>
-                                        <td>
-                                            <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip">
-                                                <i class="fa fa-plus" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Sundae de Caramelo</td>
-                                        <td>Postres</td>
-                                        <td>
-                                            <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip">
-                                                <i class="fa fa-plus" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in Model.Productos)
+                                    {
+                                        <tr>
+                                            <td>@item.IdProducto</td>
+                                            <td>
+                                                <img class="img-fluid" src="@item.Imagen" style="width:100px;height:100px" alt="" />
+                                            </td>
+                                            <td>@item.Nombre</td>
+                                            <td>@item.CategoriasProductos.Nombre</td>
+                                            <td>
+                                                <a class="agregar-producto-combo btn btn-success btn-sm rounded-sm" title="Agregar a combo" data-toggle="tooltip"
+                                                   data-idproducto="@item.IdProducto"
+                                                   data-idcombo="@Model.Combos.IdCombo">
+                                                    <i class="fa fa-plus" style="color:white;"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -180,7 +120,7 @@
                         </div>
                         <br />
                         <div class="card-body">
-                            <table id="tablaProductosCombo-Eliminar" class="table table-bordered table-striped" style="text-align:center;">
+                            <table id="tablaProductosComboEliminar" class="table table-bordered table-striped" style="text-align:center;">
                                 <thead>
                                     <tr>
                                         <th>ID Producto</th>
@@ -190,46 +130,26 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Carneburguesa.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Carneburguesa</td>
-                                        <td>1</td>
-                                        <td>
-                                            <a class="eliminar-producto-combo btn btn-danger btn-sm rounded-sm" title="Eliminar del combo" data-toggle="tooltip">
-                                                <i class="fa fa-trash" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Papas pequeñas</td>
-                                        <td>1</td>
-                                        <td>
-                                            <a class="eliminar-producto-combo btn btn-danger btn-sm rounded-sm" title="Eliminar del combo" data-toggle="tooltip">
-                                                <i class="fa fa-trash" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>
-                                            <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:100px;height:100px" alt="" />
-                                        </td>
-                                        <td>Coca cola en lata</td>
-                                        <td>1</td>
-                                        <td>
-                                            <a class="eliminar-producto-combo btn btn-danger btn-sm rounded-sm" title="Eliminar del combo" data-toggle="tooltip">
-                                                <i class="fa fa-trash" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model.CombosDetalles)
+                                    {
+                                        <tr>
+                                            <td>@item.ProductosRestaurante.IdProducto</td>
+                                            <td>
+                                                <img class="img-fluid" src="@item.ProductosRestaurante.Imagen" style="width:100px;height:100px" alt="" />
+                                            </td>
+                                            <td>@item.ProductosRestaurante.Nombre</td>
+                                            <td>@item.Cantidad</td>
+                                            <td>
+                                                <a class="eliminar-producto-combo btn btn-danger btn-sm rounded-sm" title="Eliminar del combo" data-toggle="tooltip"
+                                                   data-idcombo="@Model.Combos.IdCombo"
+                                                   data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-trash" style="color:white;"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -248,35 +168,60 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="modal-body">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Cantidad:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                                </div>
-                                                <input type="number" class="form-control" placeholder="Cantidad de productos" id="cantidadProductosCombo"
-                                                       min="0" max="99" step="1" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Cantidad:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
                                             </div>
+                                            <input type="number" class="form-control" placeholder="Cantidad de productos" id="cantidadProductosCombo"
+                                                   min="0" max="99" step="1" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-plus"></i>
-                                Agregar producto(s)
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnRegistrarProductoCombo" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Agregar producto(s)
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- /.modal -->
+        <div class="modal fade" id="ModalEliminarProductoCombo">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-gradient-navy">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title">PRODUCTOS</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            ¿Está seguro que desea eliminar este producto?
+                            <br />
+                            <br />
+                            <button type="button" id="btnEliminarProductoCombo" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                                Eliminar
                             </button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
                         </div>
-                    }
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>

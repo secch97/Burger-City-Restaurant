@@ -2285,6 +2285,7 @@
     <Compile Include="Models\CategoriasProductos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelGestionCombos.cs" />
     <Compile Include="Models\Combos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
@@ -2370,6 +2371,7 @@
   <ItemGroup>
     <Folder Include="Content\fonts\" />
     <Folder Include="Content\imagenes\Categorias\" />
+    <Folder Include="Content\imagenes\Combos\" />
     <Folder Include="Content\imagenes\Fotos de perfil\" />
     <Folder Include="Content\imagenes\Productos\" />
     <Folder Include="Content\imagenes\Promociones\" />
