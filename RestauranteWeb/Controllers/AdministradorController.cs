@@ -18,10 +18,15 @@ namespace RestauranteWeb.Controllers
     {
         private ProyectoASP_RestauranteEntities db = new ProyectoASP_RestauranteEntities();
         // GET: Administrador
+
+        //INICIO METODOS INICIO
         public ActionResult Inicio()
         {
-            return View();
+            return HistorialOrdenes();
         }
+
+        //FIN METODOS INICIO
+
 
         // INICIO METODOS ROLES
         [HttpGet]
@@ -776,16 +781,149 @@ namespace RestauranteWeb.Controllers
         }
         //FIN METODOS GESTION COMBOS
 
+        //INICIO METODOS ETAPAS
 
         public ActionResult Etapas()
         {
-            return View();
+            return View(db.EtapasPedidos.ToList());
         }
 
-        public ActionResult HistorialDeOrdenes()
+        [HttpPost]
+        public void Etapas([Bind(Include = "IdEtapa,Nombre")] EtapasPedidos etapasPedidos)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                db.EtapasPedidos.Add(etapasPedidos);
+                db.SaveChanges();
+            }
         }
+
+        [HttpPost]
+        public void editarEtapas([Bind(Include = "IdEtapa,Nombre")] EtapasPedidos etapasPedidos)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(etapasPedidos).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult eliminarEtapa(int idEtapa)
+        {
+            try
+            {
+                EtapasPedidos etapasPedidos = db.EtapasPedidos.Find(idEtapa);
+                db.EtapasPedidos.Remove(etapasPedidos);
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Etapa eliminada con éxito" });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+
+        [HttpPost]
+        public JsonResult reloadEtapas()
+        {
+            List<EtapasPedidos> etapas = new List<EtapasPedidos>();
+            etapas = db.EtapasPedidos.ToList();
+            var etapasClean = etapas.Select(s => new {
+                s.IdEtapa,
+                s.Nombre
+            });
+            return Json(etapasClean, JsonRequestBehavior.AllowGet);
+        }
+
+        //FIN METODOS ETAPAS
+
+        //INICIO METODOS HISTORIAL ORDENES
+
+        public ActionResult HistorialOrdenes()
+        {
+            var model = new ModelHistorialOrdenes();
+
+            ViewBag.IdEtapas =  new SelectList(db.EtapasPedidos, "IdEtapa", "Nombre");
+            model.pedidosClientes = db.PedidosClientes.ToList();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult obtenerClienteOrden( string idPedido)
+        {
+            PedidosClientes pedidos = db.PedidosClientes.Find(idPedido);
+
+            return Json(new
+            {
+                nombre = (pedidos.CuentasClientes.Nombres+" "+ pedidos.CuentasClientes.Apellidos),
+                direccion = pedidos.DireccionEntrega,
+                telefono = pedidos.TelefonoContacto,
+                correo = pedidos.CuentasClientes.Correo,
+                fecha = pedidos.Fecha,
+                estado = pedidos.TrackeoPedidosClientes.EtapasPedidos.Nombre,
+                total = db.ObtenerMontoPedido(idPedido)
+            });
+        }
+
+        [HttpPost]
+        public JsonResult obtenerDetalleOrden(string idPedido)
+        {
+            var detalle = db.ObtenerDetallePedido(idPedido);
+            
+            return Json(detalle, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult obtenerHistorialOrden(string idPedido)
+        {
+            List<HistorialPedidos> historial = new List<HistorialPedidos>();
+            historial = db.HistorialPedidos.Where(h=> h.IdPedido == idPedido).ToList() ;
+            var historialClean = historial.Select(s => new {
+                s.IdPedido,
+                s.Fecha,
+                s.EtapasPedidos.Nombre,
+                s.UsuarioGrabacion
+            });
+            return Json(historialClean, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult reloadOrdenes()
+        {
+            List<PedidosClientes> ordenes = new List<PedidosClientes>();
+            ordenes = db.PedidosClientes.ToList();
+            var ordenesClean = ordenes.Select(s => new {
+                s.IdPedido,
+                nombreCliente = s.CuentasClientes.Nombres +" "+ s.CuentasClientes.Apellidos,
+                s.Fecha,
+                total= db.ObtenerMontoPedido(s.IdPedido),
+                nombreEtapa = s.TrackeoPedidosClientes.EtapasPedidos.Nombre,
+                s.TrackeoPedidosClientes.IdEtapa,
+                s.IdCliente
+            });
+            return Json(ordenesClean, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult editarEtapaPedido(string idPedido, int idEtapa)
+        {
+            try
+            {
+                PedidosClientes pedido = db.PedidosClientes.Find(idPedido);
+                pedido.TrackeoPedidosClientes.IdEtapa = idEtapa;
+                db.Entry(pedido).State = EntityState.Modified;
+                db.SaveChanges();
+
+                registrarHistorial(idPedido,idEtapa,"USER");
+
+                return Json(new { success = true, message = "Se editó con éxito" });
+            }
+            catch (DbUpdateException ex)
+            { return Json(new { success = false, message = ex.Message }); }
+        }
+        //FIN METODOS HISTORIAL ORDENES
+
 
         // INICIO METODOS AUXILIARES
         private bool operacionesImagenes(HttpPostedFileBase imagen, string ruta, int operacion)
@@ -831,6 +969,20 @@ namespace RestauranteWeb.Controllers
                 return nombreImagen;
             else
                 return rutaBase + carpeta + nombreImagen;
+        }
+
+        private void registrarHistorial(string idPedido, int idEtapa, string usuario)
+        {
+            HistorialPedidos historial = new HistorialPedidos();
+
+            historial.IdHistorial = 0;
+            historial.IdPedido = idPedido;
+            historial.IdEtapa = idEtapa;
+            historial.UsuarioGrabacion = usuario;
+            historial.Fecha = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+
+            db.HistorialPedidos.Add(historial);
+            db.SaveChanges();
         }
 
         // FIN METODOS AUXILIARES

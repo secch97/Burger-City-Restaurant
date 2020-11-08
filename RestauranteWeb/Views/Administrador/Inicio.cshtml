@@ -1,4 +1,4 @@
-﻿
+﻿@model  RestauranteWeb.Models.ModelHistorialOrdenes
 @{
     ViewBag.Title = "Inicio";
 }
@@ -123,102 +123,7 @@
                         <!-- /.card-footer -->
                     </div>
                     <!-- /.card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Ordenes realizadas el día de hoy</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table id="tablaOrdenes-Hoy" class="table table-bordered table-striped" style="text-align:center;">
-                                <thead>
-                                    <tr>
-                                        <th>ID Orden</th>
-                                        <th>Cliente</th>
-                                        <th>Fecha</th>
-                                        <th>Monto [$]</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Javier Isaac Melara López</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$30.00</td>
-                                        <td><span class="badge badge-warning" style="font-weight:bold;">Solicitada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Saúl Ernesto Castillo Chamagua</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$13.49</td>
-                                        <td><span class="badge badge-info" style="font-weight:bold;">Procesada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Isidro Salvador Colocho Arreaga</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$10.00</td>
-                                        <td><span class="badge badge-success" style="font-weight:bold;">Entregada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Ever Argelio Reyes Reyes</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$17.00</td>
-                                        <td><span class="badge badge-danger" style="font-weight:bold;">Cancelada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detallehoy btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapashoy btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapahoy btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
+                   
                 </section>
                 <!-- Left col -->
             </div>

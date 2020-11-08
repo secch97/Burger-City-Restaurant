@@ -10,15 +10,13 @@
 namespace RestauranteWeb.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TrackeoPedidosClientes
+    public partial class ObtenerDetallePedido_Result
     {
-        public string IdPedido { get; set; }
-        public Nullable<int> IdEtapa { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-    
-        public virtual EtapasPedidos EtapasPedidos { get; set; }
-        public virtual PedidosClientes PedidosClientes { get; set; }
+        public string IdObjeto { get; set; }
+        public string Nombre { get; set; }
+        public Nullable<int> Cantidad { get; set; }
+        public Nullable<decimal> Precio { get; set; }
+        public Nullable<decimal> SubTotal { get; set; }
     }
 }

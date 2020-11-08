@@ -1,4 +1,4 @@
-﻿
+﻿@model  RestauranteWeb.Models.ModelHistorialOrdenes
 @{
     ViewBag.Title = "Historial de ordenes";
 }
@@ -46,79 +46,34 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model.pedidosClientes)
+                                    {
                                     <tr>
-                                        <td>1</td>
-                                        <td>Javier Isaac Melara López</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$30.00</td>
-                                        <td><span class="badge badge-warning" style="font-weight:bold;">Solicitada</span></td>
+                                        <td>@item.IdPedido</td>
+                                        <td>@item.CuentasClientes.Nombres @item.CuentasClientes.Apellidos</td>
+                                        <td>@item.Fecha</td>
+                                        <td>@Model.getMonto(@item.IdPedido)</td>
+                                        <td>@item.TrackeoPedidosClientes.EtapasPedidos.Nombre</td>
                                         <td>
-                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
+                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip"
+                                               data-idcliente="@item.IdCliente"
+                                               data-idpedido="@item.IdPedido">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
+                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip"
+                                               data-idpedido="@item.IdPedido">
                                                 <i class="fa fa-list"></i>
                                             </a>
-                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip"
+                                               data-idpedido="@item.IdPedido"
+                                               data-idetapa="@item.TrackeoPedidosClientes.EtapasPedidos.IdEtapa">
                                                 <i class="fa fa-pen" style="color:white;"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Saúl Ernesto Castillo Chamagua</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$13.49</td>
-                                        <td><span class="badge badge-info" style="font-weight:bold;">Procesada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Isidro Salvador Colocho Arreaga</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$10.00</td>
-                                        <td><span class="badge badge-success" style="font-weight:bold;">Entregada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style=" color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Ever Argelio Reyes Reyes</td>
-                                        <td>29/10/2020 14:30</td>
-                                        <td>$17.00</td>
-                                        <td><span class="badge badge-danger" style="font-weight:bold;">Cancelada</span></td>
-                                        <td>
-                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip">
-                                                <i class="fa fa-list"></i>
-                                            </a>
-                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip">
-                                                <i class="fa fa-pen" style="color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -155,7 +110,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" value="Saúl Ernesto Castillo Chamagua" readonly>
+                                        <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" value="" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +132,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Teléfono de contacto" id="telefonoCliente" data-inputmask='"mask": "9999-9999"' data-mask value="7442-2219" readonly>
+                                        <input type="text" class="form-control" placeholder="Teléfono de contacto" id="telefonoCliente" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +143,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" data-inputmask="'alias': 'email'" data-mask value="secch97@gmail.com" readonly>
+                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -218,7 +173,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-clock"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Fecha y hora de orden" id="fechaOrden" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy HH:MM" data-mask value="29/10/2020 14:30" readonly>
+                                        <input type="text" class="form-control" placeholder="Fecha y hora de orden" id="fechaOrden"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +193,7 @@
                     <!-- Table row -->
                     <div class="row">
                         <div class="col-12 table-responsive">
-                            <table class="table table-striped">
+                            <table  id="tablaDetalle" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID Objeto</th>
@@ -249,27 +204,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Paquete DuoBurguesa</td>
-                                        <td>1</td>
-                                        <td>$11.99</td>
-                                        <td>$11.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15</td>
-                                        <td>Coca Cola 1.5lt</td>
-                                        <td>1</td>
-                                        <td>$l.50</td>
-                                        <td>$1.50</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
                         <!-- /.col -->
                         <div class="col-6" style="margin-left:auto">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table id="tablaTotal" class="table">
                                     <tr>
                                         <th>Total de orden:</th>
                                         <td>$13.49</td>
@@ -308,7 +250,7 @@
                         <!-- Table row -->
                         <div class="row">
                             <div class="col-12 table-responsive">
-                                <table class="table table-striped">
+                                <table id="tablaHistorial" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>ID Orden</th>
@@ -317,7 +259,7 @@
                                             <th>Actualizado por</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="subcontenido">
                                         <tr>
                                             <td>2</td>
                                             <td>29/10/2020 14:00</td>
@@ -361,9 +303,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="text-center" style="font-weight:bold;">
                             SELECCIÓN DE ETAPA
@@ -375,10 +314,10 @@
                                     <div class="form-group">
                                         <select id="etapaOrden-Edicion" class="form-control select2" required>
                                             <option></option>
-                                            <option value="1" selected>Solicitada</option>
-                                            <option value="2" >Procesada</option>
-                                            <option value="3" >Entregada</option>
-                                            <option value="4" >Cancelada</option>
+                                            @foreach (var item in ViewBag.IdEtapas)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -386,13 +325,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="button" id="btnActualizarEtapa" class ="btn btn-success">
                             <i class="fas fa-pen"></i>
                             Actualizar
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                }
             </div>
             <!-- /.modal-content -->
         </div>

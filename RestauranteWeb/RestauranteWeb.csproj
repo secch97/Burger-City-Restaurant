@@ -2285,6 +2285,7 @@
     <Compile Include="Models\CategoriasProductos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelHistorialOrdenes.cs" />
     <Compile Include="Models\ModelGestionCombos.cs" />
     <Compile Include="Models\Combos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
@@ -2322,6 +2323,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ObtenerDetallePedido_Result.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OfertasProductos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
@@ -2404,7 +2408,7 @@
     <Content Include="Views\Administrador\Combos.cshtml" />
     <Content Include="Views\Administrador\GestionarCombo.cshtml" />
     <Content Include="Views\Administrador\Etapas.cshtml" />
-    <Content Include="Views\Administrador\HistorialDeOrdenes.cshtml" />
+    <Content Include="Views\Administrador\HistorialOrdenes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

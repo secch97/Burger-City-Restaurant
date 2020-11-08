@@ -16,9 +16,11 @@ namespace RestauranteWeb.Models
     {
         public int IdHistorial { get; set; }
         public string IdPedido { get; set; }
+        public Nullable<int> IdEtapa { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public string UsuarioGrabacion { get; set; }
     
+        public virtual EtapasPedidos EtapasPedidos { get; set; }
         public virtual PedidosClientes PedidosClientes { get; set; }
     }
 }

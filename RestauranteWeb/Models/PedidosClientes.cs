@@ -17,9 +17,8 @@ namespace RestauranteWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PedidosClientes()
         {
-            this.HistorialPedidos = new HashSet<HistorialPedidos>();
             this.PedidosClientesDetalles = new HashSet<PedidosClientesDetalles>();
-            this.TrackeoPedidosClientes = new HashSet<TrackeoPedidosClientes>();
+            this.HistorialPedidos = new HashSet<HistorialPedidos>();
         }
     
         public string IdPedido { get; set; }
@@ -31,10 +30,9 @@ namespace RestauranteWeb.Models
     
         public virtual CuentasClientes CuentasClientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistorialPedidos> HistorialPedidos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidosClientesDetalles> PedidosClientesDetalles { get; set; }
+        public virtual TrackeoPedidosClientes TrackeoPedidosClientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TrackeoPedidosClientes> TrackeoPedidosClientes { get; set; }
+        public virtual ICollection<HistorialPedidos> HistorialPedidos { get; set; }
     }
 }

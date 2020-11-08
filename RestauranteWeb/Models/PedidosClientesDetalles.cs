@@ -14,9 +14,9 @@ namespace RestauranteWeb.Models
     
     public partial class PedidosClientesDetalles
     {
-        public int Correlativo { get; set; }
         public string IdPedido { get; set; }
         public string IdObjeto { get; set; }
+        public Nullable<int> Cantidad { get; set; }
     
         public virtual PedidosClientes PedidosClientes { get; set; }
     }

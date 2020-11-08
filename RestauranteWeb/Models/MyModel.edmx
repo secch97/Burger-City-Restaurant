@@ -80,6 +80,7 @@
           </Key>
           <Property Name="IdHistorial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdPedido" Type="varchar" MaxLength="20" />
+          <Property Name="IdEtapa" Type="int" />
           <Property Name="Fecha" Type="datetime" />
           <Property Name="UsuarioGrabacion" Type="varchar" MaxLength="20" />
         </EntityType>
@@ -108,11 +109,12 @@
         </EntityType>
         <EntityType Name="PedidosClientesDetalles">
           <Key>
-            <PropertyRef Name="Correlativo" />
+            <PropertyRef Name="IdPedido" />
+            <PropertyRef Name="IdObjeto" />
           </Key>
-          <Property Name="Correlativo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdPedido" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IdObjeto" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Cantidad" Type="int" />
         </EntityType>
         <EntityType Name="ProductosRestaurante">
           <Key>
@@ -146,10 +148,8 @@
         <EntityType Name="TrackeoPedidosClientes">
           <Key>
             <PropertyRef Name="IdPedido" />
-            <PropertyRef Name="Correlativo" />
           </Key>
           <Property Name="IdPedido" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Correlativo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdEtapa" Type="int" />
           <Property Name="Fecha" Type="datetime" />
         </EntityType>
@@ -198,6 +198,18 @@
             </Principal>
             <Dependent Role="CuentasEmpleados">
               <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistorialPedidos_EtapasPedidos">
+          <End Role="EtapasPedidos" Type="Self.EtapasPedidos" Multiplicity="0..1" />
+          <End Role="HistorialPedidos" Type="Self.HistorialPedidos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtapasPedidos">
+              <PropertyRef Name="IdEtapa" />
+            </Principal>
+            <Dependent Role="HistorialPedidos">
+              <PropertyRef Name="IdEtapa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -275,7 +287,7 @@
         </Association>
         <Association Name="FK_TrackeoPedidosClientes_PedidosClientes">
           <End Role="PedidosClientes" Type="Self.PedidosClientes" Multiplicity="1" />
-          <End Role="TrackeoPedidosClientes" Type="Self.TrackeoPedidosClientes" Multiplicity="*" />
+          <End Role="TrackeoPedidosClientes" Type="Self.TrackeoPedidosClientes" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="PedidosClientes">
               <PropertyRef Name="IdPedido" />
@@ -287,6 +299,12 @@
         </Association>
         <Function Name="GeneradorIdObjetos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="Prefijo" Type="char" Mode="In" />
+        </Function>
+        <Function Name="ObtenerDetallePedido" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPedido" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ObtenerMontoPedido" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="numeric">
+          <Parameter Name="IdPedido" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ProyectoASP_RestauranteModelStoreContainer">
           <EntitySet Name="CategoriasProductos" EntityType="Self.CategoriasProductos" Schema="dbo" store:Type="Tables" />
@@ -319,6 +337,10 @@
           <AssociationSet Name="FK_CuentasEmpleados_RolesEmpleados" Association="Self.FK_CuentasEmpleados_RolesEmpleados">
             <End Role="RolesEmpleados" EntitySet="RolesEmpleados" />
             <End Role="CuentasEmpleados" EntitySet="CuentasEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistorialPedidos_EtapasPedidos" Association="Self.FK_HistorialPedidos_EtapasPedidos">
+            <End Role="EtapasPedidos" EntitySet="EtapasPedidos" />
+            <End Role="HistorialPedidos" EntitySet="HistorialPedidos" />
           </AssociationSet>
           <AssociationSet Name="FK_HistorialPedidos_PedidosClientes" Association="Self.FK_HistorialPedidos_PedidosClientes">
             <End Role="PedidosClientes" EntitySet="PedidosClientes" />
@@ -406,17 +428,8 @@
           </Key>
           <Property Name="IdEtapa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TrackeoPedidosClientes" Relationship="Self.FK_TrackeoPedidosClientes_EtapasPedidos" FromRole="EtapasPedidos" ToRole="TrackeoPedidosClientes" />
-        </EntityType>
-        <EntityType Name="HistorialPedidos">
-          <Key>
-            <PropertyRef Name="IdHistorial" />
-          </Key>
-          <Property Name="IdHistorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdPedido" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha" Type="DateTime" Precision="3" />
-          <Property Name="UsuarioGrabacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PedidosClientes" Relationship="Self.FK_HistorialPedidos_PedidosClientes" FromRole="HistorialPedidos" ToRole="PedidosClientes" />
+          <NavigationProperty Name="TrackeoPedidosClientes" Relationship="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_EtapasPedidos" FromRole="EtapasPedidos" ToRole="TrackeoPedidosClientes" />
+          <NavigationProperty Name="HistorialPedidos" Relationship="ProyectoASP_RestauranteModel.FK_HistorialPedidos_EtapasPedidos" FromRole="EtapasPedidos" ToRole="HistorialPedidos" />
         </EntityType>
         <EntityType Name="OfertasProductos">
           <Key>
@@ -441,18 +454,9 @@
           <Property Name="Fecha" Type="DateTime" Precision="3" />
           <Property Name="Cancelado" Type="Boolean" />
           <NavigationProperty Name="CuentasClientes" Relationship="Self.FK_PedidosClientes_CuentasClientes" FromRole="PedidosClientes" ToRole="CuentasClientes" />
-          <NavigationProperty Name="HistorialPedidos" Relationship="Self.FK_HistorialPedidos_PedidosClientes" FromRole="PedidosClientes" ToRole="HistorialPedidos" />
-          <NavigationProperty Name="PedidosClientesDetalles" Relationship="Self.FK_PedidosClientesDetalles_PedidosClientes" FromRole="PedidosClientes" ToRole="PedidosClientesDetalles" />
-          <NavigationProperty Name="TrackeoPedidosClientes" Relationship="Self.FK_TrackeoPedidosClientes_PedidosClientes" FromRole="PedidosClientes" ToRole="TrackeoPedidosClientes" />
-        </EntityType>
-        <EntityType Name="PedidosClientesDetalles">
-          <Key>
-            <PropertyRef Name="Correlativo" />
-          </Key>
-          <Property Name="Correlativo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdPedido" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IdObjeto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="PedidosClientes" Relationship="Self.FK_PedidosClientesDetalles_PedidosClientes" FromRole="PedidosClientesDetalles" ToRole="PedidosClientes" />
+          <NavigationProperty Name="PedidosClientesDetalles" Relationship="ProyectoASP_RestauranteModel.FK_PedidosClientesDetalles_PedidosClientes" FromRole="PedidosClientes" ToRole="PedidosClientesDetalles" />
+          <NavigationProperty Name="TrackeoPedidosClientes" Relationship="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_PedidosClientes" FromRole="PedidosClientes" ToRole="TrackeoPedidosClientes" />
+          <NavigationProperty Name="HistorialPedidos" Relationship="ProyectoASP_RestauranteModel.FK_HistorialPedidos_PedidosClientes" FromRole="PedidosClientes" ToRole="HistorialPedidos" />
         </EntityType>
         <EntityType Name="ProductosRestaurante">
           <Key>
@@ -476,18 +480,6 @@
           <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Rol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CuentasEmpleados" Relationship="Self.FK_CuentasEmpleados_RolesEmpleados" FromRole="RolesEmpleados" ToRole="CuentasEmpleados" />
-        </EntityType>
-        <EntityType Name="TrackeoPedidosClientes">
-          <Key>
-            <PropertyRef Name="IdPedido" />
-            <PropertyRef Name="Correlativo" />
-          </Key>
-          <Property Name="IdPedido" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Correlativo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdEtapa" Type="Int32" />
-          <Property Name="Fecha" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="EtapasPedidos" Relationship="Self.FK_TrackeoPedidosClientes_EtapasPedidos" FromRole="TrackeoPedidosClientes" ToRole="EtapasPedidos" />
-          <NavigationProperty Name="PedidosClientes" Relationship="Self.FK_TrackeoPedidosClientes_PedidosClientes" FromRole="TrackeoPedidosClientes" ToRole="PedidosClientes" />
         </EntityType>
         <Association Name="FK_ProductosRestaurante_CategoriasProductos">
           <End Role="CategoriasProductos" Type="Self.CategoriasProductos" Multiplicity="0..1" />
@@ -537,67 +529,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TrackeoPedidosClientes_EtapasPedidos">
-          <End Role="EtapasPedidos" Type="Self.EtapasPedidos" Multiplicity="0..1" />
-          <End Role="TrackeoPedidosClientes" Type="Self.TrackeoPedidosClientes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EtapasPedidos">
-              <PropertyRef Name="IdEtapa" />
-            </Principal>
-            <Dependent Role="TrackeoPedidosClientes">
-              <PropertyRef Name="IdEtapa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HistorialPedidos_PedidosClientes">
-          <End Role="PedidosClientes" Type="Self.PedidosClientes" Multiplicity="0..1" />
-          <End Role="HistorialPedidos" Type="Self.HistorialPedidos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PedidosClientes">
-              <PropertyRef Name="IdPedido" />
-            </Principal>
-            <Dependent Role="HistorialPedidos">
-              <PropertyRef Name="IdPedido" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PedidosClientesDetalles_PedidosClientes">
-          <End Role="PedidosClientes" Type="Self.PedidosClientes" Multiplicity="1" />
-          <End Role="PedidosClientesDetalles" Type="Self.PedidosClientesDetalles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PedidosClientes">
-              <PropertyRef Name="IdPedido" />
-            </Principal>
-            <Dependent Role="PedidosClientesDetalles">
-              <PropertyRef Name="IdPedido" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrackeoPedidosClientes_PedidosClientes">
-          <End Role="PedidosClientes" Type="Self.PedidosClientes" Multiplicity="1" />
-          <End Role="TrackeoPedidosClientes" Type="Self.TrackeoPedidosClientes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PedidosClientes">
-              <PropertyRef Name="IdPedido" />
-            </Principal>
-            <Dependent Role="TrackeoPedidosClientes">
-              <PropertyRef Name="IdPedido" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ProyectoASP_RestauranteEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CategoriasProductos" EntityType="Self.CategoriasProductos" />
           <EntitySet Name="CuentasClientes" EntityType="Self.CuentasClientes" />
           <EntitySet Name="CuentasEmpleados" EntityType="Self.CuentasEmpleados" />
           <EntitySet Name="EstadosProductos" EntityType="Self.EstadosProductos" />
           <EntitySet Name="EtapasPedidos" EntityType="Self.EtapasPedidos" />
-          <EntitySet Name="HistorialPedidos" EntityType="Self.HistorialPedidos" />
           <EntitySet Name="OfertasProductos" EntityType="Self.OfertasProductos" />
           <EntitySet Name="PedidosClientes" EntityType="Self.PedidosClientes" />
-          <EntitySet Name="PedidosClientesDetalles" EntityType="Self.PedidosClientesDetalles" />
           <EntitySet Name="ProductosRestaurante" EntityType="Self.ProductosRestaurante" />
           <EntitySet Name="RolesEmpleados" EntityType="Self.RolesEmpleados" />
-          <EntitySet Name="TrackeoPedidosClientes" EntityType="Self.TrackeoPedidosClientes" />
           <AssociationSet Name="FK_ProductosRestaurante_CategoriasProductos" Association="Self.FK_ProductosRestaurante_CategoriasProductos">
             <End Role="CategoriasProductos" EntitySet="CategoriasProductos" />
             <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
@@ -614,22 +555,6 @@
             <End Role="EstadosProductos" EntitySet="EstadosProductos" />
             <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
           </AssociationSet>
-          <AssociationSet Name="FK_TrackeoPedidosClientes_EtapasPedidos" Association="Self.FK_TrackeoPedidosClientes_EtapasPedidos">
-            <End Role="EtapasPedidos" EntitySet="EtapasPedidos" />
-            <End Role="TrackeoPedidosClientes" EntitySet="TrackeoPedidosClientes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HistorialPedidos_PedidosClientes" Association="Self.FK_HistorialPedidos_PedidosClientes">
-            <End Role="PedidosClientes" EntitySet="PedidosClientes" />
-            <End Role="HistorialPedidos" EntitySet="HistorialPedidos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PedidosClientesDetalles_PedidosClientes" Association="Self.FK_PedidosClientesDetalles_PedidosClientes">
-            <End Role="PedidosClientes" EntitySet="PedidosClientes" />
-            <End Role="PedidosClientesDetalles" EntitySet="PedidosClientesDetalles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrackeoPedidosClientes_PedidosClientes" Association="Self.FK_TrackeoPedidosClientes_PedidosClientes">
-            <End Role="PedidosClientes" EntitySet="PedidosClientes" />
-            <End Role="TrackeoPedidosClientes" EntitySet="TrackeoPedidosClientes" />
-          </AssociationSet>
           <EntitySet Name="Combos" EntityType="ProyectoASP_RestauranteModel.Combos" />
           <AssociationSet Name="FK_Combos_EstadosProductos" Association="ProyectoASP_RestauranteModel.FK_Combos_EstadosProductos">
             <End Role="EstadosProductos" EntitySet="EstadosProductos" />
@@ -645,6 +570,32 @@
             <End Role="ProductosRestaurante" EntitySet="ProductosRestaurante" />
             <End Role="CombosDetalle" EntitySet="CombosDetalle" />
           </AssociationSet>
+          <EntitySet Name="PedidosClientesDetalles" EntityType="ProyectoASP_RestauranteModel.PedidosClientesDetalles" />
+          <AssociationSet Name="FK_PedidosClientesDetalles_PedidosClientes" Association="ProyectoASP_RestauranteModel.FK_PedidosClientesDetalles_PedidosClientes">
+            <End Role="PedidosClientes" EntitySet="PedidosClientes" />
+            <End Role="PedidosClientesDetalles" EntitySet="PedidosClientesDetalles" />
+          </AssociationSet>
+          <EntitySet Name="TrackeoPedidosClientes" EntityType="ProyectoASP_RestauranteModel.TrackeoPedidosClientes" />
+          <AssociationSet Name="FK_TrackeoPedidosClientes_EtapasPedidos" Association="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_EtapasPedidos">
+            <End Role="EtapasPedidos" EntitySet="EtapasPedidos" />
+            <End Role="TrackeoPedidosClientes" EntitySet="TrackeoPedidosClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackeoPedidosClientes_PedidosClientes" Association="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_PedidosClientes">
+            <End Role="PedidosClientes" EntitySet="PedidosClientes" />
+            <End Role="TrackeoPedidosClientes" EntitySet="TrackeoPedidosClientes" />
+          </AssociationSet>
+          <EntitySet Name="HistorialPedidos" EntityType="ProyectoASP_RestauranteModel.HistorialPedidos" />
+          <AssociationSet Name="FK_HistorialPedidos_EtapasPedidos" Association="ProyectoASP_RestauranteModel.FK_HistorialPedidos_EtapasPedidos">
+            <End Role="EtapasPedidos" EntitySet="EtapasPedidos" />
+            <End Role="HistorialPedidos" EntitySet="HistorialPedidos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistorialPedidos_PedidosClientes" Association="ProyectoASP_RestauranteModel.FK_HistorialPedidos_PedidosClientes">
+            <End Role="PedidosClientes" EntitySet="PedidosClientes" />
+            <End Role="HistorialPedidos" EntitySet="HistorialPedidos" />
+          </AssociationSet>
+          <FunctionImport Name="ObtenerDetallePedido" ReturnType="Collection(ProyectoASP_RestauranteModel.ObtenerDetallePedido_Result)">
+            <Parameter Name="IdPedido" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Combos">
           <Key>
@@ -716,6 +667,105 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PedidosClientesDetalles">
+          <Key>
+            <PropertyRef Name="IdPedido" />
+            <PropertyRef Name="IdObjeto" />
+          </Key>
+          <Property Name="IdPedido" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdObjeto" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <NavigationProperty Name="PedidosClientes" Relationship="ProyectoASP_RestauranteModel.FK_PedidosClientesDetalles_PedidosClientes" FromRole="PedidosClientesDetalles" ToRole="PedidosClientes" />
+        </EntityType>
+        <Association Name="FK_PedidosClientesDetalles_PedidosClientes">
+          <End Type="ProyectoASP_RestauranteModel.PedidosClientes" Role="PedidosClientes" Multiplicity="1" />
+          <End Type="ProyectoASP_RestauranteModel.PedidosClientesDetalles" Role="PedidosClientesDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PedidosClientes">
+              <PropertyRef Name="IdPedido" />
+            </Principal>
+            <Dependent Role="PedidosClientesDetalles">
+              <PropertyRef Name="IdPedido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrackeoPedidosClientes">
+          <Key>
+            <PropertyRef Name="IdPedido" />
+          </Key>
+          <Property Name="IdPedido" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdEtapa" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EtapasPedidos" Relationship="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_EtapasPedidos" FromRole="TrackeoPedidosClientes" ToRole="EtapasPedidos" />
+          <NavigationProperty Name="PedidosClientes" Relationship="ProyectoASP_RestauranteModel.FK_TrackeoPedidosClientes_PedidosClientes" FromRole="TrackeoPedidosClientes" ToRole="PedidosClientes" />
+        </EntityType>
+        <Association Name="FK_TrackeoPedidosClientes_EtapasPedidos">
+          <End Type="ProyectoASP_RestauranteModel.EtapasPedidos" Role="EtapasPedidos" Multiplicity="0..1" />
+          <End Type="ProyectoASP_RestauranteModel.TrackeoPedidosClientes" Role="TrackeoPedidosClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtapasPedidos">
+              <PropertyRef Name="IdEtapa" />
+            </Principal>
+            <Dependent Role="TrackeoPedidosClientes">
+              <PropertyRef Name="IdEtapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackeoPedidosClientes_PedidosClientes">
+          <End Type="ProyectoASP_RestauranteModel.PedidosClientes" Role="PedidosClientes" Multiplicity="1" />
+          <End Type="ProyectoASP_RestauranteModel.TrackeoPedidosClientes" Role="TrackeoPedidosClientes" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PedidosClientes">
+              <PropertyRef Name="IdPedido" />
+            </Principal>
+            <Dependent Role="TrackeoPedidosClientes">
+              <PropertyRef Name="IdPedido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HistorialPedidos">
+          <Key>
+            <PropertyRef Name="IdHistorial" />
+          </Key>
+          <Property Name="IdHistorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPedido" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdEtapa" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioGrabacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EtapasPedidos" Relationship="ProyectoASP_RestauranteModel.FK_HistorialPedidos_EtapasPedidos" FromRole="HistorialPedidos" ToRole="EtapasPedidos" />
+          <NavigationProperty Name="PedidosClientes" Relationship="ProyectoASP_RestauranteModel.FK_HistorialPedidos_PedidosClientes" FromRole="HistorialPedidos" ToRole="PedidosClientes" />
+        </EntityType>
+        <Association Name="FK_HistorialPedidos_EtapasPedidos">
+          <End Type="ProyectoASP_RestauranteModel.EtapasPedidos" Role="EtapasPedidos" Multiplicity="0..1" />
+          <End Type="ProyectoASP_RestauranteModel.HistorialPedidos" Role="HistorialPedidos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EtapasPedidos">
+              <PropertyRef Name="IdEtapa" />
+            </Principal>
+            <Dependent Role="HistorialPedidos">
+              <PropertyRef Name="IdEtapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistorialPedidos_PedidosClientes">
+          <End Type="ProyectoASP_RestauranteModel.PedidosClientes" Role="PedidosClientes" Multiplicity="0..1" />
+          <End Type="ProyectoASP_RestauranteModel.HistorialPedidos" Role="HistorialPedidos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PedidosClientes">
+              <PropertyRef Name="IdPedido" />
+            </Principal>
+            <Dependent Role="HistorialPedidos">
+              <PropertyRef Name="IdPedido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="ObtenerDetallePedido_Result">
+          <Property Type="String" Name="IdObjeto" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Cantidad" Nullable="true" />
+          <Property Type="Decimal" Name="Precio" Nullable="true" Precision="4" Scale="2" />
+          <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="15" Scale="2" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -776,16 +826,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HistorialPedidos">
-            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.HistorialPedidos">
-              <MappingFragment StoreEntitySet="HistorialPedidos">
-                <ScalarProperty Name="IdHistorial" ColumnName="IdHistorial" />
-                <ScalarProperty Name="IdPedido" ColumnName="IdPedido" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="UsuarioGrabacion" ColumnName="UsuarioGrabacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="OfertasProductos">
             <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.OfertasProductos">
               <MappingFragment StoreEntitySet="OfertasProductos">
@@ -810,15 +850,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PedidosClientesDetalles">
-            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.PedidosClientesDetalles">
-              <MappingFragment StoreEntitySet="PedidosClientesDetalles">
-                <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
-                <ScalarProperty Name="IdPedido" ColumnName="IdPedido" />
-                <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProductosRestaurante">
             <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.ProductosRestaurante">
               <MappingFragment StoreEntitySet="ProductosRestaurante">
@@ -837,16 +868,6 @@
               <MappingFragment StoreEntitySet="RolesEmpleados">
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="Rol" ColumnName="Rol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrackeoPedidosClientes">
-            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.TrackeoPedidosClientes">
-              <MappingFragment StoreEntitySet="TrackeoPedidosClientes">
-                <ScalarProperty Name="IdPedido" ColumnName="IdPedido" />
-                <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
-                <ScalarProperty Name="IdEtapa" ColumnName="IdEtapa" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -882,6 +903,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PedidosClientesDetalles">
+            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.PedidosClientesDetalles">
+              <MappingFragment StoreEntitySet="PedidosClientesDetalles">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
+                <ScalarProperty Name="IdPedido" ColumnName="IdPedido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackeoPedidosClientes">
+            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.TrackeoPedidosClientes">
+              <MappingFragment StoreEntitySet="TrackeoPedidosClientes">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdEtapa" ColumnName="IdEtapa" />
+                <ScalarProperty Name="IdPedido" ColumnName="IdPedido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistorialPedidos">
+            <EntityTypeMapping TypeName="ProyectoASP_RestauranteModel.HistorialPedidos">
+              <MappingFragment StoreEntitySet="HistorialPedidos">
+                <ScalarProperty Name="UsuarioGrabacion" ColumnName="UsuarioGrabacion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdEtapa" ColumnName="IdEtapa" />
+                <ScalarProperty Name="IdPedido" ColumnName="IdPedido" />
+                <ScalarProperty Name="IdHistorial" ColumnName="IdHistorial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerDetallePedido" FunctionName="ProyectoASP_RestauranteModel.Store.ObtenerDetallePedido">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoASP_RestauranteModel.ObtenerDetallePedido_Result">
+                <ScalarProperty Name="IdObjeto" ColumnName="IdObjeto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

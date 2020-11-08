@@ -118,10 +118,11 @@ CREATE TABLE PedidosClientes(
 )
 
 CREATE TABLE PedidosClientesDetalles(
-	Correlativo INT NOT NULL IDENTITY,
 	IdPedido VARCHAR(20) NOT NULL,
-	IdObjeto VARCHAR(20) NOT NULL --Producto completo o Combo
+	IdObjeto VARCHAR(20) NOT NULL, --Producto completo o Combo
+	Cantidad INT
 )
+
 
 GO
 
@@ -134,7 +135,6 @@ GO
 
 CREATE TABLE TrackeoPedidosClientes(
 	IdPedido VARCHAR(20) NOT NULL,
-	Correlativo INT IDENTITY,
 	IdEtapa INT,
 	Fecha DATETIME 	
 )
@@ -144,9 +144,11 @@ GO
 CREATE TABLE HistorialPedidos(
 	IdHistorial  INT IDENTITY,
 	IdPedido VARCHAR(20),
+	IdEtapa INT,
 	Fecha DATETIME,
 	UsuarioGrabacion VARCHAR(20)
 )
+
 
 GO
 
@@ -239,7 +241,7 @@ GO
 	
 	ALTER TABLE PedidosClientesDetalles
 	ADD CONSTRAINT PK_PedidosClientesDetalles
-	PRIMARY KEY (Correlativo)
+	PRIMARY KEY (IdPedido,IdObjeto)
 	
 	GO
 	
@@ -257,7 +259,7 @@ GO
 	
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT PK_TrackeoPedidosClientes
-	PRIMARY KEY (IdPedido,Correlativo)
+	PRIMARY KEY (IdPedido)
 	
 	GO
 	
@@ -341,6 +343,13 @@ GO
 	
 	GO
 	
+	
+	ALTER TABLE HistorialPedidos
+	ADD CONSTRAINT FK_HistorialPedidos_EtapasPedidos
+	FOREIGN KEY (IdEtapa) REFERENCES EtapasPedidos(IdEtapa)
+	
+	GO
+		
 	--TrackeoPedidosClientes
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT FK_TrackeoPedidosClientes_PedidosClientes

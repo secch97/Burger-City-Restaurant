@@ -18,6 +18,7 @@ namespace RestauranteWeb.Models
         public EtapasPedidos()
         {
             this.TrackeoPedidosClientes = new HashSet<TrackeoPedidosClientes>();
+            this.HistorialPedidos = new HashSet<HistorialPedidos>();
         }
     
         public int IdEtapa { get; set; }
@@ -25,5 +26,7 @@ namespace RestauranteWeb.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TrackeoPedidosClientes> TrackeoPedidosClientes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistorialPedidos> HistorialPedidos { get; set; }
     }
 }

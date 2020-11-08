@@ -223,7 +223,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("HistorialDeOrdenes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
+                                    <a href="@Url.Action("HistorialOrdenes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Historial</p>
                                     </a>
@@ -1903,7 +1903,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/Administrador/eliminarProductoCombo',
-                    data: { 'idCombo': idCombo ,'idProducto': idProducto },
+                    data: { 'idCombo': idCombo, 'idProducto': idProducto },
                     success: function (data) {
                         if (data.success) {
                             reloadCombosGestion(idCombo);
@@ -1924,6 +1924,7 @@
     <!-- Modal 29: ModalAñadirEtapa - /Administrador/Etapas -->
     <script>
         $(document).ready(function () {
+            var nombre = ''
             $(".añadir-etapa").click(function () {
                 $("#ModalAgregarEtapa")
                     .find("input,textarea")
@@ -1937,46 +1938,254 @@
                     .end();
                 $("#ModalAgregarEtapa").modal('show');
             });
+
+            $("#btnRegistrarEtapa").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                nombre = $("#nombreEtapa").val();
+
+                variables.push(nombre);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/Etapas',
+                        data: { 'IdEtapa': 0, 'Nombre': nombre },
+                        success: function () {
+                            reloadEtapas();
+                            $("#ModalAgregarEtapa").modal('hide');
+                            alerta('success', 'La etapa se registró con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo registrar la etapa');
+                        }
+                    });
+                }//fin else
+            })
+
         });
     </script>
     <!-- Modal 30: ModalEditarEtapa - /Administrador/Etapas -->
     <script>
         $(document).ready(function () {
-            $(".editar-etapa").click(function () {
-
+            var idEtapa = '';
+            var nombre = '';
+            $(".contenido").on("click", ".editar-etapa", function () {
+                idEtapa = $(this).data('idetapa');
+                $("#editarNombreEtapa").val($(this).data('nombre'));
                 $("#ModalEditarEtapa").modal('show');
+            });
+
+            $("#btnEditarEtapa").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                nombre = $("#editarNombreEtapa").val();
+
+                variables.push(nombre);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/editarEtapas',
+                        data: { 'IdEtapa': idEtapa, 'Nombre': nombre },
+                        success: function () {
+                            reloadEtapas();
+                            $("#ModalEditarEtapa").modal('hide');
+                            alerta('success', 'La Etapa se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo editar la etapa');
+                        }
+                    });
+                }//fin else
             });
         });
     </script>
     <!-- Modal 31: ModalEliminarEtapa - /Administrador/Etapas -->
     <script>
         $(document).ready(function () {
-            $(".eliminar-etapa").click(function () {
+            var idEtapa = '';
+            $(".contenido").on("click", ".eliminar-etapa", function () {
+                idEtapa = $(this).data('idetapa');
                 $("#ModalBorrarEtapa").modal('show');
+            });
+
+            $("#btnEliminarEtapa").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarEtapa',
+                    data: { 'idEtapa': idEtapa },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadEtapas();
+                            $("#ModalBorrarEtapa").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalBorrarEtapa").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
             });
         });
     </script>
     <!-- Modal 32: ModalOrden-Detalles - /Administrador/HistorialDeOrdenes -->
     <script>
         $(document).ready(function () {
-            $(".mostrar-orden-detalle").click(function () {
-                $("#ModalOrden-Detalles").modal('show');
+            var idPedido = '';
+            var total = '';
+            $(".contenido").on("click", ".mostrar-orden-detalle", function () {
+
+                idPedido = $(this).data('idpedido');
+                idCliente = $(this).data('idcliente');
+
+                var promise = $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerClienteOrden',
+                    data: { 'idPedido': idPedido },
+                    dataType: 'json',
+                    success: function (data) {
+
+
+                        $("#nombreCliente").val(data.nombre);
+                        $("#direccionCliente").val(data.direccion);
+                        $("#telefonoCliente").val(data.telefono);
+                        $("#correoCliente").val(data.correo);
+                        $("#codigoOrden").val(idPedido);
+                        $("#fechaOrden").val(ToJavaScriptDate(data.fecha));
+                        $("#estadoOrden").val(data.estado);
+                        total = data.total;
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el detalle');
+                    }
+                });
+
+                promise.then(function () {
+                    $("#tablaDetalle tbody tr").remove();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/obtenerDetalleOrden',
+                        data: { 'idPedido': idPedido },
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+
+                                var rows = "<tr>"
+                                    + "<td>" + item.IdObjeto + "</td>"
+                                    + "<td>" + item.Nombre + "</td>"
+                                    + "<td>" + item.Cantidad + "</td>"
+                                    + "<td>" + item.Precio + "</td>"
+                                    + "<td>" + item.SubTotal + "</td>"
+                                    + "</tr>";
+                                $('#tablaDetalle tbody').append(rows);
+                            });
+
+                            $("#tablaTotal tr").remove();
+
+                            var rows = "<tr>"
+                                + "<th>Total de orden:</th>"
+                                + "<td>" + total + "</td>"
+                                + "</tr>";
+
+                            $('#tablaTotal').append(rows);
+
+                            $("#ModalOrden-Detalles").modal('show');
+                        },
+                        failure: function (ex) {
+                            var r = jQuery.parseJSON(response.responseText);
+                            alert("Message: " + r.Message);
+                            alert("StackTrace: " + r.StackTrace);
+                            alert("ExceptionType: " + r.ExceptionType);
+                        }
+                    });
+                });
+
+
+
             });
         });
     </script>
     <!-- Modal 33: ModalHistorialEtapas - /Administrador/HistorialDeOrdenes -->
     <script>
         $(document).ready(function () {
-            $(".mostrar-historialetapas").click(function () {
-                $("#ModalHistorialEtapas").modal('show');
+            var idPedido = '';
+            $(".contenido").on("click", ".mostrar-historialetapas", function () {
+                idPedido = $(this).data('idpedido');
+
+                $("#tablaHistorial tbody tr").remove();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerHistorialOrden',
+                    data: { 'idPedido': idPedido },
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+
+                            var rows = "<tr>"
+                                + "<td>" + idPedido + "</td>"
+                                + "<td>" + ToJavaScriptDate(item.Fecha) + "</td>"
+                                + "<td>" + item.Nombre + "</td>"
+                                + "<td>" + item.UsuarioGrabacion + "</td>"
+                                + "</tr>";
+                            $('#tablaHistorial tbody').append(rows);
+                        });
+
+                        $("#ModalHistorialEtapas").modal('show');
+                    },
+                    failure: function (ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+                });
             });
         });
     </script>
     <!-- Modal 34: ModalEditarEtapa - /Administrador/HistorialDeOrdenes -->
     <script>
         $(document).ready(function () {
-            $(".editar-etapa").click(function () {
+            var idPedido = '';
+            var idEtapa = '';
+            $(".contenido").on("click", ".editar-etapa", function () {
+
+                idEtapa = $(this).data('idetapa');
+                idPedido = $(this).data('idpedido');
+                $("#etapaOrden-Edicion").val(idEtapa);
+                $("#etapaOrden-Edicion").change();
+
                 $("#ModalEditarEtapa").modal('show');
+            });
+
+            $("#btnActualizarEtapa").click(function () {
+                idEtapa = $("#etapaOrden-Edicion option:selected").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/editarEtapaPedido',
+                    data: { 'idPedido': idPedido, 'idEtapa': idEtapa },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadOrdenes();
+                            $("#ModalEditarEtapa").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEditarEtapa").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
             });
         });
     </script>
@@ -2342,6 +2551,90 @@
                     alert("ExceptionType: " + r.ExceptionType);
                 }
             });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadEtapas() {
+            $("#tablaEtapas tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadEtapas',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdEtapa + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>"
+                            + "<a class='editar-etapa btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idetapa=\"" + item.IdEtapa + "\" data-nombre=\"" + item.Nombre + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-etapa btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idetapa=\"" + item.IdEtapa + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaEtapas tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadOrdenes() {
+            $("#tablaOrdenes tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadOrdenes',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.IdPedido + "</td>"
+                            + "<td>" + item.nombreCliente + "</td>"
+                            + "<td>" + ToJavaScriptDate(item.Fecha) + "</td>"
+                            + "<td>" + item.total + "</td>"
+                            + "<td>" + item.nombreEtapa + "</td>"
+                            + "<td>"
+                            + "<a class='mostrar-orden-detalle btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
+                            + "data-idcliente=\"" + item.IdCliente + "\""
+                            + "data-idpedido=\"" + item.IdPedido + "\""
+                            + ">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='mostrar-historialetapas btn btn-success btn-sm rounded-sm' title='Historial de etapas' data-toggle='tooltip'"
+                            + "data-idpedido=\"" + item.IdPedido + "\">"
+                            + " <i class='fa fa-list' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-etapa btn btn-warning btn-sm rounded-sm' title='Actualizar etapa' data-toggle='tooltip'"
+                            + "data-idpedido=\"" + item.IdPedido + "\""
+                            + "data-idetapa=\"" + item.IdEtapa + "\""
+                            + ">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaOrdenes tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
             return false;
         }
     </script>
