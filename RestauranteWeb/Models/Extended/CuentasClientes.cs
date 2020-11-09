@@ -48,7 +48,7 @@ namespace RestauranteWeb.Models
         public string Direccion { get; set; }
 
         
-        [Display(Name = "Direccion de entrega")]
+        [Display(Name = "Dirección de entrega")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su direccion de entrega")]
         public string DireccionEntrega { get; set; }
 

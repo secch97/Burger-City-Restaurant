@@ -186,7 +186,7 @@ function submitFormRecuperar() {
         },
         success: function (text) {
             if (text == "1") {
-                alert('Se le envio al correo una validacion');
+               /* alert('Se le envio al correo una validacion');*/
                 formSuccessRecuperar();
             } else {
                 formErrorLogin();
@@ -229,14 +229,14 @@ function submitFormCambiarClave() {
 
 function formSuccess() {
     $("#contactForm")[0].reset();
-    submitMSG(true, "Message Submitted!")
+    submitMSG(true, "")
 }
 
 
 /*Existoso para Recuperar cuenta*/
 function formSuccessRecuperar() {
     $("#RecuperarEmailForm")[0].reset();
-    submitMSGRecuperarEmail(true, "Se envio al correo una validacion para cambiar si contrase\361a!")
+    submitMSGRecuperarEmail(true, "Se envi\363 al correo una validacion para cambiar si contrase\361a!")
 }
 
 
@@ -244,7 +244,7 @@ function formSuccessRecuperar() {
 /*Existoso para cambiar contraseña*/
 function formSuccessCambiarClave() {
     $("#CambiarClaveForm")[0].reset();
-    submitMSGCambiarClave(true, "Se envio al correo una validacion para cambiar si contrase\361a!");
+    submitMSGCambiarClave(true, "Se envi\363 al correo una validacion para cambiar si contrase\361a!");
     alert('Contrase&ntilde;a actualzada');
     $(location).attr('href','inicio');
 }
@@ -255,7 +255,7 @@ function formSuccessCambiarClave() {
 /*Existoso para login*/
 function formSuccessLogin() {
     $("#LoginForm")[0].reset();
-    submitMSGLogin(true, "Message Submitted!")
+    submitMSGLogin(true, "")
 }
 
 
