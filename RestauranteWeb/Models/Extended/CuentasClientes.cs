@@ -31,15 +31,15 @@ namespace RestauranteWeb.Models
 
 
 
-        [Display(Name = "Telefono fijo")]
+        [Display(Name = "Teléfono fijo")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Ingresa tu telefono fijo")]
-        [RegularExpression("^[0-9]{4}[-][0-9]{4}", ErrorMessage = "El formato tiene que se 9999-9999")]
+        [RegularExpression("^[0-9]{4}[-][0-9]{4}", ErrorMessage = "El formato tiene que ser 9999-9999")]
         public string TelefonoFijo { get; set; }
 
 
-        [Display(Name = "Telefono celular")]
+        [Display(Name = "Teléfono celular")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese tu telefono celular")]
-        [RegularExpression("^[0-9]{4}[-][0-9]{4}",ErrorMessage ="El formato tiene que se 9999-9999")]
+        [RegularExpression("^[0-9]{4}[-][0-9]{4}",ErrorMessage ="El formato tiene que ser 9999-9999")]
         public string TelefonoCelular { get; set; }
 
 

@@ -341,7 +341,7 @@ namespace RestauranteWeb.Controllers
             var fromEmailContra = "pruebas-8";
             string subject = "Tu cuenta fue creada exitosamente";
             string body = "<br><br> Estamos felices que quieras esta en la familia de Burger<br>" +
-                "Cuenta creada exitosamente. Por favor Ingrese a el siguiente link para varificar su cuenta" +
+                "Cuenta creada exitosamente. Por favor Ingrese a el siguiente link para verificar su cuenta" +
                 "<br><br><a href='"+link+"'>"+link+"</a>";
 
             var smtp = new SmtpClient
