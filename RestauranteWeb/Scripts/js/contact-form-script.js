@@ -63,21 +63,21 @@ $("#CambiarClaveForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "Llene todos los campos de las contraseña");
+        submitMSGCambiarClave(false, "Llene todos los campos de las contrase\361a");
 
 
     } else if ($("#txtContraCambiar").val().length < 6) {
 
         event.preventDefault();
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "La contraseña debe ser igual o mayor a 6 digitos");
+        submitMSGCambiarClave(false, "La contrase\361a debe ser igual o mayor a 6 digitos");
 
 
     } else if ($("#txtContraCambiarConfir").val().length < 6) {
 
         event.preventDefault();
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "La confirmacion contraseña debe ser igual o mayor a 6 digitos");
+        submitMSGCambiarClave(false, "La confirmacion contrase\361a debe ser igual o mayor a 6 digitos");
 
     
 
@@ -85,7 +85,7 @@ $("#CambiarClaveForm").validator().on("submit", function (event) {
 
         event.preventDefault();
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "Las contraseñas tienen que ser iguales");
+        submitMSGCambiarClave(false, "Las contrase\361as tienen que ser iguales");
     
     } else {
         event.preventDefault();
@@ -236,7 +236,7 @@ function formSuccess() {
 /*Existoso para Recuperar cuenta*/
 function formSuccessRecuperar() {
     $("#RecuperarEmailForm")[0].reset();
-    submitMSGRecuperarEmail(true, "Se envio al correo una validacion para cambiar si contraseña!")
+    submitMSGRecuperarEmail(true, "Se envio al correo una validacion para cambiar si contrase\361a!")
 }
 
 
@@ -244,8 +244,8 @@ function formSuccessRecuperar() {
 /*Existoso para cambiar contraseña*/
 function formSuccessCambiarClave() {
     $("#CambiarClaveForm")[0].reset();
-    submitMSGCambiarClave(true, "Se envio al correo una validacion para cambiar si contraseña!");
-    alert('Contraseña actualzada');
+    submitMSGCambiarClave(true, "Se envio al correo una validacion para cambiar si contrase\361a!");
+    alert('Contrase&ntilde;a actualzada');
     $(location).attr('href','inicio');
 }
 
