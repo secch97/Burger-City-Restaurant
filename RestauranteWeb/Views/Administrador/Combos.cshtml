@@ -1,0 +1,454 @@
+﻿@model IEnumerable<RestauranteWeb.Models.Combos>
+@{
+    ViewBag.Title = "Gestión de combos";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Gestión de combos</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de productos</a></li>
+                        <li class="breadcrumb-item active">Combos</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">COMBOS DEL RESTAURANTE</h3>
+                        </div>
+                        <br />
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <button class="añadir-combo btn btn-info btn-sm rounded-sm">
+                                <i class="fa fa-plus" style="color:white;"></i>
+                                Agregar combo
+                            </button>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="tablaCombos" class="table table-bordered table-striped" style="text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th>ID Combo</th>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>[$] Precio</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.IdCombo</td>
+                                            <td>
+                                                <img class="img-fluid" src="@item.Imagen" style="width:300px;height:150px" alt="" />
+                                            </td>
+                                            <td>@item.Nombre</td>
+                                            <td>@item.Precio</td>
+                                            <td>@item.EstadosProductos.Nombre</td>
+                                            <td>
+                                                <a href="@Url.Action("GestionarCombo", "Administrador",new { idCombo = @item.IdCombo})" class="gestionar-combo btn btn-dark btn-sm rounded-sm" title="Gestionar combo" data-toggle="tooltip">
+                                                    <i class="fa fa-hamburger" style="color:white;"></i>
+                                                </a>
+                                                <a class="detalles-combo btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip" data-idcombo="@item.IdCombo">
+                                                    <i class="fa fa-eye" style="color:white;"></i>
+                                                </a>
+                                                <a class="editar-combo btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idcombo="@item.IdCombo">
+                                                    <i class="fa fa-pen" style="color:white;"></i>
+                                                </a>
+                                                <a class="eliminar-combo btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idcombo="@item.IdCombo">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="ModalAñadirCombo">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">REGISTRO DE COMBO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormAgregarCombo" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraComboRegistro" class="img-bordered-sm text-center" src="~/Content/imagenes/bandeja-de-salida.png"
+                                             style="width:400px; height:250px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                    <label>Imagen:</label>
+                                    <div class="input-group">
+                                        <input name="imagenComboRegistro" id="imagenComboRegistro" class="custom-file-input" type="file" accept="image/*" maxlength="100" required>
+                                        <label id="lblImagenMuestraComboRegistro" class="custom-file-label" for="customFile">Escoger imagen</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-hamburger"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre del combo" name="nombreCombo" id="nombreCombo" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoría:</label>
+                                        <div class="input-group">
+                                            <select id="estadoComboRegistro" name="estadoComboRegistro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="Precio del combo" name="precioCombo" id="precioCombo"
+                                                   min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del combo" name="descripcionCombo" id="descripcionCombo" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalDetallesCombo">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">DETALLES DEL COMBO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                                    IMAGEN DEL COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraComboDetalles" class="img-bordered-sm text-center" src=""
+                                             style="width: 400px; height: 250px; justify-content: center; justify-items: center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                                    DATOS DEL COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Estado:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Estado del combo" id="detalleEstadoCombo" maxlength="100"
+                                                   value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-utensils"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre del combo" id="detalleNombreCombo" maxlength="100"
+                                                   value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="Precio del combo" id="detallePrecioCombo"
+                                                   min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                                                   value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del combo"
+                                                      id="detalleDescripcionCombo" maxlength="500" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            PRODUCTOS DEL COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="col-12 table-responsive">
+                                <table id="tablaDetalleCombo" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Producto</th>
+                                            <th>Imagen</th>
+                                            <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="subcontenido">
+                                        <tr>
+                                            <td>7</td>
+                                            <td>
+                                                <img class="img-fluid" src="~/Content/imagenes/Productos/Carneburguesa.png" style="width:100px;height:100px" alt="" />
+                                            </td>
+                                            <td>Carneburguesa</td>
+                                            <td>1</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
+                    </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEditarCombo">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE COMBO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormEditarCombo" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DEL COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraComboEdicion" class="img-bordered-sm text-center" src=""
+                                             style="width:400px; height:250px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                    <label>Imagen:</label>
+                                    <div class="input-group">
+                                        <input name="imagenComboEdicion" id="imagenComboEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100">
+                                        <label id="lblImagenMuestraComboEdicion" class="custom-file-label" for="customFile">Economico.png</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DEL COMBO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Estado:</label>
+                                        <div class="input-group">
+                                            <select id="estadoComboEdicion" name="estadoComboEdicion" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-utensils"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre del combo" name="editarNombreCombo" id="editarNombreCombo" maxlength="100"
+                                                   value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="Precio del combo" name="editarPrecioCombo" id="editarPrecioCombo"
+                                                   min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                                                   value="2.50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del combo"
+                                                       name ="editarDescripcionCombo" id="editarDescripcionCombo" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEliminarCombo">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">COMBOS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            ¿Está seguro que desea eliminar este combo?
+                            <br />
+                            <br />
+                            <button type="button" id="btnEliminarCombo" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                                Eliminar
+                            </button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>

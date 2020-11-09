@@ -1,0 +1,200 @@
+﻿@model IEnumerable<RestauranteWeb.Models.EtapasPedidos>
+@{
+    ViewBag.Title = "Gestión de etapas";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Gestión de etapas</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de ordenes</a></li>
+                        <li class="breadcrumb-item active">Etapas</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">ETAPAS DE ORDENES</h3>
+                        </div>
+                        <br />
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <button class="añadir-etapa btn btn-info btn-sm rounded-sm">
+                                <i class="fa fa-plus" style="color:white;"></i>
+                                Agregar etapa
+                            </button>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="tablaEtapas" class="table table-bordered table-striped" style="text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th>ID Etapa</th>
+                                        <th>Nombre</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>@item.IdEtapa</td>
+                                        <td>@item.Nombre</td>
+                                        <td>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" 
+                                               data-idetapa="@item.IdEtapa"
+                                               data-nombre="@item.Nombre">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-etapa btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" 
+                                               data-idetapa="@item.IdEtapa">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="ModalAgregarEtapa">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">REGISTRO DE ETAPAS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE LA ETAPA
+                        </div>
+                        <hr style="border-color:white" />
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre de la etapa" id="nombreEtapa" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnRegistrarEtapa" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEditarEtapa">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE ETAPAS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE ETAPA
+                        </div>
+                        <hr style="border-color:white" />
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre de la etapa" id="editarNombreEtapa" maxlength="50" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnEditarEtapa" class="btn btn-success">
+                            <i class="fa fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalBorrarEtapa">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">ETAPAS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            ¿Está seguro que desea eliminar esta etapa?
+                            <br />
+                            <br />
+                            <button type="button" id="btnEliminarEtapa" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                                Eliminar
+                            </button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>

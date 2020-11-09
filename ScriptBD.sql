@@ -2,6 +2,7 @@ USE [master]
 
 GO
 
+
 CREATE DATABASE ProyectoASP_Restaurante
 GO
 
@@ -51,7 +52,8 @@ GO
 CREATE TABLE CategoriasProductos(
 	IdCategoria VARCHAR(20) NOT NULL,
 	Nombre VARCHAR(100),
-	Descripcion VARCHAR(500) -- Opcional 
+	Descripcion VARCHAR(500), -- Opcional 
+	Imagen VARCHAR(150)
 )
 
 GO
@@ -69,7 +71,8 @@ CREATE TABLE ProductosRestaurante(
 	Nombre VARCHAR(100),
 	Descripcion VARCHAR(500),--Opcional
 	Precio numeric(4,2),
-	IdEstado INT 
+	IdEstado INT,
+	Imagen VARCHAR(150)
 )
 
 GO
@@ -79,7 +82,8 @@ CREATE TABLE Combos(
 	Nombre VARCHAR(100),
 	Descripcion VARCHAR(150),
 	Precio numeric(4,2),
-	IdEstado INT
+	IdEstado INT,
+	Imagen VARCHAR(150)
 )
 	
 
@@ -87,8 +91,7 @@ GO
 
 CREATE TABLE CombosDetalle(
 	IdCombo VARCHAR(20) NOT NULL,
-	Correlativo INT IDENTITY,
-	IdProducto VARCHAR(20),
+	IdProducto VARCHAR(20) NOT NULL,
 	Cantidad INT
 )
 
@@ -115,10 +118,11 @@ CREATE TABLE PedidosClientes(
 )
 
 CREATE TABLE PedidosClientesDetalles(
-	Correlativo INT NOT NULL IDENTITY,
 	IdPedido VARCHAR(20) NOT NULL,
-	IdObjeto VARCHAR(20) NOT NULL --Producto completo o Combo
+	IdObjeto VARCHAR(20) NOT NULL, --Producto completo o Combo
+	Cantidad INT
 )
+
 
 GO
 
@@ -131,7 +135,6 @@ GO
 
 CREATE TABLE TrackeoPedidosClientes(
 	IdPedido VARCHAR(20) NOT NULL,
-	Correlativo INT IDENTITY,
 	IdEtapa INT,
 	Fecha DATETIME 	
 )
@@ -141,20 +144,15 @@ GO
 CREATE TABLE HistorialPedidos(
 	IdHistorial  INT IDENTITY,
 	IdPedido VARCHAR(20),
+	IdEtapa INT,
 	Fecha DATETIME,
 	UsuarioGrabacion VARCHAR(20)
 )
 
+
 GO
 
 
-CREATE TABLE ImagenesObjetos(
-	IdObjeto VARCHAR(20) NOT NULL, -- Producto,oferta,combo
-	RutaImagen VARCHAR(100)
-)
-    
-GO
-	
 	/*Restricciones de objetos
 	
 	*Llaves primarias*/
@@ -209,13 +207,19 @@ GO
 	
 	ALTER TABLE CombosDetalle
 	ADD CONSTRAINT PK_CombosDetalle
-	PRIMARY KEY(IdCombo,Correlativo)
+	PRIMARY KEY(IdCombo,IdProducto)
 	
 	GO
 	
 	ALTER TABLE CombosDetalle
 	ADD CONSTRAINT FK_CombosDetalle_Combos
 	FOREIGN KEY(IdCombo) REFERENCES Combos(IdCombo)
+	
+	GO
+	
+	ALTER TABLE CombosDetalle
+	ADD CONSTRAINT FK_CombosDetalle_ProductosRestaurante
+	FOREIGN KEY(IdProducto) REFERENCES ProductosRestaurante(IdProducto)
 	
 	GO
 	
@@ -237,7 +241,7 @@ GO
 	
 	ALTER TABLE PedidosClientesDetalles
 	ADD CONSTRAINT PK_PedidosClientesDetalles
-	PRIMARY KEY (Correlativo)
+	PRIMARY KEY (IdPedido,IdObjeto)
 	
 	GO
 	
@@ -255,7 +259,7 @@ GO
 	
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT PK_TrackeoPedidosClientes
-	PRIMARY KEY (IdPedido,Correlativo)
+	PRIMARY KEY (IdPedido)
 	
 	GO
 	
@@ -277,11 +281,6 @@ GO
 	
 	GO
 	
-	ALTER TABLE ImagenesObjetos
-	ADD CONSTRAINT PK_ImagenesObjetos
-	PRIMARY KEY (IdObjeto)
-	
-	GO
 	
 	/*Llaves For�neas */
 	
@@ -344,6 +343,13 @@ GO
 	
 	GO
 	
+	
+	ALTER TABLE HistorialPedidos
+	ADD CONSTRAINT FK_HistorialPedidos_EtapasPedidos
+	FOREIGN KEY (IdEtapa) REFERENCES EtapasPedidos(IdEtapa)
+	
+	GO
+		
 	--TrackeoPedidosClientes
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT FK_TrackeoPedidosClientes_PedidosClientes
@@ -354,6 +360,6 @@ GO
 	ALTER TABLE TrackeoPedidosClientes
 	ADD CONSTRAINT FK_TrackeoPedidosClientes_EtapasPedidos
 	FOREIGN KEY (IdEtapa) REFERENCES EtapasPedidos(IdEtapa)
-	
-	
+		
 	/*FIN DEL SCRIPT*/
+	

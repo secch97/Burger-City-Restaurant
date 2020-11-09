@@ -15,7 +15,6 @@ namespace RestauranteWeb.Models
     public partial class TrackeoPedidosClientes
     {
         public string IdPedido { get; set; }
-        public int Correlativo { get; set; }
         public Nullable<int> IdEtapa { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
     

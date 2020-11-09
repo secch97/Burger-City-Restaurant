@@ -1,0 +1,28 @@
+public partial class ProyectoASP_RestauranteEntities
+    {
+        [DbFunction("ProyectoASP_RestauranteModel.Store", "GeneradorIdObjetos")]
+        public string GeneradorIdOjetos(string prefijo)
+        {
+            var objectContext = ((IObjectContextAdapter)this).ObjectContext;
+
+            var parameters = new List<ObjectParameter>();
+            parameters.Add(new ObjectParameter("Prefijo", prefijo));
+
+            return objectContext.CreateQuery<string>("ProyectoASP_RestauranteModel.Store.GeneradorIdObjetos(@Prefijo)", parameters.ToArray())
+                 .Execute(MergeOption.NoTracking)
+                 .FirstOrDefault();
+        }
+
+        [DbFunction("ProyectoASP_RestauranteModel.Store", "ObtenerMontoPedido")]
+        public decimal ObtenerMontoPedido(string idPedido)
+        {
+            var objectContext = ((IObjectContextAdapter)this).ObjectContext;
+
+            var parameters = new List<ObjectParameter>();
+            parameters.Add(new ObjectParameter("Idpedido", idPedido));
+
+            return objectContext.CreateQuery<decimal>("ProyectoASP_RestauranteModel.Store.ObtenerMontoPedido(@IdPedido)", parameters.ToArray())
+                 .Execute(MergeOption.NoTracking)
+                 .FirstOrDefault();
+        }
+    }

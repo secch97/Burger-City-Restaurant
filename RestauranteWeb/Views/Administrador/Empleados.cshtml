@@ -1,0 +1,367 @@
+﻿@model IEnumerable<RestauranteWeb.Models.CuentasEmpleados>
+@{
+    ViewBag.Title = "Gestión de empleados";
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Gestión de empleados</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de usuarios</a></li>
+                        <li class="breadcrumb-item active">Empleados</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">EMPLEADOS DEL RESTAURANTE</h3>
+                        </div>
+                        <br />
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <button class="añadir-empleado btn btn-info btn-sm rounded-sm">
+                                <i class="fa fa-plus" style="color:white;"></i>
+                                Agregar empleado
+                            </button>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="tablaEmpleados" class="table table-bordered table-striped" style="text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido" >
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>@item.Usuario</td>
+                                        <td>@item.Nombres @item.Apellidos</td>
+                                        <td>@item.RolesEmpleados.Rol</td>
+                                        <td>
+                                            <a class="resetear-contraseña-empleado btn btn-success btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-usuario=@item.Usuario>
+                                                <i class="fa fa-lock" style="color:white;"></i>
+                                            </a>
+                                            <a class="editar-empleado btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" 
+                                               data-nombres="@item.Nombres"
+                                               data-apellidos="@item.Apellidos"
+                                               data-usuario="@item.Usuario"
+                                               data-idrol="@item.RolesEmpleados.IdRol">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                            <a class="eliminar-empleado btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-usuario="@item.Usuario">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="ModalAñadirEmpleado">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">REGISTRO DE EMPLEADOS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS PERSONALES
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nombres:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleado" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Apellidos:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleado" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE LA CUENTA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Usuario:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Digitar usuario" id="usuarioEmpleado" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Rol:</label>
+                                        <div class="input-group">
+                                            <select id="rolEmpleado-Registro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdRoles)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Contraseña:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Digitar contraseña" id="contraseñaEmpleado"
+                                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                   title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnRegistrarEmpleado" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="ModalContraseñaEmpleado">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE EMPLEADO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            CAMBIO DE CONTRASEÑA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nueva contraseña:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control" placeholder="Digitar nueva contraseña" id="cambiarContraseñaEmpleado"
+                                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                   title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Confirmar contraseña:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control" placeholder="Confirmar contraseña" id="confirmarContraseñaEmpleado"
+                                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                   title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnActualizarClave" class="btn btn-success">
+                            <i class="fas fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEditarEmpleado">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE EMPLEADO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS PERSONALES
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nombres:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombres del empleado" id="editarNombresEmpleado" maxlength="100" value="Saúl Ernesto" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Apellidos:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Apellidos del empleado" id="editarApellidosEmpleado" maxlength="100" value="Castillo Chamagua" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE LA CUENTA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Usuario:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Digitar usuario" id="editarUsuarioEmpleado" disabled="disabled" maxlength="100" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Rol:</label>
+                                        <div class="input-group">
+                                            <select id="rolEmpleado-Edicion" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdRoles)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btnActualizarEmpleado" class="btn btn-success">
+                            <i class="fas fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEliminarEmpleado">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">ELIMINACIÓN DE EMPLEADO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            ¿Está seguro que desea eliminar al presente empleado?
+                            <br />
+                            <br />
+                            <button type="button" id="btnEliminarEmpleado" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                                Eliminar
+                            </button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+<!-- Script para habilitar select2-->

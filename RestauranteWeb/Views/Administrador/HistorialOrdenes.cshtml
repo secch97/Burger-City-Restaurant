@@ -1,0 +1,339 @@
+﻿@model  RestauranteWeb.Models.ModelHistorialOrdenes
+@{
+    ViewBag.Title = "Historial de ordenes";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Historial de ordenes</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de ordenes</a></li>
+                        <li class="breadcrumb-item active">Historial</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">HISTORIAL DE ORDENES</h3>
+                        </div>
+                        <br />
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="tablaOrdenes" class="table table-bordered table-striped" style="text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th>ID Orden</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Monto [$]</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model.pedidosClientes)
+                                    {
+                                    <tr>
+                                        <td>@item.IdPedido</td>
+                                        <td>@item.CuentasClientes.Nombres @item.CuentasClientes.Apellidos</td>
+                                        <td>@item.Fecha</td>
+                                        <td>@Model.getMonto(@item.IdPedido)</td>
+                                        <td>@item.TrackeoPedidosClientes.EtapasPedidos.Nombre</td>
+                                        <td>
+                                            <a class="mostrar-orden-detalle btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip"
+                                               data-idcliente="@item.IdCliente"
+                                               data-idpedido="@item.IdPedido">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a class="mostrar-historialetapas btn btn-success btn-sm rounded-sm" title="Historial de etapas" data-toggle="tooltip"
+                                               data-idpedido="@item.IdPedido">
+                                                <i class="fa fa-list"></i>
+                                            </a>
+                                            <a class="editar-etapa btn btn-warning btn-sm rounded-sm" title="Actualizar etapa" data-toggle="tooltip"
+                                               data-idpedido="@item.IdPedido"
+                                               data-idetapa="@item.TrackeoPedidosClientes.EtapasPedidos.IdEtapa">
+                                                <i class="fa fa-pen" style="color:white;"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="ModalOrden-Detalles">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">DETALLES DE ORDEN</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center" style="font-weight:bold;">
+                        DATOS DEL CLIENTE
+                    </div>
+                    <hr style="border-color:white" />
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nombre completo:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" value="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Dirección de entrega:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marked"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Dirección de entrega del cliente" id="direccionCliente" value="Soyapango, Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Teléfono de contacto:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Teléfono de contacto" id="telefonoCliente" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Correo Electrónico:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Correo electrónico del cliente" id="correoCliente" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" style="font-weight:bold;">
+                        DATOS DEL PEDIDO
+                    </div>
+                    <hr style="border-color:white" />
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Código:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-code"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Código de orden" id="codigoOrden" value="2" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Fecha y hora:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Fecha y hora de orden" id="fechaOrden"  readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Estado:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Estado de la orden" id="estadoOrden" value="Procesada" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table  id="tablaDetalle" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID Objeto</th>
+                                        <th>Nombre objeto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio unitario</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-6" style="margin-left:auto">
+                            <div class="table-responsive">
+                                <table id="tablaTotal" class="table">
+                                    <tr>
+                                        <th>Total de orden:</th>
+                                        <td>$13.49</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <div class="modal fade" id="ModalHistorialEtapas">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">DETALLES DE ORDEN</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center" style="font-weight:bold;">
+                        HISTORIAL DE ETAPAS
+                    </div>
+                    <hr style="border-color:white" />
+                    <div class="card-body">
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+                                <table id="tablaHistorial" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Orden</th>
+                                            <th>Fecha</th>
+                                            <th>Etapa</th>
+                                            <th>Actualizado por</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="subcontenido">
+                                        <tr>
+                                            <td>2</td>
+                                            <td>29/10/2020 14:00</td>
+                                            <td><span class="badge badge-warning" style="font-weight:bold;">Solicitada</span></td>
+                                            <td>Administrador</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>29/10/2020 14:05</td>
+                                            <td><span class="badge badge-info" style="font-weight:bold;">Procesada</span></td>
+                                            <td>Administrador</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>29/10/2020 14:30</td>
+                                            <td><span class="badge badge-success" style="font-weight:bold;">Entregada</span></td>
+                                            <td>Administrador</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="ModalEditarEtapa">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE ETAPA</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            SELECCIÓN DE ETAPA
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <select id="etapaOrden-Edicion" class="form-control select2" required>
+                                            <option></option>
+                                            @foreach (var item in ViewBag.IdEtapas)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnActualizarEtapa" class ="btn btn-success">
+                            <i class="fas fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->

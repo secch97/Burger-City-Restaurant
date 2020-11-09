@@ -17,16 +17,16 @@ namespace RestauranteWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EstadosProductos()
         {
-            this.CombosProductos = new HashSet<CombosProductos>();
             this.ProductosRestaurante = new HashSet<ProductosRestaurante>();
+            this.Combos = new HashSet<Combos>();
         }
     
         public int IdEstado { get; set; }
         public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CombosProductos> CombosProductos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductosRestaurante> ProductosRestaurante { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Combos> Combos { get; set; }
     }
 }

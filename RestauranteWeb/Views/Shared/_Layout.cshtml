@@ -21,6 +21,7 @@
     @Styles.Render("~/Content/css/responsive.css")
     <!-- CSS Personalizado -->
     @Styles.Render("~/Content/css/custom.css")
+    
 </head>
 <body>
     <!-- Start Main Top -->
@@ -37,14 +38,13 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="index.html"><img style="width:100%;" src="~/Content/imagenes/logo.png" class="logo" alt=""></a>
+                    <a class="navbar-brand" href="@Url.Action("Inicio", "Cliente")"><img style="width:100%;" src="~/Content/imagenes/logo.png" class="logo" alt=""></a>
                 </div>
                 <!-- End Header Navigation -->
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/inicio") || pageUrl.ToLower().Contains("/") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Inicio", "Cliente")">INICIO</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html">PROMOCIONES</a></li>
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/inicio") || pageUrl.ToLower().Equals("/") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Inicio", "Cliente")">INICIO</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">MENÚ</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">SOBRE NOSOTROS</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">CONÓCENOS</a></li>
@@ -163,45 +163,46 @@
                                 <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
                             </ul>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-12 col-sm-12">
-                                <div class="footer-link-contact">
-                                    <h4>Contactános</h4>
-                                    <ul>
-                                        <li>
-                                            <p><i class="fas fa-map-marker-alt"></i>Dirección: Montes de San Bartolo 3,<br>Soyapango,<br>San Salvador</p>
-                                        </li>
-                                        <li>
-                                            <p><i class="fas fa-phone-square"></i>Teléfonos: <a href="#">2290-1865</a></p>
-                                        </li>
-                                        <li>
-                                            <p><i class="fas fa-envelope"></i>Correo electrónico: <a href="mailto:BurgerCity@gmail.com">BurgerCity@gmail.com</a></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Contactános</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Dirección: Montes de San Bartolo 3,<br>Soyapango,<br>San Salvador</p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Teléfonos: <a href="#">2290-1865</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Correo electrónico: <a href="mailto:BurgerCity@gmail.com">BurgerCity@gmail.com</a></p>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </footer>
-            <!-- End Footer  -->
-            <!-- Start copyright  -->
-            <div class="footer-copyright">
-                <p class="footer-company">
-                    All Rights Reserved. &copy; 2018 <a href="#">ThewayShop</a> Design By :
-                    <a href="https://html.design/">html design</a>
-                </p>
             </div>
-            <!-- End copyright  -->
+        </div>
+    </footer>
+    <!-- End Footer  -->
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">
+            All Rights Reserved. &copy; 2018 <a href="#">ThewayShop</a> Design By :
+            <a href="https://html.design/">html design</a>
+        </p>
+    </div>
+    <!-- End copyright  -->
 
     <a href="#" id="back-to-top" title="Subir" style="display: none;background-color:#fc4703"><i class="fa fa-arrow-up"></i></a>
-    <!--Direccionamientos por medio de hidden-->
     <!-- ALL JS FILES -->
     @Scripts.Render("~/Scripts/js/jquery-3.2.1.min.js")
     @Scripts.Render("~/Scripts/js/popper.min.js")
     @Scripts.Render("~/Scripts/js/bootstrap.min.js")
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
     <!-- ALL PLUGINS -->
     @Scripts.Render("~/Scripts/js/jquery.superslides.min.js")
     @Scripts.Render("~/Scripts/js/bootstrap-select.js")
@@ -214,8 +215,8 @@
     @Scripts.Render("~/Scripts/js/form-validator.min.js")
     @Scripts.Render("~/Scripts/js/contact-form-script.js")
     @Scripts.Render("~/Scripts/js/custom.js")
+    
+    @RenderSection("scripts", required: false)
 
-            @RenderSection("scripts", required: false)
-
-        </body>
+</body>
         </html>

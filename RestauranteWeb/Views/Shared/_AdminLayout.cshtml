@@ -1,0 +1,3034 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--Metas de Móvil -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Metas de Sitio Web -->
+    <title>@ViewBag.Title - Administración</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- ======================================================================================================== -->
+    <!-- =                                                   CSS                                                  -->
+    <!-- ======================================================================================================== -->
+    <!-- Fuente Google -->
+    @Styles.Render("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback")
+    <!--CSS FontAwesome -->
+    @Styles.Render("~/Content/administracion/fontawesome-free/css/all.min.css")
+    <!-- Ionicons -->
+    @Styles.Render("https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css")
+    <!-- Tempusdominus Bootstrap 4 -->
+    @Styles.Render("~/Content/administracion/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css")
+    <!-- iCheck -->
+    @Styles.Render("~/Content/administracion/icheck-bootstrap/icheck-bootstrap.min.css")
+    <!-- JQVMap -->
+    @Styles.Render("~/Content/administracion/jqvmap/jqvmap.min.css")
+    <!-- Theme style -->
+    @Styles.Render("~/Content/administracion/dist/css/adminlte.min.css")
+    <!-- overlayScrollbars -->
+    @Styles.Render("~/Content/administracion/overlayScrollbars/css/OverlayScrollbars.min.css")
+    <!-- Daterange picker -->
+    @Styles.Render("~/Content/administracion/daterangepicker/daterangepicker.css")
+    <!-- summernote -->
+    @Styles.Render("~/Content/administracion/summernote/summernote-bs4.min.css")
+    <!-- DataTables -->
+    @Styles.Render("~/Content/administracion/datatables-bs4/css/dataTables.bootstrap4.min.css")
+    @Styles.Render("~/Content/administracion/datatables-responsive/css/responsive.bootstrap4.min.css")
+    @Styles.Render("~/Content/administracion/datatables-buttons/css/buttons.bootstrap4.min.css")
+    <!-- Estilo modales -->
+    @Styles.Render("~/Content/administracion/EstiloModales.css")
+    <!-- Date range picker -->
+    @Styles.Render("~/Content/administracion/daterangepicker/daterangepicker.css")
+    <!-- Select2 -->
+    @Styles.Render("~/Content/administracion/select2/css/select2.min.css")
+    @Styles.Render("~/Content/administracion/select2-bootstrap4-theme/select2-bootstrap4.min.css")
+    <!-- Listas duales -->
+    @Styles.Render("~/Content/administracion/bootstrap4-duallistbox/bootstrap-duallistbox.min.css")
+    <!-- CSS SweetAlert -->
+    @Styles.Render("~/Content/administracion/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")
+  
+
+</head>
+<!-- ======================================================================================================== -->
+<!-- =                                             PLANTILLA                                                  -->
+<!-- ======================================================================================================== -->
+<body class="hold-transition sidebar-mini layout-fixed">
+    @{
+        string pageUrl = Request.Url.PathAndQuery.ToString();
+    }
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user-cog"></i>
+                        Gestionar cuenta
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <a href="@Url.Action("EditarCuenta", "Administrador")" class="dropdown-item">
+                            <i class="fas fa-user-edit mr-2"></i> Editar cuenta
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="@Url.Action("ActualizarContraseña", "Administrador")" class="dropdown-item">
+                            <i class="fas fa-user-lock mr-2"></i> Actualizar contraseña
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-door-open mr-2"></i> Cerrar sesión
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-navy elevation-4">
+            <!-- Brand Logo -->
+            <a href="@Url.Action("Inicio", "Cliente")" class="brand-link">
+                <img src="~/Content/imagenes/logo2.png" alt="Logo BurgerCity" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-bold">BurgerCity</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/Content/imagenes/Fotos de perfil/usuario.png" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">Saúl Castillo</a>
+                    </div>
+                </div>
+
+                <!-- SidebarSearch Form -->
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Buscar opción" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a href="@Url.Action("Inicio", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/inicio") || pageUrl.ToLower().Equals("/administrador") ? "active" : string.Empty)">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Inicio
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/roles") || pageUrl.ToLower().Contains("/administrador/empleados") || pageUrl.ToLower().Contains("/administrador/clientes") ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/roles") || pageUrl.ToLower().Contains("/administrador/empleados") || pageUrl.ToLower().Contains("/administrador/clientes") ? "active" : string.Empty)">
+                                <i class="nav-icon fas fa-user-circle"></i>
+                                <p>
+                                    Gestionar usuarios
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Roles", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/roles") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Roles</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Empleados", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/empleados") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Empleados</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Clientes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/clientes") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Clientes</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") || pageUrl.ToLower().Contains("/administrador/estados") || pageUrl.ToLower().Contains("/administrador/productos") || pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") || pageUrl.ToLower().Contains("/administrador/ofertas")  ? "active" : string.Empty)">
+                                <i class="nav-icon fas fa-hamburger"></i>
+                                <p>
+                                    Gestionar productos
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Categorias", "Administrador")" class="nav-link  @(pageUrl.ToLower().Contains("/administrador/categorias") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Categorías</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Estados", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/estados") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Estados</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Productos", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/productos") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Productos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Combos", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/combos") || pageUrl.ToLower().Contains("/administrador/gestionarcombo") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Combos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/administrador/etapas") || pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "menu-open" : string.Empty)">
+                            <a href="#" class="nav-link @(pageUrl.ToLower().Contains("/administrador/etapas") || pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
+                                <i class="nav-icon fas fa-shopping-bag"></i>
+                                <p>
+                                    Gestionar ordenes
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Etapas", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/etapas") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Etapas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("HistorialOrdenes", "Administrador")" class="nav-link @(pageUrl.ToLower().Contains("/administrador/historialdeordenes") ? "active" : string.Empty)">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Historial</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- /.sidebar-menu -->
+        </aside>
+    </div>
+    <!-- ======================================================================================================== -->
+    <!-- =                                      CUERPO DE PÁGINA                                                  -->
+    <!-- ======================================================================================================== -->
+    @RenderBody()
+    <!-- ======================================================================================================== -->
+    <!-- =                                          SCRIPTS                                                       -->
+    <!-- ======================================================================================================== -->
+    <!-- jQuery -->
+    @Scripts.Render("~/Content/administracion/jquery/jquery.min.js")
+    <!-- jQuery UI 1.11.4 -->
+    @Scripts.Render("~/Content/administracion/jquery-ui/jquery-ui.min.js")
+    <!-- Resolviendo conflicto en jQuery UI tooltip con Bootstrap tooltip-->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    @Scripts.Render("~/Content/administracion/bootstrap/js/bootstrap.bundle.min.js")
+    <!-- ChartJS -->
+    @Scripts.Render("~/Content/administracion/chart.js/Chart.min.js")
+    <!-- Sparkline -->
+    @Scripts.Render("~/Content/administracion/sparklines/sparkline.js")
+    <!-- JQVMap -->
+    @Scripts.Render("~/Content/administracion/jqvmap/jquery.vmap.min.js")
+    @Scripts.Render("~/Content/administracion/jqvmap/maps/jquery.vmap.usa.js")
+    <!-- jQuery Knob Chart -->
+    @Scripts.Render("~/Content/administracion/jquery-knob/jquery.knob.min.js")
+    <!-- daterangepicker -->
+    @Scripts.Render("~/Content/administracion/moment/moment.min.js")
+    @Scripts.Render("~/Content/administracion/moment/locale/es.js")
+    @Scripts.Render("~/Content/administracion/daterangepicker/daterangepicker.js")
+    <!-- Tempusdominus Bootstrap 4 -->
+    @Scripts.Render("~/Content/administracion/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js")
+    <!-- Summernote -->
+    @Scripts.Render("~/Content/administracion/summernote/summernote-bs4.min.js")
+    <!-- overlayScrollbars -->
+    @Scripts.Render("~/Content/administracion/overlayScrollbars/js/jquery.overlayScrollbars.min.js")
+    <!-- AdminLTE App -->
+    @Scripts.Render("~/Content/administracion/dist/js/adminlte.js")
+    <!-- AdminLTE for demo purposes -->
+    @Scripts.Render("~/Content/administracion/dist/js/demo.js")
+    <!-- DataTables -->
+    @Scripts.Render("~/Content/administracion/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-bs4/js/dataTables.bootstrap4.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-responsive/js/dataTables.responsive.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-responsive/js/responsive.bootstrap4.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/dataTables.buttons.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/buttons.bootstrap4.min.js")
+    <!-- js ZIP-->
+    @Scripts.Render("~/Content/administracion/jszip/jszip.min.js")
+    <!-- PDF MAKE -->
+    @Scripts.Render("~/Content/administracion/pdfmake/pdfmake.min.js")
+    @Scripts.Render("~/Content/administracion/pdfmake/vfs_fonts.js")
+    <!-- BOTONES DATATABLE-->
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/buttons.html5.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/buttons.print.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/buttons.colVis.min.js")
+    <!--SELECT 2-->
+    @Scripts.Render("~/Content/administracion/select2/js/select2.full.min.js")
+    <!--LISTAS DUALES-->
+    @Scripts.Render("~/Content/administracion/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js")
+    <!-- SWEETALERT -->
+    @Scripts.Render("~/Content/administracion/sweetalert2/sweetalert2.min.js")
+    <!--INPUT MASKS-->
+    @Scripts.Render("~/Content/administracion/inputmask/jquery.inputmask.min.js")
+
+    <!-- Calendario -->
+    <script>
+        $('#calendar').datetimepicker({
+            locale: 'es',
+            format: 'L',
+            inline: true,
+
+        });
+    </script>
+    <!-- Gráfico Knob -->
+    <script>
+        /* jQueryKnob */
+        $('.knob').knob()
+    </script>
+    <!-- Gráfico de ventas -->
+    <script>
+        // Seleccionando gráfico
+        var salesGraphChartCanvas = $('#line-chart').get(0).getContext('2d')
+        //Datos del gráfico
+        var salesGraphChartData = {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', ' Noviembre', 'Diciembre'],
+            datasets: [
+                {
+                    label: 'Ventas [$]',
+                    fill: false,
+                    borderWidth: 2,
+                    lineTension: 0,
+                    spanGaps: true,
+                    borderColor: '#efefef',
+                    pointRadius: 3,
+                    pointHoverRadius: 7,
+                    pointColor: '#efefef',
+                    pointBackgroundColor: '#efefef',
+                    data: [2666, 2778, 4912, 3767, 6810, 5670, 4820, 15073, 10687, 8432, 5000, 4000]
+                }
+            ]
+        }
+        var salesGraphChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        fontColor: '#efefef'
+                    },
+                    gridLines: {
+                        display: false,
+                        color: '#efefef',
+                        drawBorder: false
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        stepSize: 5000,
+                        fontColor: '#efefef',
+                    },
+                    gridLines: {
+                        display: true,
+                        color: '#efefef',
+                        drawBorder: false
+                    }
+                }]
+            }
+        }
+        var salesGraphChart = new Chart(salesGraphChartCanvas, {
+            type: 'line',
+            data: salesGraphChartData,
+            options: salesGraphChartOptions
+        })
+    </script>
+    <!-- ======================================================================================================== -->
+    <!-- =                                      SCRIPTS DE DATATABLES                                             -->
+    <!-- ======================================================================================================== -->
+    <!-- Tabla 1: TablaOrdenes-Hoy - /Administrador/Inicio -->
+    <script>
+        $(function () {
+            $("#tablaOrdenes-Hoy").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaOrdenes-Hoy_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 2: TablaRoles - /Administrador/Roles -->
+    <script>
+        $(function () {
+            $("#tablaRoles").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaRoles_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 3: TablaEmpleados - /Administrador/Empleados -->
+    <script>
+        $(function () {
+            $("#tablaEmpleados").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"], [1, "asc"], [2, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEmpleados_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 4: TablaClientes - /Administrador/Clientes -->
+    <script>
+        $(function () {
+            $("#tablaClientes").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[1, "asc"], [2, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaClientes_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 4: TablaCategorias - /Administrador/Categorias -->
+    <script>
+        $(function () {
+            $("#tablaCategorias").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaCategorias_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 5: TablaEstados - /Administrador/Estados -->
+    <script>
+        $(function () {
+            $("#tablaEstados").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEstados_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 6: TablaProductos - /Administrador/Productos -->
+    <script>
+        $(function () {
+            $("#tablaProductos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[3, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaProductos_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 7: TablaCombos - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaCombos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaCombos_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 8: tablaAgregarProductos- - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaAgregarProductos").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "order": [[3, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Tabla 9: tablaProductosCombo-Eliminar - /Administrador/Combos -->
+    <script>
+        $(function () {
+            $("#tablaProductosCombo-Eliminar").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "order": [[3, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Tabla 10: tablaEtapas - /Administrador/Etapas -->
+    <script>
+        $(function () {
+            $("#tablaEtapas").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 5,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "asc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaEtapas_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!-- Tabla 1: TablaOrdenes-Hoy - /Administrador/Inicio -->
+    <script>
+        $(function () {
+            $("#tablaOrdenes").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "buttons":
+                    [
+                        { extend: 'pdf', text: 'PDF' },
+                        { extend: 'print', text: 'Imprimir' },
+                        { extend: 'colvis', text: 'Ver columnas' },
+
+                    ],
+                "order": [[0, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            }).buttons().container().appendTo('#tablaOrdenes_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+
+    <!-- ======================================================================================================== -->
+    <!-- =                                      SCRIPTS DE MODALES                                                -->
+    <!-- ======================================================================================================== -->
+    <!-- Modal 1: ModalOrden-DetallesHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-orden-detallehoy").click(function () {
+                $("#ModalOrden-DetallesHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 2: ModalHistorialEtapasHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-historialetapashoy").click(function () {
+                $("#ModalHistorialEtapasHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 3: ModalEditarEtapaHoy - /Administrador/Inicio -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-etapahoy").click(function () {
+                $("#ModalEditarEtapaHoy").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 4: ModalAñadirRol - /Administrador/Roles -->
+    <script>
+        $(document).ready(function () {
+            var Rol = '';
+
+            $(".añadir-rol").click(function () {
+                $("#ModalAñadirRol")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAñadirRol").modal('show');
+            });
+
+            //Accion btnRegistrarRol
+
+            $("#btnRegistrarRol").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                Rol = $("#Rol").val();
+                variables.push(Rol);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'El rol no puede estar vacío');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/Roles',
+                        data: { 'IdRol': 0, 'Rol': Rol },
+                        success: function () {
+
+                            $("#ModalAñadirRol").modal('hide');
+                            alerta('success', 'El rol se registro con éxito');
+                            reloadRoles();
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo registrar el rol');
+                        }
+                    });
+                }//fin else
+            });  //fin function click
+
+        });
+    </script>
+    <!-- Modal 5: ModalEditarRol - /Administrador/Roles -->
+    <script>
+        $(document).ready(function () {
+            var idRol = 0;
+            var Rol = '';
+
+            $(".contenido").on("click", ".editar-rol", function () {
+                $("#ModalEditarRol").modal('show');
+                idRol = $(this).data('idrol');
+                $("#cEditarRol").val($(this).data('rol'));
+            });
+
+            //Accion btnActualizar
+
+            $("#btnActualizar").click(function () {
+
+                var variables = [];
+                //Validando campos vacios
+                Rol = $("#cEditarRol").val();
+                variables.push(Rol);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'El rol no puede estar vacío');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/editarRol',
+                        data: { 'IdRol': idRol, 'Rol': Rol },
+                        success: function () {
+                            reloadRoles();
+                            $("#ModalEditarRol").modal('hide');
+                            alerta('success', 'El rol se actualizó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo actualizar el rol');
+                        }
+                    });
+                }//fin else
+
+            });
+        });
+    </script>
+    <!-- Modal 6: ModalBorrarRol - /Administrador/Roles -->
+    <script>
+        $(document).ready(function () {
+            var idRol = 0;
+
+            $(".contenido").on("click", ".eliminar-rol", function () {
+                $("#ModalBorrarRol").modal('show');
+                idRol = $(this).data('idrol');
+            });
+
+            //Accion btnEliminar
+
+            $("#btnEliminar").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarRol',
+                    data: { 'idRol': idRol },
+                    dataType: 'json',
+                    success: function (data) {
+                        //Manejo de errores
+                        if (data.success) {
+                            reloadRoles();
+                            $("#ModalBorrarRol").modal('hide');
+                            alerta("success", "Rol eliminado con éxito");
+                        } else {
+                            $("#ModalBorrarRol").modal('hide');
+                            alerta("error", data.message);
+                        }//fin else manejo de errores
+                    },
+                    error: function (data) {
+                        alerta("error", "Ocurrió un error al solicitar eliminar");
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 7: ModalAñadirEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            var nombres = '';
+            var apellidos = '';
+            var usuario = '';
+            var idRol = 0;
+            var clave = '';
+            $(".añadir-empleado").click(function () {
+                $("#ModalAñadirEmpleado")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+
+                $("#ModalAñadirEmpleado").modal('show');
+            });
+
+            $("#btnRegistrarEmpleado").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                nombres = $("#nombresEmpleado").val();
+                apellidos = $("#apellidosEmpleado").val();
+                usuario = $("#usuarioEmpleado").val();
+                idRol = $("#rolEmpleado-Registro option:selected").val();
+                clave = $("#contraseñaEmpleado").val();
+
+                variables.push(nombres);
+                variables.push(apellidos);
+                variables.push(usuario);
+                variables.push(idRol);
+                variables.push(clave);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Deben llenarse todos los campos');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/Empleados',
+                        data: { 'Usuario': usuario, 'IdRol': idRol, 'Nombres': nombres, 'Apellidos': apellidos, 'Clave': clave },
+                        success: function () {
+                            reloadEmpleados();
+                            $("#ModalAñadirEmpleado").modal('hide');
+                            alerta('success', 'El empleado se registro con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo registrar el empleado');
+                        }
+                    });
+                }//fin else
+            });
+        });
+    </script>
+    <!-- Modal 8: ModalEditarEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            var nombres = '';
+            var apellidos = '';
+            var usuario = '';
+            var idRol = 0;
+            $(".contenido").on("click", ".editar-empleado", function () {
+                //var rol = $(this).data('nombre');
+                //$(".modal-body #rolEmpleado").val(rol).change();
+                $("#ModalEditarEmpleado").modal('show');
+
+                $("#editarNombresEmpleado").val($(this).data('nombres'));
+                $("#editarApellidosEmpleado").val($(this).data('apellidos'));
+                $("#editarUsuarioEmpleado").val($(this).data('usuario'));
+                $("#rolEmpleado-Edicion").val($(this).data('idrol'));
+                $("#rolEmpleado-Edicion").change();
+
+
+            });
+
+            $("#btnActualizarEmpleado").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                nombres = $("#editarNombresEmpleado").val();
+                apellidos = $("#editarApellidosEmpleado").val();
+                usuario = $("#editarUsuarioEmpleado").val();
+                idRol = $("#rolEmpleado-Edicion option:selected").val();
+
+                variables.push(nombres);
+                variables.push(apellidos);
+                variables.push(usuario);
+                variables.push(idRol);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Todos los campos deben llenarse');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/editarEmpleados',
+                        data: { 'Usuario': usuario, 'IdRol': idRol, 'Nombres': nombres, 'Apellidos': apellidos },
+                        success: function () {
+                            reloadEmpleados();
+                            $("#ModalEditarEmpleado").modal('hide');
+                            alerta('success', 'El empleado se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo editar el empleado');
+                        }
+                    });
+                }//fin else
+            })
+        });
+    </script>
+    <!-- Modal 9: ModalContraseñaEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            var clave = '';
+            var claveConfirmada = '';
+            var usuario = '';
+            $(".contenido").on("click", ".resetear-contraseña-empleado", function () {
+                $("#ModalContraseñaEmpleado")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalContraseñaEmpleado").modal('show');
+                usuario = $(this).data('usuario');
+            });
+
+            $("#btnActualizarClave").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                clave = $("#cambiarContraseñaEmpleado").val();
+                claveConfirmada = $("#confirmarContraseñaEmpleado").val();
+
+                variables.push(clave);
+                variables.push(claveConfirmada);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Deben llenarse todos los campos');
+                } else {
+                    if (clave !== claveConfirmada) {
+                        alerta('error', 'Las contraseñas no coinciden');
+                    } else {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Administrador/editarClave',
+                            data: { 'usuario': usuario, 'clave': clave },
+                            success: function () {
+                                $("#ModalContraseñaEmpleado").modal('hide');
+                                alerta('success', 'la contraseña se actualizó');
+                            },
+                            error: function () {
+                                alerta('error', 'No se pudo actualizar');
+                            }
+                        });
+                    }
+                }//fin else
+
+            });
+        });
+    </script>
+    <!-- Modal 10: ModalEliminarEmpleado - /Administrador/Empleados -->
+    <script>
+        $(document).ready(function () {
+            var usuario = '';
+            $(".contenido").on("click", ".eliminar-empleado", function () {
+                $("#ModalEliminarEmpleado").modal('show');
+                usuario = $(this).data('usuario');
+            });
+
+            $("#btnEliminarEmpleado").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarEmpleado',
+                    data: { 'usuario': usuario },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadEmpleados();
+                            $("#ModalEliminarEmpleado").modal('hide');
+                            alerta("success", "Empleado eliminado con éxito");
+                        } else {
+                            $("#ModalEliminarEmpleado").modal('hide');
+                            alerta("error", data.message);
+                        }// fin else
+                    },
+                    error: function (data) {
+                        alerta("error", "Ocurrió un error al solicitar eliminar");
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 11: ModalDetallesCliente - /Administrador/Clientes -->
+    <script>
+        $(document).ready(function () {
+            var idCliente = '';
+            $(".contenido").on("click", ".detalles-cliente", function () {
+                idCliente = $(this).data('idcliente');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerCliente',
+                    data: { 'idCliente': idCliente },
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#nombresCliente").val(data.nombres);
+                        $("#apellidosCliente").val(data.apellidos);
+                        $("#telefonoCliente").val(data.telefono);
+                        $("#movilCliente").val(data.movil);
+                        $("#correoCliente").val(data.correo);
+                        $("#direccionDomicilioCliente").val(data.direccionCliente);
+                        $("#direccionEntregaCliente").val(data.direccionEntrega);
+
+                        $("#ModalDetallesCliente").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el cliente');
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 12: ModalEliminarCliente - /Administrador/Clientes -->
+    <script>
+        $(document).ready(function () {
+            var idCliente = '';
+            $(".contenido").on("click", ".eliminar-cliente", function () {
+                $("#ModalEliminarCliente").modal('show');
+                idCliente = $(this).data('idcliente');
+            });
+
+            $("#btnEliminarCliente").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarCliente',
+                    data: { 'idCliente': idCliente },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadClientes();
+                            $("#ModalEliminarCliente").modal('hide');
+                            alerta('success', 'Cliente eliminado con éxito');
+                        } else {
+                            $("#ModalEliminarCliente").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 13: ModalAñadirCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-categoria").click(function () {
+                $("#ModalAñadirCategoria")
+                    .find("input,textarea,select")
+                    .val("")
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraCategoriaRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraCategoriaRegistro').html("Escoger imagen");
+                $("#ModalAñadirCategoria").modal('show');
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormAgregarCategoria").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/Categorias',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCategorias();
+                            $("#ModalAñadirCategoria").modal('hide');
+                            alerta("success", data.message)
+                        } else {
+                            alerta("error", data.message)
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Error del servidor");
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 14: ModalDetallesCategoria - /Administrador/Categorias -->
+    <script>
+        var idCategoria = '';
+        var nombre = '';
+        var descripcion = '';
+        var imagen = '';
+        $(document).ready(function () {
+            $(".contenido").on("click", ".detalles-categoria", function () {
+                $("#detalleImagenMuestra").attr("src", $(this).data('imagen'));
+                $("#detalleNombreCategoria").val($(this).data('nombre'))
+                $("#detalleDescripcionCategoria").val($(this).data('descripcion'));
+                $("#ModalDetallesCategoria").modal('show');
+            });
+        });
+    </script>
+    <!-- Modal 15: ModalEditarCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            var idCategoria = '';
+            var nombre = '';
+            var descripcion = '';
+            var imagen = '';
+            $(".contenido").on("click", ".editar-categoria", function () {
+                $("#editarImagenMuestraCategoria").attr("src", $(this).data('imagen'));
+                imagen = $(this).data('imagen');
+                idCategoria = $(this).data('idcategoria');
+                $("#editarNombreCategoria").val($(this).data('nombre'))
+                $("#editarDescripcionCategoria").val($(this).data('descripcion'));
+                $("#ModalEditarCategoria").modal('show');
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormEditarCategoria").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //imagen = $("#")
+                parametros.append('imagenActual', imagen);
+                parametros.append('idCategoria', idCategoria);
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/editarCategorias',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCategorias();
+                            $("#ModalEditarCategoria").modal('hide');
+                            alerta("success", data.message);
+                        } else {
+                            alerta("error", data.message);
+                        }
+
+                    },
+                    error: function (data) {
+
+                        alerta("error", "Error del servidor. Contacte a Soporte");
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 16: ModalEliminarCategoria - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            var idCategoria = '';
+            $(".contenido").on("click", ".eliminar-categoria", function () {
+                idCategoria = $(this).data('idcategoria');
+                $("#ModalEliminarCategoria").modal('show');
+            });
+
+            $("#btnEliminarCategoria").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarCategoria',
+                    data: { 'idCategoria': idCategoria },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCategorias();
+                            $("#ModalEliminarCategoria").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarCategoria").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+
+        });
+    </script>
+    <!-- Modal 17: ModalAñadirEstado - /Administrador/Estados -->
+    <script>
+        $(document).ready(function () {
+            var estado = '';
+            $(".añadir-estado").click(function () {
+                $("#ModalAñadirEstado")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAñadirEstado").modal('show');
+            });
+
+            $("#btnRegistrarEstado").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                estado = $("#nombreEstado").val();
+
+                variables.push(estado);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/Estados',
+                        data: { 'IdEstado': 0, 'Nombre': estado },
+                        success: function () {
+                            reloadEstados();
+                            $("#ModalAñadirEstado").modal('hide');
+                            alerta('success', 'El estado se registro con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo registrar el estado');
+                        }
+                    });
+                }//fin else
+            });
+        });
+    </script>
+    <!-- Modal 18: ModalEditarEstado - /Administrador/Estados -->
+    <script>
+        $(document).ready(function () {
+            var idEstado = 0;
+            var estado = '';
+            $(".contenido").on("click", ".editar-estado", function () {
+                idEstado = $(this).data('idestado');
+                $('#editarNombreEstado').val($(this).data('estado'));
+                $("#ModalEditarEstado").modal('show');
+            });
+
+            $("#btnActualizarEstado").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                estado = $("#editarNombreEstado").val();
+
+                variables.push(estado);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/editarEstados',
+                        data: { 'IdEstado': idEstado, 'Nombre': estado },
+                        success: function () {
+                            reloadEstados();
+                            $("#ModalEditarEstado").modal('hide');
+                            alerta('success', 'El estado se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo editar el estado');
+                        }
+                    });
+                }//fin else
+            });
+
+        });
+    </script>
+    <!-- Modal 19: ModalEliminarEstado - /Administrador/Estados -->
+    <script>
+        $(document).ready(function () {
+            var idEstado = 0;
+            $(".contenido").on("click", ".eliminar-estado", function () {
+                idEstado = $(this).data('idestado');
+                $("#ModalEliminarEstado").modal('show');
+            });
+
+            $("#btnEliminarEstado").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarEstado',
+                    data: { 'idEstado': idEstado },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadEstados();
+                            $("#ModalEliminarEstado").modal('hide');
+                            alerta('success', 'Estado eliminado con éxito');
+                        } else {
+                            $("#ModalEliminarEstado").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 20: ModalAñadirProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-producto").click(function () {
+                $("#ModalAñadirProducto")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraProductoRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraProductoRegistro').html("Escoger imagen");
+                $("#ModalAñadirProducto").modal('show');
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormAgregarProducto").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/Productos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadProductos();
+                            $("#ModalAñadirProducto").modal('hide');
+
+                            alerta("success", data.message)
+                        } else {
+                            $("#imagenProductoEdicion").value = "";
+                            alerta("error", data.message)
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Error del servidor");
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 21: ModalDetallesProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            var idProducto = '';
+            $(".contenido").on("click", ".detalles-producto", function () {
+
+                idProducto = $(this).data('idproducto');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerProducto',
+                    data: { 'idProducto': idProducto },
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#imagenMuestraProductoDetalles").attr("src", data.imagen);
+                        $("#detalleEstadoProducto").val(data.nombreEstado);
+                        $("#detalleNombreProducto").val(data.nombreProducto);
+                        $("#detalleCategoriaProducto").val(data.nombreCategoria);
+                        $("#detallePrecioProducto").val(data.precio);
+                        $("#detalleDescripcionProducto").val(data.descripcion);
+
+                        $("#ModalDetallesProducto").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el producto');
+                    }
+                });
+
+
+            });
+        });
+    </script>
+    <!-- Modal 22: ModalEditarProducto - /Administrador/Productos -->
+    <script>
+        $(document).ready(function () {
+            var idProducto = '';
+            $(".contenido").on("click", ".editar-producto", function () {
+
+                idProducto = $(this).data('idproducto');
+
+                $("#ModalEditarProducto")
+                    .find("input[type=file]")
+                    .val("").end();
+                $('#lblImagenMuestraProductoEdicion').html("Puede escoger una nueva imagen");
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerProducto',
+                    data: { 'idProducto': idProducto },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#imagenMuestraProductoEdicion").attr("src", data.imagen);
+                        $("#estadoProductoEdicion").val(data.idEstado);
+                        $("#estadoProductoEdicion").change();
+                        $("#nombreProductoEdicion").val(data.nombreProducto);
+                        $("#categoriaProductoEdicion").val(data.idCategoria);
+                        $("#categoriaProductoEdicion").change();
+                        $("#precioProductoEdicion").val(data.precio);
+                        $("#descripcionProductoEdicion").val(data.descripcion);
+
+
+
+
+                        $("#ModalEditarProducto").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el producto');
+                    }
+                });
+
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormEditarProducto").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //imagen = $("#")
+                parametros.append('idProducto', idProducto);
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/editarProductos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadProductos();
+                            $("#ModalEditarProducto").modal('hide');
+                            alerta("success", data.message);
+
+                        } else {
+                            alerta("error", data.message);
+
+                        }
+
+                    },
+                    error: function (data) {
+
+                        alerta("error", "Error del servidor. Contacte a Soporte");
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 23: ModalEliminarProducto - /Administrador/Categorias -->
+    <script>
+        $(document).ready(function () {
+            var idProducto = '';
+            $(".contenido").on("click", ".eliminar-producto", function () {
+                idProducto = $(this).data('idproducto');
+
+                $("#ModalEliminarProducto").modal('show');
+            });
+
+            $("#btnEliminarProducto").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarProducto',
+                    data: { 'idProducto': idProducto },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadProductos();
+                            $("#ModalEliminarProducto").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarProducto").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 24: ModalAñadirCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            $(".añadir-combo").click(function () {
+                $("#ModalAñadirCombo")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                imagenMuestraComboRegistro.src = "../Content/imagenes/bandeja-de-salida.png";
+                $('#lblImagenMuestraComboRegistro').html("Escoger imagen");
+                $("#ModalAñadirCombo").modal('show');
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormAgregarCombo").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/Combos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombos();
+                            $("#ModalAñadirCombo").modal('hide');
+                            alerta("success", data.message)
+
+                        } else {
+                            $("#ModalAñadirCombo").value = "";
+                            alerta("error", data.message)
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Error del servidor");
+                    }
+                });
+
+            });
+
+        });
+    </script>
+    <!-- Modal 25: ModalDetallesCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            var idCombo = '';
+            $(".contenido").on("click", ".detalles-combo", function () {
+                idCombo = $(this).data('idcombo');
+
+                var promise = $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerCombo',
+                    data: { 'idCombo': idCombo },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#imagenMuestraComboDetalles").attr("src", data.imagen);
+                        $("#detalleEstadoCombo").val(data.nombreEstado);
+                        $("#detalleNombreCombo").val(data.nombre);
+                        $("#detallePrecioCombo").val(data.precio);
+                        $("#detalleDescripcionCombo").val(data.descripcion);
+
+
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el combo');
+                    }
+                });
+                // solicitud para detalles del combo
+                promise.then(function () {
+                    reloadDetalleCombos(idCombo);
+                    //el modal se muestra en la funcion
+                });
+
+
+
+
+            });
+        });
+    </script>
+    <!-- Modal 26: ModalEditarCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            var idCombo = '';
+            $(".contenido").on("click", ".editar-combo", function () {
+                idCombo = $(this).data('idcombo');
+
+                $("#ModalEditarCombo")
+                    .find("input[type=file]")
+                    .val("").end();
+                $('#lblImagenMuestraComboEdicion').html("Puede escoger una nueva imagen");
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerCombo',
+                    data: { 'idCombo': idCombo },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#imagenMuestraComboEdicion").attr("src", data.imagen);
+                        $("#estadoComboEdicion").val(data.idEstado);
+                        $("#estadoComboEdicion").change();
+                        $("#editarNombreCombo").val(data.nombre);
+                        $("#editarPrecioCombo").val(data.precio);
+                        $("#editarDescripcionCombo").val(data.descripcion);
+
+                        $("#ModalEditarCombo").modal('show');
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el combo');
+                    }
+                });
+
+            });
+
+            //sobreescribimos el metodo submit para que envie la solicitud por ajax
+            $("#FormEditarCombo").submit(function (e) {
+
+                //esto evita que se haga la petición común, es decir evita que se refresque la pagina
+                e.preventDefault();
+
+                //FormData es necesario para el envio de archivo,
+                //y de la siguiente manera capturamos todos los elementos del formulario
+                var parametros = new FormData($(this)[0])
+
+                //imagen = $("#")
+                parametros.append('idCombo', idCombo);
+
+                //realizamos la petición ajax con la función de jquery
+                $.ajax({
+                    type: "POST",
+                    url: '/Administrador/editarCombos',
+                    data: parametros,
+                    contentType: false, //importante enviar este parametro en false
+                    processData: false, //importante enviar este parametro en false
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombos();
+                            $("#ModalEditarCombo").modal('hide');
+                            alerta("success", data.message);
+
+                        } else {
+                            alerta("error", data.message);
+                        }
+                    },
+                    error: function (data) {
+
+                        alerta("error", "Error del servidor. Contacte a Soporte");
+                    }
+                });
+
+            });
+
+
+        });
+    </script>
+    <!-- Modal 27: ModalEliminarCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            var idCombo = '';
+            $(".contenido").on("click", ".eliminar-combo", function () {
+                idCombo = $(this).data('idcombo');
+                $("#ModalEliminarCombo").modal('show');
+            });
+
+            $("#btnEliminarCombo").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarCombo',
+                    data: { 'idCombo': idCombo },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombos();
+                            $("#ModalEliminarCombo").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarCombo").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+
+            });
+        });
+    </script>
+    <!-- Modal 28: ModalAñadirCombo - /Administrador/Combos -->
+    <script>
+        $(document).ready(function () {
+            var idCombo = '';
+            var idProducto = '';
+            var cantidad = '';
+            $(".agregar-producto-combo").click(function () {
+                $("#ModalAgregarProductoCombo")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                idCombo = $(this).data('idcombo');
+                idProducto = $(this).data('idproducto');
+
+                $("#ModalAgregarProductoCombo").modal('show');
+            });
+
+
+            $("#btnRegistrarProductoCombo").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                cantidad = $("#cantidadProductosCombo").val();
+
+                variables.push(cantidad);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Deben colocar una cantidad');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/GestionarCombo',
+                        data: { 'IdCombo': idCombo, 'IdProducto': idProducto, 'Cantidad': cantidad },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                reloadCombosGestion(idCombo);
+                                $("#ModalAgregarProductoCombo").modal('hide');
+                                alerta('success', data.message);
+                            } else {
+                                $("#ModalAgregarProductoCombo").modal('hide');
+                                alerta('error', data.message);
+                            }
+
+                        },
+                        error: function () {
+                            alerta('error', 'Error al solicitar registrar. Contacte a soporte');
+                        }
+                    });
+                }//fin else
+            });
+        });
+    </script>
+    <!-- Modal 28.1: ModalEliminarProductoCombo - /Administrador/GestionarCombo -->
+    <script>
+        $(document).ready(function () {
+            var idProducto = '';
+            var idCombo = '';
+            $(".contenido").on("click", ".eliminar-producto-combo", function () {
+                idProducto = $(this).data('idproducto');
+                idCombo = $(this).data('idcombo');
+
+                $("#ModalEliminarProductoCombo").modal('show');
+            });
+
+            $("#btnEliminarProductoCombo").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarProductoCombo',
+                    data: { 'idCombo': idCombo, 'idProducto': idProducto },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadCombosGestion(idCombo);
+                            $("#ModalEliminarProductoCombo").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEliminarProductoCombo").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 29: ModalAñadirEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            var nombre = ''
+            $(".añadir-etapa").click(function () {
+                $("#ModalAgregarEtapa")
+                    .find("input,textarea")
+                    .val("")
+                    .end()
+                    .find("select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalAgregarEtapa").modal('show');
+            });
+
+            $("#btnRegistrarEtapa").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                nombre = $("#nombreEtapa").val();
+
+                variables.push(nombre);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/Etapas',
+                        data: { 'IdEtapa': 0, 'Nombre': nombre },
+                        success: function () {
+                            reloadEtapas();
+                            $("#ModalAgregarEtapa").modal('hide');
+                            alerta('success', 'La etapa se registró con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo registrar la etapa');
+                        }
+                    });
+                }//fin else
+            })
+
+        });
+    </script>
+    <!-- Modal 30: ModalEditarEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            var idEtapa = '';
+            var nombre = '';
+            $(".contenido").on("click", ".editar-etapa", function () {
+                idEtapa = $(this).data('idetapa');
+                $("#editarNombreEtapa").val($(this).data('nombre'));
+                $("#ModalEditarEtapa").modal('show');
+            });
+
+            $("#btnEditarEtapa").click(function () {
+                var variables = [];
+                //Validando campos vacios
+                nombre = $("#editarNombreEtapa").val();
+
+                variables.push(nombre);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar el campo');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/editarEtapas',
+                        data: { 'IdEtapa': idEtapa, 'Nombre': nombre },
+                        success: function () {
+                            reloadEtapas();
+                            $("#ModalEditarEtapa").modal('hide');
+                            alerta('success', 'La Etapa se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'No se pudo editar la etapa');
+                        }
+                    });
+                }//fin else
+            });
+        });
+    </script>
+    <!-- Modal 31: ModalEliminarEtapa - /Administrador/Etapas -->
+    <script>
+        $(document).ready(function () {
+            var idEtapa = '';
+            $(".contenido").on("click", ".eliminar-etapa", function () {
+                idEtapa = $(this).data('idetapa');
+                $("#ModalBorrarEtapa").modal('show');
+            });
+
+            $("#btnEliminarEtapa").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/eliminarEtapa',
+                    data: { 'idEtapa': idEtapa },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadEtapas();
+                            $("#ModalBorrarEtapa").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalBorrarEtapa").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 32: ModalOrden-Detalles - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            var idPedido = '';
+            var total = '';
+            $(".contenido").on("click", ".mostrar-orden-detalle", function () {
+
+                idPedido = $(this).data('idpedido');
+                idCliente = $(this).data('idcliente');
+
+                var promise = $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerClienteOrden',
+                    data: { 'idPedido': idPedido },
+                    dataType: 'json',
+                    success: function (data) {
+
+
+                        $("#nombreCliente").val(data.nombre);
+                        $("#direccionCliente").val(data.direccion);
+                        $("#telefonoCliente").val(data.telefono);
+                        $("#correoCliente").val(data.correo);
+                        $("#codigoOrden").val(idPedido);
+                        $("#fechaOrden").val(ToJavaScriptDate(data.fecha));
+                        $("#estadoOrden").val(data.estado);
+                        total = data.total;
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el detalle');
+                    }
+                });
+
+                promise.then(function () {
+                    $("#tablaDetalle tbody tr").remove();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Administrador/obtenerDetalleOrden',
+                        data: { 'idPedido': idPedido },
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+
+                                var rows = "<tr>"
+                                    + "<td>" + item.IdObjeto + "</td>"
+                                    + "<td>" + item.Nombre + "</td>"
+                                    + "<td>" + item.Cantidad + "</td>"
+                                    + "<td>" + item.Precio + "</td>"
+                                    + "<td>" + item.SubTotal + "</td>"
+                                    + "</tr>";
+                                $('#tablaDetalle tbody').append(rows);
+                            });
+
+                            $("#tablaTotal tr").remove();
+
+                            var rows = "<tr>"
+                                + "<th>Total de orden:</th>"
+                                + "<td>" + total + "</td>"
+                                + "</tr>";
+
+                            $('#tablaTotal').append(rows);
+
+                            $("#ModalOrden-Detalles").modal('show');
+                        },
+                        failure: function (ex) {
+                            var r = jQuery.parseJSON(response.responseText);
+                            alert("Message: " + r.Message);
+                            alert("StackTrace: " + r.StackTrace);
+                            alert("ExceptionType: " + r.ExceptionType);
+                        }
+                    });
+                });
+
+
+
+            });
+        });
+    </script>
+    <!-- Modal 33: ModalHistorialEtapas - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            var idPedido = '';
+            $(".contenido").on("click", ".mostrar-historialetapas", function () {
+                idPedido = $(this).data('idpedido');
+
+                $("#tablaHistorial tbody tr").remove();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/obtenerHistorialOrden',
+                    data: { 'idPedido': idPedido },
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+
+                            var rows = "<tr>"
+                                + "<td>" + idPedido + "</td>"
+                                + "<td>" + ToJavaScriptDate(item.Fecha) + "</td>"
+                                + "<td>" + item.Nombre + "</td>"
+                                + "<td>" + item.UsuarioGrabacion + "</td>"
+                                + "</tr>";
+                            $('#tablaHistorial tbody').append(rows);
+                        });
+
+                        $("#ModalHistorialEtapas").modal('show');
+                    },
+                    failure: function (ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Modal 34: ModalEditarEtapa - /Administrador/HistorialDeOrdenes -->
+    <script>
+        $(document).ready(function () {
+            var idPedido = '';
+            var idEtapa = '';
+            $(".contenido").on("click", ".editar-etapa", function () {
+
+                idEtapa = $(this).data('idetapa');
+                idPedido = $(this).data('idpedido');
+                $("#etapaOrden-Edicion").val(idEtapa);
+                $("#etapaOrden-Edicion").change();
+
+                $("#ModalEditarEtapa").modal('show');
+            });
+
+            $("#btnActualizarEtapa").click(function () {
+                idEtapa = $("#etapaOrden-Edicion option:selected").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Administrador/editarEtapaPedido',
+                    data: { 'idPedido': idPedido, 'idEtapa': idEtapa },
+                    success: function (data) {
+                        if (data.success) {
+                            reloadOrdenes();
+                            $("#ModalEditarEtapa").modal('hide');
+                            alerta('success', data.message);
+                        } else {
+                            $("#ModalEditarEtapa").modal('hide');
+                            alerta('error', data.message);
+                        }
+                    },
+                    error: function () {
+                        alerta('error', 'Ocurrió un error al solicitar eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- ======================================================================================= -->
+    <!--                                      SCRIPTS AUXILIARES                                 -->
+    <!-- ======================================================================================= -->
+
+    <script>
+        function reloadRoles() {
+            $("#tablaRoles tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadRoles',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdRol + "</td>"
+                            + "<td>" + item.Rol + "</td>"
+                            + "<td>"
+                            + "<a class='editar-rol btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idrol=\"" + item.IdRol + "\" data-rol=\"" + item.Rol + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-rol btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idrol=\"" + item.IdRol + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaRoles tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadEmpleados() {
+            $("#tablaEmpleados tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadEmpleados',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.Usuario + "</td>"
+                            + "<td>" + item.Nombres + " " + item.Apellidos + "</td>"
+                            + "<td>" + item.Rol + "</td>"
+                            + "<td>"
+                            + "<a class='resetear-contraseña-empleado btn btn-success btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-usuario=" + item.Usuario + ">"
+                            + " <i class='fa fa-lock' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-empleado btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' "
+                            + "data-nombres=\"" + item.Nombres + "\" "
+                            + "data-apellidos=\"" + item.Apellidos + "\" "
+                            + "data-usuario=" + item.Usuario + " "
+                            + "data-idrol=" + item.IdRol + ">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-empleado btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-usuario=" + item.Usuario + ">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaEmpleados tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
+            return false;
+        }
+    </script>
+    <script>
+        function reloadClientes() {
+            $("#tablaClientes tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadClientes',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdCliente + "</td>"
+                            + "<td>" + item.Nombres + " " + item.Apellidos + "</td>"
+                            + "<td>" + ToJavaScriptDate(item.Fecha) + "</td>"
+                            + "<td>"
+                            + "<a class='detalles-cliente btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip' data-idcliente=\"" + item.IdCliente + "\">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-cliente btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcliente=\"" + item.IdCliente + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaClientes tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadEstados() {
+            $("#tablaEstados tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadEstados',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdEstado + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>"
+                            + "<a class='editar-estado btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idestado=\"" + item.IdEstado + "\" data-estado=\"" + item.Nombre + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-estado btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idestado=\"" + item.IdEstado + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaEstados tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadCategorias() {
+            $("#tablaCategorias tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadCategorias',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.IdCategoria + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>"
+                            + "<a class='detalles-categoria btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
+                            + "data-idcategoria=\"" + item.IdCategoria + "\" "
+                            + "data-nombre=\"" + item.Nombre + "\" "
+                            + "data-descripcion=\"" + item.Descripcion + "\" "
+                            + "data-imagen=\"" + item.Imagen + "\" "
+                            + ">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-categoria btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip'"
+                            + "data-idcategoria=\"" + item.IdCategoria + "\" "
+                            + "data-nombre=\"" + item.Nombre + "\" "
+                            + "data-descripcion=\"" + item.Descripcion + "\" "
+                            + "data-imagen=\"" + item.Imagen + "\" "
+                            + ">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-categoria btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcategoria=" + item.IdCategoria + ">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaCategorias tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
+            return false;
+        }
+    </script>
+    <script>
+        function reloadProductos() {
+            $("#tablaProductos tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadProductos',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.IdProducto + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.CategoriaNombre + "</td>"
+                            + "<td>" + item.Precio + "</td>"
+                            + "<td>" + item.EstadoNombre + "</td>"
+                            + "<td>"
+                            + "<a class='detalles-producto btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
+                            + "data-idproducto=\"" + item.IdProducto + "\">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-producto btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip'"
+                            + "data-idproducto=\"" + item.IdProducto + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-producto btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip'"
+                            + "data-idproducto=\"" + item.IdProducto + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaProductos tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
+            return false;
+        }
+    </script>
+    <script>
+        function reloadCombos() {
+            $("#tablaCombos tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadCombos',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdCombo + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:300px;height:150px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.Precio + "</td>"
+                            + "<td>" + item.nombreEstado + "</td>"
+                            + "<td>"
+                            + "<a href=/Administrador/GestionarCombo?idCombo=" + item.IdCombo + " class='gestionar-combo btn btn-dark btn-sm rounded-sm' title='Gestionar combo' data-toggle='tooltip'>"
+                            + "<i class='fa fa-hamburger' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='detalles-combo btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip' data-idcombo=\"" + item.IdCombo + "\">"
+                            + " <i class='fa fa-eye'></i>"
+                            + "</a> "
+                            + "<a class='editar-combo btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idcombo=\"" + item.IdCombo + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-combo btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idcombo=\"" + item.IdCombo + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a> "
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaCombos tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadDetalleCombos(idCombo) {
+            $("#tablaDetalleCombo tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/obtenerDetalleCombo',
+                data: { 'idCombo': idCombo },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdProducto + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.Cantidad + "</td>"
+                            + "</tr>";
+                        $('#tablaDetalleCombo tbody').append(rows);
+                    });
+
+                    $("#ModalDetallesCombo").modal('show');
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadCombosGestion(idCombo) {
+            $("#tablaProductosComboEliminar tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/obtenerDetalleCombo',
+                data: { 'idCombo': idCombo },
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdProducto + "</td>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:100px;height:100px' alt='' />" + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>" + item.Cantidad + "</td>"
+                            + "<td>"
+                            + "<a class='eliminar-producto-combo btn btn-danger btn-sm rounded-sm' title='Eliminar del combo' data-toggle='tooltip'"
+                            + "data-idcombo=\"" + item.IdCombo + "\" "
+                            + "data-idproducto=\"" + item.IdProducto + "\" "
+                            + ">"
+                            + "<i class='fa fa-trash' style='color:white;'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaProductosComboEliminar tbody').append(rows);
+                    });
+
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadEtapas() {
+            $("#tablaEtapas tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadEtapas',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td>" + item.IdEtapa + "</td>"
+                            + "<td>" + item.Nombre + "</td>"
+                            + "<td>"
+                            + "<a class='editar-etapa btn btn-warning btn-sm rounded-sm' title='Editar' data-toggle='tooltip' data-idetapa=\"" + item.IdEtapa + "\" data-nombre=\"" + item.Nombre + "\">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='eliminar-etapa btn btn-danger btn-sm rounded-sm' title='Eliminar' data-toggle='tooltip' data-idetapa=\"" + item.IdEtapa + "\">"
+                            + " <i class='fa fa-trash'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaEtapas tbody').append(rows);
+                    });
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+        function reloadOrdenes() {
+            $("#tablaOrdenes tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Administrador/reloadOrdenes',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td>" + item.IdPedido + "</td>"
+                            + "<td>" + item.nombreCliente + "</td>"
+                            + "<td>" + ToJavaScriptDate(item.Fecha) + "</td>"
+                            + "<td>" + item.total + "</td>"
+                            + "<td>" + item.nombreEtapa + "</td>"
+                            + "<td>"
+                            + "<a class='mostrar-orden-detalle btn btn-primary btn-sm rounded-sm' title='Detalles' data-toggle='tooltip'"
+                            + "data-idcliente=\"" + item.IdCliente + "\""
+                            + "data-idpedido=\"" + item.IdPedido + "\""
+                            + ">"
+                            + " <i class='fa fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='mostrar-historialetapas btn btn-success btn-sm rounded-sm' title='Historial de etapas' data-toggle='tooltip'"
+                            + "data-idpedido=\"" + item.IdPedido + "\">"
+                            + " <i class='fa fa-list' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='editar-etapa btn btn-warning btn-sm rounded-sm' title='Actualizar etapa' data-toggle='tooltip'"
+                            + "data-idpedido=\"" + item.IdPedido + "\""
+                            + "data-idetapa=\"" + item.IdEtapa + "\""
+                            + ">"
+                            + " <i class='fa fa-pen' style='color:white;'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaOrdenes tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(ex.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+
+            });
+
+            return false;
+        }
+    </script>
+    <script>
+        function fieldEmpty(variables) {
+            var bandera = true;
+            for (var i = 0; i < variables.length; i++) {
+                if (variables[i].trim() === '') {
+                    bandera = false;
+                    break;
+                }
+            }
+            return bandera
+        }
+    </script>
+    <script>
+        function ToJavaScriptDate(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        }
+    </script>
+    <!-- ======================================================================================= -->
+    <!--                                        ALERTAS                                          -->
+    <!-- ======================================================================================= -->
+    <script>
+        function alerta(tipo, mensaje) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            Toast.fire({
+                icon: tipo, //success,info,error,warning,question
+                title: mensaje
+            });
+
+
+        }
+
+    </script>
+
+    <!-- ======================================================================================= -->
+    <!--                                        MASCARAS                                          -->
+    <!-- ======================================================================================= -->
+    <script>
+        $(function () {
+            $('[data-mask]').inputmask()
+            //Date range picker
+            $('#reservationdate').datetimepicker({
+                format: 'L'
+            });
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
+                }
+            })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+
+            //Timepicker
+            $('#timepicker').datetimepicker({
+                format: 'LT'
+            })
+
+            //Bootstrap Duallistbox
+            $('.duallistbox').bootstrapDualListbox()
+
+            //Colorpicker
+            $('.my-colorpicker1').colorpicker()
+            //color picker with addon
+            $('.my-colorpicker2').colorpicker()
+
+            $('.my-colorpicker2').on('colorpickerChange', function (event) {
+                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            });
+
+            $("input[data-bootstrap-switch]").each(function () {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            });
+
+        })
+        // BS-Stepper Init
+        document.addEventListener('DOMContentLoaded', function () {
+            window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+        });
+
+        // DropzoneJS Demo Code Start
+        Dropzone.autoDiscover = false;
+
+        // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+        var previewNode = document.querySelector("#template");
+        previewNode.id = "";
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+
+        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+            url: "/target-url", // Set the url
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 20,
+            previewTemplate: previewTemplate,
+            autoQueue: false, // Make sure the files aren't queued until manually added
+            previewsContainer: "#previews", // Define the container to display the previews
+            clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        });
+
+        myDropzone.on("addedfile", function (file) {
+            // Hookup the start button
+            file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file); };
+        });
+
+        // Update the total progress bar
+        myDropzone.on("totaluploadprogress", function (progress) {
+            document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
+        });
+
+        myDropzone.on("sending", function (file) {
+            // Show the total progress bar when upload starts
+            document.querySelector("#total-progress").style.opacity = "1";
+            // And disable the start button
+            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+        });
+
+        // Hide the total progress bar when nothing's uploading anymore
+        myDropzone.on("queuecomplete", function (progress) {
+            document.querySelector("#total-progress").style.opacity = "0";
+        });
+
+        // Setup the buttons for all transfers
+        // The "add files" button doesn't need to be setup because the config
+        // `clickable` has already been specified.
+        document.querySelector("#actions .start").onclick = function () {
+            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+        };
+        document.querySelector("#actions .cancel").onclick = function () {
+            myDropzone.removeAllFiles(true);
+        };
+        // DropzoneJS Demo Code End
+    </script>
+    <!-- ======================================================================================================== -->
+    <!-- =                                  SCRIPTS DE MISCELANEOS                                                -->
+    <!-- ======================================================================================================== -->
+    <!-- Script para habilitar tooltips en campos -->
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!-- Script para habilitar select2-->
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                placeholder: "Seleccionar una opción",
+                language: {
+                    "noResults": function () {
+                        return "No se encontraron resultados";
+                    }
+                }
+            });
+            $('.select2 span').css('background-color', 'white');
+            $('.select2 span').css('color', 'black');
+
+        });
+    </script>
+    <!-- Script para activar alertas-->
+    <script type="text/javascript">
+        $(function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            $('.swalDefaultSuccess').click(function () {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultInfo').click(function () {
+                Toast.fire({
+                    icon: 'info',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultError').click(function () {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultWarning').click(function () {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.swalDefaultQuestion').click(function () {
+                Toast.fire({
+                    icon: 'question',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+
+            $('.toastrDefaultSuccess').click(function () {
+                toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+            $('.toastrDefaultInfo').click(function () {
+                toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+            $('.toastrDefaultError').click(function () {
+                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+            $('.toastrDefaultWarning').click(function () {
+                toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+            });
+
+            $('.toastsDefaultDefault').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultTopLeft').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    position: 'topLeft',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultBottomRight').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    position: 'bottomRight',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultBottomLeft').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    position: 'bottomLeft',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultAutohide').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    autohide: true,
+                    delay: 750,
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultNotFixed').click(function () {
+                $(document).Toasts('create', {
+                    title: 'Toast Title',
+                    fixed: false,
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultFull').click(function () {
+                $(document).Toasts('create', {
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    icon: 'fas fa-envelope fa-lg',
+                })
+            });
+            $('.toastsDefaultFullImage').click(function () {
+                $(document).Toasts('create', {
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    image: '../../dist/img/user3-128x128.jpg',
+                    imageAlt: 'User Picture',
+                })
+            });
+            $('.toastsDefaultSuccess').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-success',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultInfo').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-info',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultWarning').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-warning',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultDanger').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-danger',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+            $('.toastsDefaultMaroon').click(function () {
+                $(document).Toasts('create', {
+                    class: 'bg-maroon',
+                    title: 'Toast Title',
+                    subtitle: 'Subtitle',
+                    body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+        });
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaRegistro-->
+    <script>
+        $('#imagenCategoriaRegistro').on('change', function (e) {
+            imagenMuestraCategoriaRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraCategoriaRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenCategoriaEdicion-->
+    <script>
+        $('#editarNuevaimagenCategoria').on('change', function (e) {
+            editarImagenMuestraCategoria.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraCategoriaEdicion').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenProductoRegistro-->
+    <script>
+        $('#imagenProductoRegistro').on('change', function (e) {
+            imagenMuestraProductoRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraProductoRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenProductoEdicion-->
+    <script>
+        $('#imagenProductoEdicion').on('change', function (e) {
+            imagenMuestraProductoEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraProductoEdicion').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenComboRegistro-->
+    <script>
+        $('#imagenComboRegistro').on('change', function (e) {
+            imagenMuestraComboRegistro.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraComboRegistro').html(fileName);
+        })
+    </script>
+    <!-- Script para vista previa de imagenes al subirla desde input // imagenComboEdicion-->
+    <script>
+        $('#imagenComboEdicion').on('change', function (e) {
+            imagenMuestraComboEdicion.src = URL.createObjectURL(event.target.files[0]);
+            var fileName = e.target.files[0].name;
+            $('#lblImagenMuestraComboEdicion').html(fileName);
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

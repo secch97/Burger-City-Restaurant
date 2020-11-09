@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Edición de cuenta";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Edición de cuenta</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de cuenta</a></li>
+                        <li class="breadcrumb-item active">Edición</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                <section class="col-lg-7 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">DATOS GENERALES DE LA CUENTA</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Usuario:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Usuario asignado" id="usuarioEmpleado" value="CC160510" readonly required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Rol:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Rol asignado" id="rolEmpleado" value="Administrador" readonly required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Nombres:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleado" maxlength="100" value="Saúl Ernesto" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Apellidos:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleado" maxlength="100" value="Castillo Chamagua" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div style="display:flex;justify-content:center;align-items:center;">
+                                    <button type="submit" class="btn btn-success btn-sm rounded-sm" title="Actualizar datos" data-toggle="tooltip">
+                                        <i class="fa fa-pen" style="color:white;"></i>
+                                        Actualizar datos
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+        </div>
+    </section>
+</div>

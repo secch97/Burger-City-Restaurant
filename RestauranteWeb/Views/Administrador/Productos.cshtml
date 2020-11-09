@@ -1,0 +1,465 @@
+﻿@model IEnumerable<RestauranteWeb.Models.ProductosRestaurante>
+@{
+    ViewBag.Title = "Gestión de productos";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Gestión de categorías</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Gestión de productos</a></li>
+                        <li class="breadcrumb-item active">Productos</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card card-navy">
+                        <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                            <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">PRODUCTOS DEL RESTAURANTE</h3>
+                        </div>
+                        <br />
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <button class="añadir-producto btn btn-info btn-sm rounded-sm">
+                                <i class="fa fa-plus" style="color:white;"></i>
+                                Agregar producto
+                            </button>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="tablaProductos" class="table table-bordered table-striped" style="text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th>ID Producto</th>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Categoría</th>
+                                        <th>[$] Precio</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.IdProducto</td>
+                                            <td>
+                                                <img class="img-fluid" src="@item.Imagen" style="width:100px;height:100px" alt="" />
+                                            </td>
+                                            <td>@item.Nombre</td>
+                                            <td>@item.CategoriasProductos.Nombre</td>
+                                            <td>@item.Precio</td>
+                                            <td>@item.EstadosProductos.Nombre</td>
+                                            <td>
+                                                <a class="detalles-producto btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip" data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-eye" style="color:white;"></i>
+                                                </a>
+                                                <a class="editar-producto btn btn-warning btn-sm rounded-sm" title="Editar" data-toggle="tooltip" data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-pen" style="color:white;"></i>
+                                                </a>
+                                                <a class="eliminar-producto btn btn-danger btn-sm rounded-sm" title="Eliminar" data-toggle="tooltip" data-idproducto="@item.IdProducto">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- Left col -->
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="ModalAñadirProducto">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">REGISTRO DE PRODUCTO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormAgregarProducto" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE PRODUCTO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraProductoRegistro" class="img-circle img-bordered-sm text-center" src="~/Content/imagenes/bandeja-de-salida.png"
+                                             style="width:150px; height:150px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                    <label>Imagen:</label>
+                                    <div class="input-group">
+                                        <input name="imagenProductoRegistro" id="imagenProductoRegistro" class="custom-file-input" type="file" accept="image/*" maxlength="100" required>
+                                        <label id="lblImagenMuestraProductoRegistro" class="custom-file-label" for="customFile">Escoger imagen</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE PRODUCTO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-utensils"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre del producto" name="nombreProducto" id="nombreProducto" maxlength="100" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="Precio del producto" name="precioProducto" id="precioProducto"
+                                                   min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoría:</label>
+                                        <div class="input-group">
+                                            <select id="categoriaProducto-Registro" name="categoriaProductoRegistro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdCategorias)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Estado:</label>
+                                        <div class="input-group">
+                                            <select id="estadoProducto-Registro" name="estadoProductoRegistro" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del producto" name="descripcionProducto" id="descripcionProducto" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalDetallesProducto">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">DETALLES DE PRODUCTO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE PRODUCTO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraProductoDetalles" class="img-circle img-bordered-sm text-center" src=""
+                                             style="width:150px; height:150px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE PRODUCTO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Estado:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Estado del producto" id="detalleEstadoProducto" maxlength="100" 
+                                                   value="Disponible" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-utensils"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre del producto" id="detalleNombreProducto" maxlength="100" 
+                                                   value="Quesoburguesa" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Categoria:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-folder-open"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Categoria del producto" id="detalleCategoriaProducto" maxlength="100"
+                                                   value="Hamburguesas" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="Precio del producto" id="detallePrecioProducto"
+                                                   min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                                                   value="1.99" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del producto" 
+                                                      id="detalleDescripcionProducto" maxlength="500" readonly>¡Disfruta de nuestra Quesoburguesa! Hamburguesa de carne acompañada de una rebanada de queso y vegetales</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEditarProducto">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">EDICIÓN DE PRODUCTO</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormEditarProducto" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            IMAGEN DE PRODUCTO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center;" style="justify-content:center;justify-items:center;text-align:center;">
+                                        <img id="imagenMuestraProductoEdicion" class="img-circle img-bordered-sm text-center" src=""
+                                             style="width:150px; height:150px;justify-content:center;justify-items:center;"
+                                             onerror="this.src='../Content/imagenes/bandeja-de-salida.png';this.onerror='';" />
+                                    </div>
+                                    <label>Imagen:</label>
+                                    <div class="input-group">
+                                        <input name="imagenProductoEdicion" id="imagenProductoEdicion" class="custom-file-input" type="file" accept="image/*" maxlength="100">
+                                        <label id="lblImagenMuestraProductoEdicion" class="custom-file-label" for="customFile">Puede escoger una nueva imagen</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="font-weight:bold;">
+                            DATOS DE PRODUCTO
+                        </div>
+                        <hr style="border-color:white" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Estado:</label>
+                                        <div class="input-group">
+                                            <select id="estadoProductoEdicion" name="estadoProductoEdicion" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdEstados)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nombre:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-utensils"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Nombre del producto" name="nombreProductoEdicion" id="nombreProductoEdicion" maxlength="100"
+                                                   value="Quesoburguesa" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Categoría:</label>
+                                        <div class="input-group">
+                                            <select id="categoriaProductoEdicion" name="categoriaProductoEdicion" class="form-control select2" required>
+                                                <option></option>
+                                                @foreach (var item in ViewBag.IdCategorias)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Precio:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                                            </div>
+                                            <input type="number" class="form-control" placeholder="Precio del producto" name="precioProductoEdicion" id="precioProductoEdicion"
+                                                   min="0.00" max="9999.99" step="0.01" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                                                   value="1.99" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" placeholder="Breve descripción del producto"
+                                                      id="descripcionProductoEdicion" name="descripcionProductoEdicion" maxlength="500" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-pen"></i>
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <div class="modal fade" id="ModalEliminarProducto">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-gradient-navy">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">PRODUCTOS</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="text-center" style="font-weight:bold;">
+                            ¿Está seguro que desea eliminar este producto?
+                            <br />
+                            <br />
+                            <button type="button" id="btnEliminarProducto" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                                Eliminar
+                            </button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
