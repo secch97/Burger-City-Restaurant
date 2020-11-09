@@ -100,7 +100,8 @@ namespace RestauranteWeb.Controllers
             {
                 Message = "Valor incorrecto";
             }
-
+            ViewBag.Status = Status;
+            ViewBag.Message = Message;
 
             return View(cuentasClientes);
         }
@@ -119,15 +120,17 @@ namespace RestauranteWeb.Controllers
                     v.Validado = true;
                     pr.SaveChanges();
                     Status = true;
+                    ViewBag.Status = Status;
+                    return View();
                 }
                 else
                 {
                     ViewBag.Message = "No se pudo validar";
+                    return RedirectToAction("inicio", "Cliente");
                 }
 
             }
-            ViewBag.Status = Status;
-            return View();
+            
         }
 
 
@@ -337,8 +340,8 @@ namespace RestauranteWeb.Controllers
             var toEmail = new MailAddress(email);
             var fromEmailContra = "pruebas-8";
             string subject = "Tu cuenta fue creada exitosamente";
-            string body = "<br><br> Estamos felices que quieras esta en la familia de Burger" +
-                "Creado exitosamente. Por favor Ingrese a el siguiente link para varificar su cuenta" +
+            string body = "<br><br> Estamos felices que quieras esta en la familia de Burger<br>" +
+                "Cuenta creada exitosamente. Por favor Ingrese a el siguiente link para varificar su cuenta" +
                 "<br><br><a href='"+link+"'>"+link+"</a>";
 
             var smtp = new SmtpClient
@@ -371,8 +374,8 @@ namespace RestauranteWeb.Controllers
             var toEmail = new MailAddress(email);
             var fromEmailContra = "pruebas-8";
             string subject = "Contraseña Existosa";
-            string body = "<br><br> Tu contraseña se cambio existosamente en Burger" +
-                "Cambien contra en el siguiente link" +
+            string body = "<br><br> Tu solicitud de cambio de contraseña se genero exitosamente en Burger" +
+                "para cambiar contraseña entre en el siguiente link" +
                 "<br><br><a href='" + link + "'>" + link + "</a>";
 
             var smtp = new SmtpClient

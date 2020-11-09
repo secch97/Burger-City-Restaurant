@@ -197,24 +197,23 @@
 
     <a href="#" id="back-to-top" title="Subir" style="display: none;background-color:#fc4703"><i class="fa fa-arrow-up"></i></a>
     <!--Direccionamientos por medio de hidden-->
-
-
-            <!-- ALL JS FILES -->
-            @Scripts.Render("~/Scripts/js/jquery-3.2.1.min.js")
-            @Scripts.Render("~/Scripts/js/popper.min.js")
-            @Scripts.Render("~/Scripts/js/bootstrap.min.js")
-            <!-- ALL PLUGINS -->
-            @Scripts.Render("~/Scripts/js/jquery.superslides.min.js")
-            @Scripts.Render("~/Scripts/js/bootstrap-select.js")
-            @Scripts.Render("~/Scripts/js/inewsticker.js")
-            @Scripts.Render("~/Scripts/js/bootsnav.js")
-            @Scripts.Render("~/Scripts/js/images-loded.min.js")
-            @Scripts.Render("~/Scripts/js/isotope.min.js")
-            @Scripts.Render("~/Scripts/js/owl.carousel.min.js")
-            @Scripts.Render("~/Scripts/js/baguetteBox.min.js")
-            @Scripts.Render("~/Scripts/js/form-validator.min.js")
-            @Scripts.Render("~/Scripts/js/contact-form-script.js")
-            @Scripts.Render("~/Scripts/js/custom.js")
+    <!-- ALL JS FILES -->
+    @Scripts.Render("~/Scripts/js/jquery-3.2.1.min.js")
+    @Scripts.Render("~/Scripts/js/popper.min.js")
+    @Scripts.Render("~/Scripts/js/bootstrap.min.js")
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <!-- ALL PLUGINS -->
+    @Scripts.Render("~/Scripts/js/jquery.superslides.min.js")
+    @Scripts.Render("~/Scripts/js/bootstrap-select.js")
+    @Scripts.Render("~/Scripts/js/inewsticker.js")
+    @Scripts.Render("~/Scripts/js/bootsnav.js")
+    @Scripts.Render("~/Scripts/js/images-loded.min.js")
+    @Scripts.Render("~/Scripts/js/isotope.min.js")
+    @Scripts.Render("~/Scripts/js/owl.carousel.min.js")
+    @Scripts.Render("~/Scripts/js/baguetteBox.min.js")
+    @Scripts.Render("~/Scripts/js/form-validator.min.js")
+    @Scripts.Render("~/Scripts/js/contact-form-script.js")
+    @Scripts.Render("~/Scripts/js/custom.js")
 
             @RenderSection("scripts", required: false)
 
