@@ -1,0 +1,245 @@
+﻿
+@{
+    ViewBag.Title = "Categorias";
+}
+@{
+    string nombreCategoria = "*";
+    if (Request.QueryString["nombreCategoria"] != null)
+    {
+        nombreCategoria = Request.QueryString["nombreCategoria"];
+    }
+}
+<!-- Start Products  -->
+<div class="products-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="special-menu text-center">
+                    <div class="button-group filter-button-group">
+                        <!-- VER TODOS ES DATO QUEMADO, NO TOCAR -->
+                        <button class="@(nombreCategoria.ToLower().Contains("*") ? "active" : string.Empty)" data-filter="*">Ver todo</button>
+                        <!-- COMBOS ES DATO QUEMADO AL NO SER UNA CATEGORIA COMO TAL, NO TOCAR-->
+                        <button class="@(nombreCategoria.ToLower().Contains("combos") ? "active" : string.Empty)" data-filter=".Combos">Combos</button>
+
+                        <!-- PUEDEN EMPEZAR A ITERAR BOTONES SEGUN CATEGORIAS HAYAN -->
+                        <!-- COLOCAR EN .CONTAINS EL NOMBRE DE LA CATEGORIA PROVENIENTE DESDE LA BD / COLOCAR EN DATA-FILTER EL . + EL NOMBRE DE LA CATEGORIA PROVENIENTE DE LA BD-->
+                        <button class="@(nombreCategoria.ToLower().Contains("hamburguesas") ? "active" : string.Empty)" data-filter=".Hamburguesas">Hamburguesas</button>
+                        <!-- COLOCAR EN .CONTAINS EL NOMBRE DE LA CATEGORIA PROVENIENTE DESDE LA BD / COLOCAR EN DATA-FILTER EL . + EL NOMBRE DE LA CATEGORIA PROVENIENTE DE LA BD-->
+                        <button class="@(nombreCategoria.ToLower().Contains("acompañamientos") ? "active" : string.Empty)" data-filter=".Acompañamientos">Acompañamientos</button>
+                        <!-- COLOCAR EN .CONTAINS EL NOMBRE DE LA CATEGORIA PROVENIENTE DESDE LA BD / COLOCAR EN DATA-FILTER EL . + EL NOMBRE DE LA CATEGORIA PROVENIENTE DE LA BD-->
+                        <button class="@(nombreCategoria.ToLower().Contains("ensaladas") ? "active" : string.Empty)" data-filter=".Ensaladas">Ensaladas</button>
+                        <!-- COLOCAR EN .CONTAINS EL NOMBRE DE LA CATEGORIA PROVENIENTE DESDE LA BD / COLOCAR EN DATA-FILTER EL . + EL NOMBRE DE LA CATEGORIA PROVENIENTE DE LA BD-->
+                        <button class="@(nombreCategoria.ToLower().Contains("bebidas") ? "active" : string.Empty)" data-filter=".Bebidas">Bebidas</button>
+                        <!-- COLOCAR EN .CONTAINS EL NOMBRE DE LA CATEGORIA PROVENIENTE DESDE LA BD / COLOCAR EN DATA-FILTER EL . + EL NOMBRE DE LA CATEGORIA PROVENIENTE DE LA BD-->
+                        <button class="@(nombreCategoria.ToLower().Contains("postres") ? "active" : string.Empty)" data-filter=".Postres">Postres</button>
+                        <!-- COLOCAR EN .CONTAINS EL NOMBRE DE LA CATEGORIA PROVENIENTE DESDE LA BD / COLOCAR EN DATA-FILTER EL . + EL NOMBRE DE LA CATEGORIA PROVENIENTE DE LA BD-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMBOS -->
+        <!-- ITERAR ACA LOS COMBOS DISPONIBLES EN EL SISTEMA-->
+        <div class="row special-list">
+            <div class="col-lg-4 col-md-6 special-grid Combos"> <!-- Despues de special-grid, se debe colocar "Combos" obligatoriamente, es estático.-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Combos/DuoBurguesa.png" style="width:350px;height:200px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Paquete DuoBurguesa</h4>
+                        <h5> $11.99</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 special-grid Combos"> <!-- Despues de special-grid, se debe colocar "Combos" obligatoriamente, es estático.-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Combos/Familiar.png" style="width:350px;height:200px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Paquete Familiar</h4>
+                        <h5> $14.99</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 special-grid Combos"> <!-- Despues de special-grid, se debe colocar "Combos" obligatoriamente, es estático.-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Combos/Economico.png" style="width:350px;height:200px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Paquete Económico</h4>
+                        <h5> $2.50</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HAMBURGUESAS -->
+            <!-- ITERAR LAS HAMBURGUESAS DISPONIBLES EN EL SISTEMA-->
+            <div class="col-lg-4 col-md-6 special-grid Hamburguesas"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Quesoburguesa.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Quesoburguesa</h4>
+                        <h5>$1.50</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 special-grid Hamburguesas"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Carneburguesa.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Carneburguesa</h4>
+                        <h5>$1.25</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 special-grid Hamburguesas"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Polloburguesa.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Polloburguesa</h4>
+                        <h5>$1.25</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 special-grid Hamburguesas"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Baconburguesa.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Baconburguesa</h4>
+                        <h5>$2.00</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- ACOMPAÑAMIENTOS -->
+            <div class="col-lg-4 col-md-6 special-grid Acompañamientos"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Papas pequeñas</h4>
+                        <h5>$0.75</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- ENSALADAS -->
+            <div class="col-lg-4 col-md-6 special-grid Ensaladas"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Ensalada_de_manzana_y_nueces.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Ensalada de manzana y nueces</h4>
+                        <h5>$1.50</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- BEBIDAS -->
+            <div class="col-lg-4 col-md-6 special-grid Bebidas"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Coca cola en lata</h4>
+                        <h5>$0.80</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- POSTRES -->
+            <div class="col-lg-4 col-md-6 special-grid Postres"><!-- Despues de special-grid, se debe colocar el nombre de la categoria proveniente de la bd-->
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">En venta</p>
+                        </div>
+                        <img src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:150px;height:150px;" alt="">
+                        <div class="mask-icon">
+                            <a class="cart" href="#"><i class="fas fa-cart-plus"></i> Añadir a carrito</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>Sundae de caramelo</h4>
+                        <h5>$1.75</h5>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- End Products  -->

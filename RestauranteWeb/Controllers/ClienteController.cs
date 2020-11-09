@@ -21,6 +21,11 @@ namespace RestauranteWeb.Controllers
             return View();
         }
 
+        public ActionResult Categorias()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult Registrarme()
         {

@@ -2409,6 +2409,7 @@
     <Content Include="Views\Administrador\GestionarCombo.cshtml" />
     <Content Include="Views\Administrador\Etapas.cshtml" />
     <Content Include="Views\Administrador\HistorialOrdenes.cshtml" />
+    <Content Include="Views\Cliente\Categorias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

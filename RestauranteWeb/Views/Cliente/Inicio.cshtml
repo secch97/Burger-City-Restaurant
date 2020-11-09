@@ -8,7 +8,7 @@
     <ul class="slides-container">
         <li class="text-center">
             <a href="#">
-                <img src="~/Content/imagenes/Promociones/DuoBurguesa.png" alt="">
+                <img src="~/Content/imagenes/Combos/DuoBurguesa.png" alt="">
                 <div class="container">
                 </div>
             </a>
@@ -16,14 +16,14 @@
          
         <li class="text-center">
             <a href="#">
-                <img src="~/Content/imagenes/Promociones/Familiar.png"  alt="">
+                <img src="~/Content/imagenes/Combos/Familiar.png"  alt="">
                 <div class="container">
                 </div>
             </a>
         </li>
         <li class="text-center">
             <a href="#">
-                <img src="~/Content/imagenes/Promociones/Economico.png"  alt="">
+                <img src="~/Content/imagenes/Combos/Economico.png"  alt="">
                 <div class="container">
                 </div>
             </a>
@@ -45,40 +45,47 @@
                     <hr />
                 </div>
             </div>
+            <!-- ¡¡OJO!!: COMBOS NO ES CATEGORÍA COMO TAL EN LA BD, POR LO QUE DEBE IR COMO VALOR 'QUEMADO'-->
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div class="shop-cat-box">
+                <div id="Combos" class="shop-cat-box">
                     <img class="img-fluid" src="~/Content/imagenes/Categorias/Combos.png" alt="" />
-                    <a class="btn hvr-hover" href="#">COMBOS</a>
+                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Combos"})">COMBOS</a>
                 </div>
             </div>
+            <!-- PUEDEN INICIAR A ITERAR CATEGORÍAS ACA -->
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div class="shop-cat-box">
+                <div id="Hamburguesas" class="shop-cat-box">
                     <img class="img-fluid" src="~/Content/imagenes/Categorias/Hamburguesas.png" alt="" />
-                    <a class="btn hvr-hover" href="#">HAMBURGUESAS</a>
+                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
+                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Hamburguesas"})">HAMBURGUESAS</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div class="shop-cat-box">
+                <div id="Acompañamientos" class="shop-cat-box">
                     <img class="img-fluid" src="~/Content/imagenes/Categorias/Acompañamientos.png" alt="" />
-                    <a class="btn hvr-hover" href="#">ACOMPAÑAMIENTOS</a>
+                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
+                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Acompañamientos"})">ACOMPAÑAMIENTOS</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div class="shop-cat-box">
+                <div id="Ensaladas" class="shop-cat-box">
                     <img class="img-fluid" src="~/Content/imagenes/Categorias/Ensaladas.png" alt="" />
-                    <a class="btn hvr-hover" href="#">ENSALADAS</a>
+                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
+                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Ensaladas"})">ENSALADAS</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div class="shop-cat-box">
+                <div id="Bebidas" class="shop-cat-box">
                     <img class="img-fluid" src="~/Content/imagenes/Categorias/Bebidas.png" alt="" />
-                    <a class="btn hvr-hover" href="#">BEBIDAS</a>
+                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
+                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Bebidas"})">BEBIDAS</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div class="shop-cat-box">
+                <div id="Postres" class="shop-cat-box">
                     <img class="img-fluid" src="~/Content/imagenes/Categorias/Postres.png" alt="" />
-                    <a class="btn hvr-hover" href="#">POSTRES</a>
+                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
+                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Postres"})">POSTRES</a>
                 </div>
             </div>
         </div>

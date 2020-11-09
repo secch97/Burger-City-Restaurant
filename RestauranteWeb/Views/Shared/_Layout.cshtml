@@ -45,7 +45,7 @@
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                         <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/inicio") || pageUrl.ToLower().Equals("/") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Inicio", "Cliente")">INICIO</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html">MENÚ</a></li>
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/categorias") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Categorias", "Cliente")">MENÚ</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">SOBRE NOSOTROS</a></li>
                         <li class="nav-item"><a class="nav-link" href="index.html">CONÓCENOS</a></li>
                         <li class="dropdown">

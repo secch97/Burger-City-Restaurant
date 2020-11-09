@@ -62,6 +62,15 @@
 	   ................................................. */
 
 	var Container = $('.container');
+	var url_string = window.location.href
+	var url = new URL(url_string);
+	if (url.searchParams.get("nombreCategoria") == null) {
+		var hashID = "*";
+	}
+	else {
+		var hashID = "." + url.searchParams.get("nombreCategoria");
+	}
+
 	Container.imagesLoaded(function() {
 		var portfolio = $('.special-menu');
 		portfolio.on('click', 'button', function() {
@@ -72,6 +81,7 @@
 			});
 		});
 		var $grid = $('.special-list').isotope({
+			filter: hashID,
 			itemSelector: '.special-grid'
 		});
 	});
