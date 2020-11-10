@@ -1,0 +1,108 @@
+﻿<style>
+    .my-custom-scrollbar {
+        position: relative;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+</style>
+
+<div class="modal fade" id="ModalDetalles">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <hr style="border-color:white" />
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 special-grid">
+                                <div class="form-group products-single fix">
+                                    <div class="box-img-hover">
+                                        <div class="type-lb">
+                                            <p class="sale">$2.50</p>
+                                        </div>
+                                        <img src="~/Content/imagenes/Combos/Economico.png" style="width:350px;height:200px;" alt="">
+                                        <div class="mask-icon">
+                                            <a class="cart" href="#">Disfruta de un excelente combo que contiene una deliciosa Carneburguesa, acompañada 
+                                            de papas pequeñas y una coca-cola enlatada</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group table-wrapper-scroll-y my-custom-scrollbar">
+                                    <table id="tablaProductos" class="table table-hover " style="text-align:center;">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Carneburguesa.png" style="width:50px;height:50px" alt="" />
+                                                </td>
+                                                <td>
+                                                    Carneburguesa
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:50px;height:50px" alt="" />
+                                                </td>
+                                                <td>
+                                                    Papas pequeñas
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:50px;height:50px" alt="" />
+                                                </td>
+                                                <td>
+                                                    Coca Cola en lata
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    @if (Session["id"] != null)
+                                    {
+                                        <input type="number" id="cantidadProducto" value="" min="0" max="99" step="1" placeholder="Ingrese una cantidad" style="width:50%" required />
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="cantidadProducto" value="" min="0" max="99" step="1" placeholder="Ingrese una cantidad" style="width:50%" disabled />
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center" style="display:inline-block;">
+                                <div class="form-group">
+                                    @if (Session["id"] != null)
+                                    {
+                                        <button class="btn hvr-hover" id="btnAñadirOrden" type="submit" style="display:inline-block;font-weight:bold;color:white;">
+                                            <i class="fas fa-cart-plus"></i>
+                                            Añadir a mi orden
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn hvr-hover" id="btnAñadirOrden" type="submit" style="display:inline-block;font-weight:bold;color:white;" disabled>
+                                            <i class="fas fa-cart-plus"></i>
+                                            Inicie sesión para comprar
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

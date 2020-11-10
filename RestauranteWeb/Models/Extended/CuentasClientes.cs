@@ -25,7 +25,7 @@ namespace RestauranteWeb.Models
 
         
         [Display(Name = "Correo electrónico")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su Correo Electronico")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su correo electrónico")]
         [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
 
@@ -44,12 +44,12 @@ namespace RestauranteWeb.Models
 
 
         [Display(Name = "Dirección")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su direccion")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su dirección de domicilio")]
         public string Direccion { get; set; }
 
         
         [Display(Name = "Dirección de entrega")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su direccion de entrega")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingrese su dirección actual de entrega de pedidos ")]
         public string DireccionEntrega { get; set; }
 
         [Display(Name = "Contraseña")]

@@ -47,7 +47,7 @@ namespace RestauranteWeb.Controllers
                 var existeEmail = Correo_existe(cuentasClientes.Correo);
                 if (existeEmail)
                 {
-                    ModelState.AddModelError("Correo_Existe","Este correo existe");
+                    ModelState.AddModelError("Correo_Existe","Error: este correo ya se encuentra en uso");
                     return View(cuentasClientes);
                 }
                 #endregion
@@ -88,14 +88,10 @@ namespace RestauranteWeb.Controllers
                     pr.CuentasClientes.Add(cuentasClientes);
                     
                         pr.SaveChanges();
-
                         //enviar email de validacion;
                         Correo_Verificaion(cuentasClientes.Correo, cuentasClientes.IdCliente.ToString());
-                        Message = "Registro Exitoso. Revise su correo para validar su cuenta." + cuentasClientes.Correo;
+                        Message = "¡Usted ha sido registrado exitosamente! \n Revise su correo electrónico para validar su cuenta: " + cuentasClientes.Correo;
                         Status = true;
-                   
-                    
-
                 }
                 #endregion
 
@@ -103,7 +99,7 @@ namespace RestauranteWeb.Controllers
             }
             else
             {
-                Message = "Valor incorrecto";
+                Message = "Verifique que haya rellenado correctamente los campos";
             }
             ViewBag.Status = Status;
             ViewBag.Message = Message;
@@ -344,9 +340,9 @@ namespace RestauranteWeb.Controllers
             var fromEmail = new MailAddress("isidroprueba005@gmail.com", "Burger");
             var toEmail = new MailAddress(email);
             var fromEmailContra = "pruebas-8";
-            string subject = "Tu cuenta fue creada exitosamente";
-            string body = "<br><br> Estamos felices que quieras esta en la familia de Burger<br>" +
-                "Cuenta creada exitosamente. Por favor Ingrese a el siguiente link para verificar su cuenta" +
+            string subject = "¡Su cuenta ha sido creada exitosamente!";
+            string body = "<br><br> Nos encontramos muy felices de que usted quiera formar parte de la familia BurgerCity <br>" +
+                "Su cuenta ha sido creada exitosamente. Por favor ingrese al siguiente enlace para finalizar el proceso de verificación de su cuenta:" +
                 "<br><br><a href='"+link+"'>"+link+"</a>";
 
             var smtp = new SmtpClient
@@ -378,9 +374,9 @@ namespace RestauranteWeb.Controllers
             var fromEmail = new MailAddress("isidroprueba005@gmail.com", "Burger - Recurperar cuenta");
             var toEmail = new MailAddress(email);
             var fromEmailContra = "pruebas-8";
-            string subject = "Contraseña Existosa";
-            string body = "<br><br> Tu solicitud de cambio de contraseña se genero exitosamente en Burger" +
-                "para cambiar contraseña entre en el siguiente link" +
+            string subject = "Solicitud de reestablecimiento de contraseña";
+            string body = "<br><br> Estimado cliente, su solicitud de reestablecimiento de contraseña ha sido generada exitosamente." +
+                " Para reestablecer su contraseña, ingrese al siguiente enlace:" +
                 "<br><br><a href='" + link + "'>" + link + "</a>";
 
             var smtp = new SmtpClient

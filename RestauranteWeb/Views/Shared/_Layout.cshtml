@@ -61,17 +61,12 @@
                                     <li style="color:black;">
                                         @using (Html.BeginForm("Logout", "Cliente", FormMethod.Post, new { id = "logoutForm" }))
                                         {
-
                                             <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Session</a>
-
                                         }
                                     </li>
-
                                 </ul>
-
                             }
                         </li>
-
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -79,44 +74,59 @@
                 <div class="attr-nav">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="side-menu">
-                            <a href="#">
-                                <i class="fa fa-shopping-cart">
-                                    <span class="badge badge-pill badge-success ml-2" style="font-weight:bold;font-family:'Segoe UI';background-color:#fc4703">3</span>
-                                </i>
-                            </a>
+                            @if (Session["id"] != null)
+                            {
+                                <a href="#">
+                                    <i class="fa fa-shopping-cart">
+                                        <span class="badge badge-pill badge-success ml-2" style="font-weight:bold;font-family:'Segoe UI';background-color:#fc4703">3</span>
+                                    </i>
+                                </a>
+                            }
                         </li>
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
             </div>
-            <!-- Start Side Menu -->
+            <!-- INICIO DE CARRITO DESPLEGABLE-->
             <div class="side">
                 <a href="#" class="close-side"><i class="fa fa-times"></i></a>
                 <div class="cart-box">
                     <ul class="cart-list">
                         <li>
-                            <a href="#" class="photo"><img src="~/Content/imagenes/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Delica omtantur </a></h6>
-                            <p>1x - <span class="price">$80.00</span></p>
+                            <a href="#" class="photo">
+                                <img src="~/Content/imagenes/Combos/Economico.png" style="width:60px;height:50px;" alt="">
+                            </a>
+                            <h6><a href="#">Paquete económico</a></h6>
+                            <p>
+                                1x - <span class="price">$2.50</span>&nbsp;<a data-toggle="tooltip" title="Quitar producto" href="#"><i class="fas fa-times"></i></a>
+                            </p>
                         </li>
                         <li>
-                            <a href="#" class="photo"><img src="~/Content/imagenes/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Omnes ocurreret</a></h6>
-                            <p>1x - <span class="price">$60.00</span></p>
+                            <a href="#" class="photo">
+                                <img src="~/Content/imagenes/Productos/Ensalada_de_manzana_y_nueces.png" style="width:60px;height:50px;" alt="">
+                            </a>
+                            <h6><a href="#">Ensalada de manzana</a></h6>
+                            <p>
+                                1x - <span class="price">$1.50</span>&nbsp;<a data-toggle="tooltip" title="Quitar producto" href="#"><i class="fas fa-times"></i></a>
+                            </p>
                         </li>
                         <li>
-                            <a href="#" class="photo"><img src="~/Content/imagenes/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Agam facilisis</a></h6>
-                            <p>1x - <span class="price">$40.00</span></p>
+                            <a href="#" class="photo">
+                                <img src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:60px;height:50px;" alt="">
+                            </a>
+                            <h6><a href="#">Sundae de caramelo</a></h6>
+                            <p>
+                                1x - <span class="price">$1.75</span>&nbsp;<a data-toggle="tooltip" title="Quitar producto" href="#"><i class="fas fa-times"></i></a>
+                            </p>
                         </li>
                         <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $180.00</span>
+                            <a href="#" class="btn btn-default hvr-hover btn-cart">VER CARRITO</a>
+                            <span class="float-right"><strong>Total</strong>: $5.75</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <!-- End Side Menu -->
+            <!-- FIN DE CARRITO DESPLEGABLE -->
         </nav>
         <!-- End Navigation -->
     </header>
@@ -137,6 +147,7 @@
 
     @Html.Partial("Login1")
     @Html.Partial("RecuperarEmail")
+    @Html.Partial("Detalles")
 
     @RenderBody()
     <!-- Start Footer  -->
@@ -215,8 +226,49 @@
     @Scripts.Render("~/Scripts/js/form-validator.min.js")
     @Scripts.Render("~/Scripts/js/contact-form-script.js")
     @Scripts.Render("~/Scripts/js/custom.js")
-    
+
+    @Scripts.Render("~/Scripts/js/bootstrap-input-spinner.js")
+
     @RenderSection("scripts", required: false)
 
+
+
+    <!-- Script para habilitar tooltips en campos -->
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+            });
+        });
+    </script>
+
+    <!-- Script para habilitar spinner -->
+    <script>
+        $(function () {
+            $("input[type='number']").inputSpinner()
+        });
+    </script>
+
+    <!-- ======================================================================================================== -->
+    <!-- =                                      SCRIPTS DE DATATABLES                                             -->
+    <!-- ======================================================================================================== -->
+    <!-- ======================================================================================================== -->
+    <!-- =                                      SCRIPTS DE MODALES                                                -->
+    <!-- ======================================================================================================== -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles").click(function () {
+                $("#ModalDetalles")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalDetalles").modal('show');
+            });
+        });
+    </script>
+
+
 </body>
-        </html>
+</html>

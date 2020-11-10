@@ -2410,6 +2410,7 @@
     <Content Include="Views\Administrador\Etapas.cshtml" />
     <Content Include="Views\Administrador\HistorialOrdenes.cshtml" />
     <Content Include="Views\Cliente\Categorias.cshtml" />
+    <Content Include="Views\Shared\Detalles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

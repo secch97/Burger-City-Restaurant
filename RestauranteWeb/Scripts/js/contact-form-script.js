@@ -2,7 +2,7 @@ $("#contactForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         formError();
-        submitMSG(false, "Llene todos los campos");
+        submitMSG(false, "Complete todos los campos");
     } else {
         // everything looks good!
         event.preventDefault();
@@ -17,7 +17,7 @@ $("#LoginForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         formErrorLogin();
-        submitMSGLogin(false, "Llene todos los campos para Iniciar Sesion");
+        submitMSGLogin(false, "Complete todos los campos para iniciar sesion");
     } else {
         // everything looks good!
         event.preventDefault();
@@ -32,7 +32,7 @@ $("#RegistrarmeForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         formErrorRegistrarte();
-        submitMSGRegistrate(false, "Llene todos los campos para registrarte");
+        submitMSGRegistrate(false, "Complete todos los campos para registrarse");
     } else {
         // everything looks good!
         event.preventDefault();
@@ -47,7 +47,7 @@ $("#RecuperarEmailForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         formErrorRecuperar();
-        submitMSGRecuperarEmail(false, "Escriba tu correo para Recuperar tu cuenta de electronico");
+        submitMSGRecuperarEmail(false, "Escriba su correo electronico para reestablecer su clave");
     } else {
         // everything looks good!
         event.preventDefault();
@@ -63,21 +63,21 @@ $("#CambiarClaveForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "Llene todos los campos de las contrase\361a");
+        submitMSGCambiarClave(false, "Complete todos los campos de clave");
 
 
     } else if ($("#txtContraCambiar").val().length < 6) {
 
         event.preventDefault();
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "La contrase\361a debe ser igual o mayor a 6 digitos");
+        submitMSGCambiarClave(false, "La clave debe poseer como minimo 6 caracteres");
 
 
     } else if ($("#txtContraCambiarConfir").val().length < 6) {
 
         event.preventDefault();
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "La confirmacion contrase\361a debe ser igual o mayor a 6 digitos");
+        submitMSGCambiarClave(false, "La clave debe poseer como minimo 6 caracteres");
 
     
 
@@ -85,7 +85,7 @@ $("#CambiarClaveForm").validator().on("submit", function (event) {
 
         event.preventDefault();
         formErrorCambiarClave();
-        submitMSGCambiarClave(false, "Las contrase\361as tienen que ser iguales");
+        submitMSGCambiarClave(false, "Las claves deben ser iguales");
     
     } else {
         event.preventDefault();
@@ -159,7 +159,7 @@ function submitFormLogin() {
                     submitMSGLogin(false, "Credenciales incorrectas");
                 } else if (text == 4) {
                     formErrorLogin();
-                    submitMSGLogin(false, "Este correo no esta registrado");
+                    submitMSGLogin(false, "El correo electronico no se encuentra asociado a ninguna cuenta");
                 } else {
                     formErrorLogin();
                     submitMSGLogin(false, "Credenciales incorrectas");
@@ -190,7 +190,7 @@ function submitFormRecuperar() {
                 formSuccessRecuperar();
             } else {
                 formErrorLogin();
-                submitMSGRecuperarEmail(false, "Ese correo no esta en el sistema. intente con otro.");
+                submitMSGRecuperarEmail(false, "El correo electronico no se encuentra asociado a ninguna cuenta");
             }
         }
     });
@@ -219,7 +219,7 @@ function submitFormCambiarClave() {
                 formSuccessCambiarClave();
             } else {
                 formErrorCambiarClave();
-                submitMSGCambiarClave(false, "no se pudieron actualizar.");
+                submitMSGCambiarClave(false, "Error: no se pudo actualizar los datos");
             }
         }
     });
@@ -236,7 +236,7 @@ function formSuccess() {
 /*Existoso para Recuperar cuenta*/
 function formSuccessRecuperar() {
     $("#RecuperarEmailForm")[0].reset();
-    submitMSGRecuperarEmail(true, "Se envi\363 al correo una validacion para cambiar si contrase\361a!")
+    submitMSGRecuperarEmail(true, "Se ha enviado a su correo electronico una solicitud para reestablecer su clave")
 }
 
 
@@ -244,9 +244,8 @@ function formSuccessRecuperar() {
 /*Existoso para cambiar contraseña*/
 function formSuccessCambiarClave() {
     $("#CambiarClaveForm")[0].reset();
-    submitMSGCambiarClave(true, "Se envi\363 al correo una validacion para cambiar si contrase\361a!");
-    alert('Contrase&ntilde;a actualzada');
-    $(location).attr('href','inicio');
+    submitMSGCambiarClave(true, "La clave ha sido reestablecida exitosamente. Redireccionandolo a la página principal...");
+    window.setTimeout(direccionar_inicio, 5000);
 }
 
 
@@ -352,3 +351,7 @@ function submitMSGCambiarClave(valid, msg) {
     }
     $("#msgSubmitCambiarClaveForm").removeClass().addClass(msgClasses).text(msg);
 }
+
+function direccionar_inicio() {
+    $(location).attr('href', 'inicio');
+};
