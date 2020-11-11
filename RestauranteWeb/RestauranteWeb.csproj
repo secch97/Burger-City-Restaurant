@@ -2411,6 +2411,11 @@
     <Content Include="Views\Administrador\HistorialOrdenes.cshtml" />
     <Content Include="Views\Cliente\Categorias.cshtml" />
     <Content Include="Views\Shared\Detalles.cshtml" />
+    <Content Include="Views\Cliente\Carrito.cshtml" />
+    <Content Include="Views\Cliente\Pago.cshtml" />
+    <Content Include="Views\Cliente\Perfil.cshtml" />
+    <Content Include="Views\Cliente\Historial.cshtml" />
+    <Content Include="Views\Cliente\Encuentranos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

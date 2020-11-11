@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "Carrito";
+}
+<style>
+    .mi-scrollbar-personalizado {
+        position: relative;
+        height: 375px;
+        overflow: auto;
+    }
+
+    .scroll-tabla {
+        display: block;
+    }
+</style>
+<!-- Start Cart  -->
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1>MI CARRITO</h1>
+                    <hr />
+                </div>
+            </div>
+            <div class="col-lg-9  mi-scrollbar-personalizado scroll-tabla">
+                <div class="table-main table-hover">
+                    <table class="table" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="thumbnail-img">
+                                    <a href="#">
+                                        <img src="~/Content/imagenes/Combos/Economico.png" style="width:90px;height:70px;" alt="">
+                                    </a>
+                                </td>
+                                <td class="name-pr">
+                                    <a href="#">
+                                        Paquete económico
+                                    </a>
+                                </td>
+                                <td class="price-pr">
+                                    <p>$ 2.50</p>
+                                </td>
+                                <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
+                                <td class="total-pr">
+                                    <p>$ 2.50</p>
+                                </td>
+                                <td class="remove-pr">
+                                    <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm rounded-sm" href="#">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="thumbnail-img">
+                                    <a href="#">
+                                        <img src="~/Content/imagenes/Productos/Ensalada_de_manzana_y_nueces.png" style="width:90px;height:70px;" alt="">
+                                    </a>
+                                </td>
+                                <td class="name-pr">
+                                    <a href="#">
+                                        Ensalada de manzana
+                                    </a>
+                                </td>
+                                <td class="price-pr">
+                                    <p>$ 1.50</p>
+                                </td>
+                                <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
+                                <td class="total-pr">
+                                    <p>$ 1.50</p>
+                                </td>
+                                <td class="remove-pr">
+                                    <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm rounded-sm" href="#">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="thumbnail-img">
+                                    <a href="#">
+                                        <img src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:90px;height:70px;" alt="">
+                                    </a>
+                                </td>
+                                <td class="name-pr">
+                                    <a href="#">
+                                        Sundae de caramelo
+                                    </a>
+                                </td>
+                                <td class="price-pr">
+                                    <p>$ 1.75</p>
+                                </td>
+                                <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
+                                <td class="total-pr">
+                                    <p>$ 1.75</p>
+                                </td>
+                                <td class="remove-pr">
+                                    <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm rounded-sm" href="#">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                    <div class="order-box">
+                        <h3 class="text-center">RESUMEN DE ORDEN</h3>
+                        <div class="d-flex">
+                            <h4>Sub Total</h4>
+                            <div class="ml-auto font-weight-bold"> $ 5.75 </div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Envío</h4>
+                            <div class="ml-auto font-weight-bold"> ¡Gratis! </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Total</h5>
+                            <div class="ml-auto h5"> $ 5.75 </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="col-12 d-flex shopping-box"><a href="@Url.Action("Pago", "Cliente")" class="ml-auto btn hvr-hover"><i class="fas fa-money"></i>Pagar ahora</a> </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<!-- End Cart -->

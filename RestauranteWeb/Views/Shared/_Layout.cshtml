@@ -10,6 +10,8 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
+    <!-- FONT AWESOME-->
+    @Styles.Render("~/Content/administracion/fontawesome-free/css/all.min.css")
     <!-- Iconos de sitio web -->
     @Styles.Render("~/Content/imagenes/favicon.ico")
     @Styles.Render("~/Content/imagenes/apple-touch-icon.png")
@@ -19,9 +21,14 @@
     @Styles.Render("~/Content/css/style.css")
     <!-- CSS Responsivo -->
     @Styles.Render("~/Content/css/responsive.css")
+
     <!-- CSS Personalizado -->
     @Styles.Render("~/Content/css/custom.css")
-    
+
+    <!-- DataTables -->
+    @Styles.Render("~/Content/administracion/datatables-bs4/css/dataTables.bootstrap4.min.css")
+    @Styles.Render("~/Content/administracion/datatables-responsive/css/responsive.bootstrap4.min.css")
+    @Styles.Render("~/Content/administracion/datatables-buttons/css/buttons.bootstrap4.min.css")
 </head>
 <body>
     <!-- Start Main Top -->
@@ -46,8 +53,7 @@
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                         <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/inicio") || pageUrl.ToLower().Equals("/") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Inicio", "Cliente")">INICIO</a></li>
                         <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/categorias") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Categorias", "Cliente")">MENÚ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html">SOBRE NOSOTROS</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html">CONÓCENOS</a></li>
+                        <li class="nav-item @(pageUrl.ToLower().Contains("/cliente/encuentranos") ? "active" : string.Empty)"><a class="nav-link" href="@Url.Action("Encuentranos", "Cliente")">DONDE ENCONTRARNOS</a></li>
                         <li class="dropdown">
                             @if (Session["id"] == null)
                             {
@@ -57,7 +63,7 @@
                             {
                                 <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown"><i class="fa fa-user s_color"></i> @Session["nombre"]</a>
                                 <ul style="background-color:white;" class="dropdown-menu">
-                                    <li style="color:black;"><a href="#">Perfil</a></li>
+                                    <li style="color:black;"><a href="@Url.Action("Perfil","Cliente")">Perfil</a></li>
                                     <li style="color:black;">
                                         @using (Html.BeginForm("Logout", "Cliente", FormMethod.Post, new { id = "logoutForm" }))
                                         {
@@ -120,7 +126,7 @@
                             </p>
                         </li>
                         <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">VER CARRITO</a>
+                            <a href="@Url.Action("Carrito", "Cliente")" class="btn btn-default hvr-hover btn-cart">VER CARRITO</a>
                             <span class="float-right"><strong>Total</strong>: $5.75</span>
                         </li>
                     </ul>
@@ -175,22 +181,13 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-                <hr>
-                <div class="row">
                     <div class="col-lg-4 col-md-12 col-sm-12">
-                        <div class="footer-link-contact">
-                            <h4>Contactános</h4>
-                            <ul>
-                                <li>
-                                    <p><i class="fas fa-map-marker-alt"></i>Dirección: Montes de San Bartolo 3,<br>Soyapango,<br>San Salvador</p>
-                                </li>
-                                <li>
-                                    <p><i class="fas fa-phone-square"></i>Teléfonos: <a href="#">2290-1865</a></p>
-                                </li>
-                                <li>
-                                    <p><i class="fas fa-envelope"></i>Correo electrónico: <a href="mailto:BurgerCity@gmail.com">BurgerCity@gmail.com</a></p>
-                                </li>
+                        <div class="footer-top-box">
+                            <h3>Contactános</h3>
+                            <ul class="list-time">
+                                <li><i class="fas fa-map-marker-alt"></i> Dirección: Montes de San Bartolo 3,Soyapango,San Salvador</li>
+                                <li><i class="fas fa-phone-square"></i> Teléfono: 2290-1865</li>
+                                <li><i class="fas fa-envelope"></i> Correo electrónico: BurgerCity@gmail.com</li>
                             </ul>
                         </div>
                     </div>
@@ -198,15 +195,6 @@
             </div>
         </div>
     </footer>
-    <!-- End Footer  -->
-    <!-- Start copyright  -->
-    <div class="footer-copyright">
-        <p class="footer-company">
-            All Rights Reserved. &copy; 2018 <a href="#">ThewayShop</a> Design By :
-            <a href="https://html.design/">html design</a>
-        </p>
-    </div>
-    <!-- End copyright  -->
 
     <a href="#" id="back-to-top" title="Subir" style="display: none;background-color:#fc4703"><i class="fa fa-arrow-up"></i></a>
     <!-- ALL JS FILES -->
@@ -228,6 +216,13 @@
     @Scripts.Render("~/Scripts/js/custom.js")
 
     @Scripts.Render("~/Scripts/js/bootstrap-input-spinner.js")
+    <!-- DataTables -->
+    @Scripts.Render("~/Content/administracion/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-bs4/js/dataTables.bootstrap4.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-responsive/js/dataTables.responsive.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-responsive/js/responsive.bootstrap4.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/dataTables.buttons.min.js")
+    @Scripts.Render("~/Content/administracion/datatables-buttons/js/buttons.bootstrap4.min.js")
 
     @RenderSection("scripts", required: false)
 
@@ -248,12 +243,55 @@
         });
     </script>
 
+    <script type="text/javascript">
+        $(function () {
+            $("input[name='telefono']").click(function () {
+                if ($("#fijo").is(":checked")) {
+                    $("#txtOtro").attr("disabled", "disabled");
+                }
+                else if ($("#movil").is(":checked")) {
+                    $("#txtOtro").attr("disabled", "disabled");
+                }
+                else {
+                    $("#txtOtro").removeAttr("disabled");
+                    $("#txtOtro").focus();
+                }
+            });
+        });
+    </script>
+
     <!-- ======================================================================================================== -->
     <!-- =                                      SCRIPTS DE DATATABLES                                             -->
     <!-- ======================================================================================================== -->
+    <!-- Tabla 3: TablaMisOrdenes - /Cliente/Historial -->
+    <script>
+        $(function () {
+            $("#tablaMisOrdenes").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "pageLength": 10,
+                "order": [[2, "desc"]],
+                "language": {
+                    search: "Buscar",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "Registro(s) no encontrado(s)",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "Sin registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    paginate:
+                    {
+                        previous: "Anterior",
+                        next: "Siguiente",
+                    }
+                }
+            });
+        });
+    </script>
     <!-- ======================================================================================================== -->
     <!-- =                                      SCRIPTS DE MODALES                                                -->
     <!-- ======================================================================================================== -->
+    <!-- MODAL 1: Modal de detalles al abrir un producto desde menú de categorías-->
     <script>
         $(document).ready(function () {
             $(".detalles").click(function () {
@@ -269,6 +307,72 @@
         });
     </script>
 
+    <!-- MODAL 2: Modal de detalles al desear ver los detalles desde el carrito de compras de un producto -->
+    <script>
+        $(document).ready(function () {
+            $(".detalles2").click(function () {
+                $("#ModalDetalles2")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalDetalles2").modal('show');
+            });
+        });
+    </script>
+
+    <!-- Modal 3: Modal de cambiar dirección de entrega actual en finalización de compra -->
+    <script>
+        $(document).ready(function () {
+            $(".editar-entrega-actual").click(function () {
+                $("#ModalEditarDireccionActual")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalEditarDireccionActual").modal('show');
+            });
+        });
+    </script>
+
+
+    <!-- Modal 4: Modal detalles de mi orden-->
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-detalles-mi-orden").click(function () {
+                $("#ModalMiOrden-Detalles").modal('show');
+            });
+        });
+    </script>
+
+    <!-- Modal 5: Editar perfil-->
+    <script>
+        $(document).ready(function () {
+            $(".editar-perfil").click(function () {
+                $("#ModalEditarPerfil").modal('show');
+            });
+        });
+    </script>
+
+    <!-- Modal 5: Editar perfil-->
+    <script>
+        $(document).ready(function () {
+            $(".actualizar-contraseña").click(function () {
+                $("#ModalActualizarContraseña")
+                    .find("input,textarea,select")
+                    .val("").trigger('change')
+                    .end()
+                    .find("input[type=checkbox], input[type=radio]")
+                    .prop("checked", "")
+                    .end();
+                $("#ModalActualizarContraseña").modal('show');
+            });
+        });
+    </script>
 
 </body>
 </html>

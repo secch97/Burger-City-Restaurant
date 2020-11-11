@@ -1,0 +1,270 @@
+﻿@model RestauranteWeb.Models.CuentasClientes
+
+@{
+    ViewBag.Title = "Pago";
+}
+<style>
+    .mi-scrollbar-personalizado2 {
+        position: relative;
+        height: 500px;
+        overflow: auto;
+    }
+
+    .scroll-tabla2 {
+        display: block;
+    }
+</style>
+<div class="container">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <br />
+                    <h1>PAGO DE PEDIDO</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="checkout-address">
+                    <div class="title-all text-center">
+                        <br />
+                        <h2>INFORMACIÓN DE PAGO</h2>
+                    </div>
+                    <form>
+                        <div class="title-left">
+                            <h3>Dirección de entrega de orden</h3>
+                        </div>
+                        <div class="title"> <h4>Elija la dirección donde será entregado su orden:</h4> </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <i class="fas fa-home"></i>
+                                <label>Dirección domiciliar:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="domicilio" name="direccion" type="radio" class="custom-control-input" value="Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82; Soyapango, San Salvador" required>
+                                    <label class="custom-control-label" for="domicilio">Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82; Soyapango, San Salvador</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <label>Dirección de entrega actual:</label>
+                                <a class="editar-entrega-actual btn btn-warning btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-pen" style="font-weight:bold;color:white;"></i>
+                                </a>
+                                <div class="custom-control custom-radio">
+                                    <input id="actual" name="direccion" type="radio" class="custom-control-input" value="Universidad Don Bosco; Soyapango, San Salvador" required>
+                                    <label class="custom-control-label" for="actual">
+                                        Universidad Don Bosco; Soyapango, San Salvador
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-1">
+                        <div class="title-left">
+                            <h3>Datos de contacto</h3>
+                        </div>
+                        <div class="title"> <h4>Elija el teléfono por el cual nos pondremos en contacto:</h4> </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <i class="fas fa-phone"></i>
+                                <label>Teléfono fijo:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="fijo" name="telefono" type="radio" class="custom-control-input" onclick="HabilitarOtro()" required>
+                                    <label class="custom-control-label" for="fijo">2290-1865</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <i class="fas fa-mobile-alt"></i>
+                                <label>Teléfono móvil:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="movil" name="telefono" type="radio" class="custom-control-input" onclick="HabilitarOtro()" required>
+                                    <label class="custom-control-label" for="movil">
+                                        7442-2219
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <i class="fas fa-phone-square"></i>
+                                <label>Otro:</label>
+                                <div class="custom-control custom-radio">
+                                    <input id="otro" name="telefono" type="radio" class="custom-control-input" onclick="HabilitarOtro()" required>
+                                    <label class="custom-control-label" for="otro">
+                                        <input id="txtOtro" type="text" class="form-control" placeholder="Número teléfonico" disabled="disabled" required />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-1">
+                        <div class="title-left">
+                            <h3>Método de pago</h3>
+                        </div>
+                        <div class="title"> <h4>Elija el método de pago que prefiera:</h4> </div>
+                        <div class="row">
+                            <div class="btn-group btn-group-toggle col-lg-4" data-toggle="buttons">
+                                <label class="btn btn-success" style="width:500px;">
+                                    <i class="fas fa-money-bill"></i>
+                                    <input id="efectivo" name="pago" type="checkbox" class="text-center;" required> Efectivo
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="mb-1">
+                        <div class="title-left">
+                            <h3>Indicaciones</h3>
+                        </div>
+                        <div class="title"> <h4>Escriba algunas indicaciones extras para el repartidor:</h4> </div>
+                        <div class="row">
+                            <div class="btn-group btn-group-toggle col-lg-12" data-toggle="buttons">
+                                <textarea class="form-control" rows="3" placeholder="Breve indicación"
+                                          id="indicacionPedido" maxlength="150" required></textarea>
+                            </div>
+                        </div>
+                        <hr class="mb-1">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a href="@Url.Action("Carrito", "Cliente")" class="ml-auto btn hvr-hover" style="color:white;font-weight:bold;">
+                                    <i class="fas fa-arrow-alt-circle-left"></i> Atrás
+                                </a>
+                                <button class="btn hvr-hover" id="btnFinalizarCompra" type="submit" style="display:inline-block;font-weight:bold;color:white;">
+                                    <i class="fas fa-check-circle"></i>
+                                    Finalizar compra
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6 mi-scrollbar-personalizado2 scroll-tabla2">
+                <div class="title-all text-center">
+                    <br />
+                    <h2>INFORMACIÓN DE PAGO</h2>
+                </div>
+                <table class="table" style="text-align:center;">
+                    <tbody>
+                        <tr>
+                            <td class="thumbnail-img">
+                                <a href="#">
+                                    <img src="~/Content/imagenes/Combos/Economico.png" style="width:90px;height:70px;" alt="">
+                                </a>
+                            </td>
+                            <td class="name-pr">
+                                <a href="#">
+                                    Paquete económico
+                                </a>
+                            </td>
+                            <td class="price-pr">
+                                <p>x 1</p>
+                            </td>
+                            <td class="total-pr">
+                                <p>$ 2.50</p>
+                            </td>
+                            <td class="remove-pr">
+                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a class="btn btn-danger btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="thumbnail-img">
+                                <a href="#">
+                                    <img src="~/Content/imagenes/Productos/Ensalada_de_manzana_y_nueces.png" style="width:90px;height:70px;" alt="">
+                                </a>
+                            </td>
+                            <td class="name-pr">
+                                <a href="#">
+                                    Ensalada de manzana
+                                </a>
+                            </td>
+                            <td class="price-pr">
+                                <p>x 1</p>
+                            </td>
+                            <td class="total-pr">
+                                <p>$ 1.50</p>
+                            </td>
+                            <td class="remove-pr">
+                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a class="btn btn-danger btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="thumbnail-img">
+                                <a href="#">
+                                    <img src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:90px;height:70px;" alt="">
+                                </a>
+                            </td>
+                            <td class="name-pr">
+                                <a href="#">
+                                    Sundae de caramelo
+                                </a>
+                            </td>
+                            <td class="price-pr">
+                                <p>x 1</p>
+                            </td>
+                            <td class="total-pr">
+                                <p>$ 1.75</p>
+                            </td>
+                            <td class="remove-pr">
+                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a class="btn btn-danger btn-sm rounded-sm" href="#">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="title-all text-center">
+                    <br />
+                    <h2>TOTAL: $5.75</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditarDireccionActual">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center" style="display:inline-block;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nueva dirección de entrega:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtNuevaDireccionEntrega" name="txtNuevaDireccionEntrega" placeholder="Introduzca su nueva dirección de entrega" required">
+                                        </div>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center" style="display:inline-block;">
+                                <div class="form-group">
+                                    <a class="btn hvr-hover" id="btnAñadirOrden" style="display:inline-block;font-weight:bold;color:white;">
+                                        <i class="fas fa-pen"></i>
+                                        Actualizar dirección
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

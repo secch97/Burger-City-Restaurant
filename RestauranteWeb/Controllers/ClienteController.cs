@@ -26,6 +26,31 @@ namespace RestauranteWeb.Controllers
             return View();
         }
 
+        public ActionResult Encuentranos()
+        {
+            return View();
+        }
+
+        public ActionResult Carrito()
+        {
+            return View();
+        }
+
+        public ActionResult Pago()
+        {
+                return View();
+        }
+
+        public ActionResult Perfil()
+        {
+            return View();
+        }
+
+        public ActionResult Historial()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult Registrarme()
         {
