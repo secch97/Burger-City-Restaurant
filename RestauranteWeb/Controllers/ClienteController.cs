@@ -14,16 +14,27 @@ namespace RestauranteWeb.Controllers
 {
     public class ClienteController : Controller
     {
+
+        ProyectoASP_RestauranteEntities db = new ProyectoASP_RestauranteEntities();
         // GET: Cliente
         public ActionResult Inicio()
         {
+            var model = new ModelInicioCliente();
+            model.combos = db.Combos.ToList();
+            model.categorias = db.CategoriasProductos.ToList();
+
             //Insertar aca código para mostrar en página principal.
-            return View();
+            return View(model);
         }
 
         public ActionResult Categorias()
         {
-            return View();
+            var model = new ModelInicioCliente();
+            model.combos = db.Combos.ToList();
+            model.categorias = db.CategoriasProductos.ToList();
+            model.productos = db.ProductosRestaurante.ToList();
+
+            return View(model);
         }
 
         public ActionResult Encuentranos()

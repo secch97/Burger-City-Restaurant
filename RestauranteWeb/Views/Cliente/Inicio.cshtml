@@ -1,4 +1,4 @@
-﻿
+﻿@model RestauranteWeb.Models.ModelInicioCliente
 @{
     ViewBag.Title = "Inicio";
 }
@@ -7,28 +7,17 @@
 <!-- EMPEZAR A ITERAR COMBOS AQUÍ -->
 <div id="slides-shop" class="cover-slides">
     <ul class="slides-container">
-        <li class="text-center">
-¿                <a class="detalles" href="#">
-                    <img src="~/Content/imagenes/Combos/Economico.png" alt="">
-                    <div class="container">
-                    </div>
-                </a>
-        </li>
-        <li class="text-center">
+        @foreach (var item in Model.combos)
+        {
+            <li class="text-center">
                 <a class="detalles" href="#">
-                    <img src="~/Content/imagenes/Combos/DuoBurguesa.png" alt="">
+                    <img src="@item.Imagen" alt="">
                     <div class="container">
                     </div>
                 </a>
-        </li>
-
-        <li class="text-center">
-                <a class="detalles" href="#">
-                    <img src="~/Content/imagenes/Combos/Familiar.png" alt="">
-                    <div class="container">
-                    </div>
-                </a>
-        </li>
+            </li>
+        }
+       
     </ul>
     <div class="slides-navigation">
         <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
@@ -46,49 +35,17 @@
                     <hr />
                 </div>
             </div>
-            <!-- ¡¡OJO!!: COMBOS NO ES CATEGORÍA COMO TAL EN LA BD, POR LO QUE DEBE IR COMO VALOR 'QUEMADO'-->
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div id="Combos" class="shop-cat-box">
-                    <img class="img-fluid" src="~/Content/imagenes/Categorias/Combos.png" alt="" />
-                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Combos"})">COMBOS</a>
+            @foreach (var item in Model.categorias)
+            {
+                <!-- PUEDEN INICIAR A ITERAR CATEGORÍAS ACA -->
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div  class="shop-cat-box">
+                        <img class="img-fluid" src="@item.Imagen" alt="" />
+                        <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
+                        <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {idCategoria = @item.IdCategoria})">@item.Nombre</a>
+                    </div>
                 </div>
-            </div>
-            <!-- PUEDEN INICIAR A ITERAR CATEGORÍAS ACA -->
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div id="Hamburguesas" class="shop-cat-box">
-                    <img class="img-fluid" src="~/Content/imagenes/Categorias/Hamburguesas.png" alt="" />
-                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
-                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Hamburguesas"})">HAMBURGUESAS</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div id="Acompañamientos" class="shop-cat-box">
-                    <img class="img-fluid" src="~/Content/imagenes/Categorias/Acompañamientos.png" alt="" />
-                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
-                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Acompañamientos"})">ACOMPAÑAMIENTOS</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div id="Ensaladas" class="shop-cat-box">
-                    <img class="img-fluid" src="~/Content/imagenes/Categorias/Ensaladas.png" alt="" />
-                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
-                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Ensaladas"})">ENSALADAS</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div id="Bebidas" class="shop-cat-box">
-                    <img class="img-fluid" src="~/Content/imagenes/Categorias/Bebidas.png" alt="" />
-                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
-                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Bebidas"})">BEBIDAS</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <div id="Postres" class="shop-cat-box">
-                    <img class="img-fluid" src="~/Content/imagenes/Categorias/Postres.png" alt="" />
-                    <!-- ENVIAR EN NOMBRECATEGORIA EL NOMBRE DE LA CATEGORIA QUE VIENE DESDE LA BD -->
-                    <a class="btn hvr-hover" href="@Url.Action("Categorias", "Cliente", new {nombreCategoria="Postres"})">POSTRES</a>
-                </div>
-            </div>
+             }
         </div>
         <hr />
     </div>

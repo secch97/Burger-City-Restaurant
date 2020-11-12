@@ -64,11 +64,11 @@
 	var Container = $('.container');
 	var url_string = window.location.href
 	var url = new URL(url_string);
-	if (url.searchParams.get("nombreCategoria") == null) {
+	if (url.searchParams.get("idCategoria") == null) {
 		var hashID = "*";
 	}
 	else {
-		var hashID = "." + url.searchParams.get("nombreCategoria");
+        var hashID = "." + url.searchParams.get("idCategoria");
 	}
 
 	Container.imagesLoaded(function() {
