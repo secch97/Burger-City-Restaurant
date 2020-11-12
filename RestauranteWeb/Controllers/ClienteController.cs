@@ -266,7 +266,7 @@ namespace RestauranteWeb.Controllers
         [HttpGet]
         public ActionResult MandarAdmin()
         {
-            return RedirectToAction("Index", "Administrador");
+            return RedirectToAction("Inicio", "Administrador");
         }
 
         [HttpGet]

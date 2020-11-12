@@ -33,10 +33,9 @@
                             <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">DATOS GENERALES DE LA CUENTA</h3>
                         </div>
                         <!-- /.card-header -->
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
-                            <div class="card-body">
+
+                        <div class="card-body">
+                            <form id="FrmActualizarUser" action="@Url.Action("EditarCuenta", "Administrador")">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -45,7 +44,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Usuario asignado" id="usuarioEmpleado" value="CC160510" readonly required>
+                                                <input type="text" class="form-control" placeholder="Usuario asignado" id="usuarioEmpleadoUp" value='@Session["id"]' readonly required>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +66,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleado" maxlength="100" value="Saúl Ernesto" required>
+                                                <input type="text" class="form-control" placeholder="Nombres del empleado" id="nombresEmpleadoUp" maxlength="100" value="@ViewBag.nombre" required>
                                             </div>
                                         </div>
                                     </div>
@@ -78,20 +77,21 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleado" maxlength="100" value="Castillo Chamagua" required>
+                                                <input type="text" class="form-control" placeholder="Apellidos del empleado" id="apellidosEmpleadoUp" maxlength="100" value="@ViewBag.apellido" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <br />
-                                <div style="display:flex;justify-content:center;align-items:center;">
-                                    <button type="submit" class="btn btn-success btn-sm rounded-sm" title="Actualizar datos" data-toggle="tooltip">
-                                        <i class="fa fa-pen" style="color:white;"></i>
-                                        Actualizar datos
-                                    </button>
-                                </div>
+                            </form>
+                            <br />
+                            <div style="display:flex;justify-content:center;align-items:center;">
+                                <button id="btnUpdateUser" class="btn btn-success btn-sm rounded-sm" title="Actualizar datos" data-toggle="tooltip">
+                                    <i class="fa fa-pen" style="color:white;"></i>
+                                    Actualizar datos
+                                </button>
                             </div>
-                        }
+                        </div>
+
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
@@ -101,3 +101,4 @@
         </div>
     </section>
 </div>
+
