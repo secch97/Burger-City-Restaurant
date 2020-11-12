@@ -145,6 +145,22 @@ function submitFormLogin() {
                 } else {
                     location.reload();
                 }
+            } else if (text == "5") {
+                formSuccessLogin();
+                var url2 = $(location).attr('href');
+                if (url2 != "https://localhost:44360/") {
+                    $(location).attr('href', 'MandarRestaurante');
+                } else {
+                    $(location).attr('href', 'Cliente/MandarRestaurante');
+                }
+            } else if (text == "6") {
+                formSuccessLogin();
+                var url2 = $(location).attr('href');
+                if (url2 != "https://localhost:44360/") {
+                    $(location).attr('href', 'MandarDelivery');
+                } else {
+                    $(location).attr('href', 'Cliente/MandarDelivery');
+                }
             } else if (text == "2") {
                 formSuccessLogin();
                 var url2 = $(location).attr('href');
