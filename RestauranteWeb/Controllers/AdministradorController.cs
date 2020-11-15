@@ -23,7 +23,14 @@ namespace RestauranteWeb.Controllers
         //INICIO METODOS INICIO
         public ActionResult Inicio()
         {
-            return HistorialOrdenes();
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                return HistorialOrdenes();
+            }
         }
 
         //FIN METODOS INICIO
@@ -33,7 +40,14 @@ namespace RestauranteWeb.Controllers
         [HttpGet]
         public ActionResult Roles()
         {
-            return View(db.RolesEmpleados.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                return View(db.RolesEmpleados.ToList());
+            }
         }
 
         public List<RolesEmpleados> recargarRoles()
@@ -57,13 +71,21 @@ namespace RestauranteWeb.Controllers
         [HttpPost]
         public ActionResult editarRol([Bind(Include = "IdRol,Rol")] RolesEmpleados rolesEmpleados)
         {
-            if (ModelState.IsValid)
+            if (Session["id"] == null)
             {
-                db.Entry(rolesEmpleados).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Roles");
+                return RedirectToAction("inicio", "Cliente");
             }
-            return View();
+            else
+            {
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(rolesEmpleados).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Roles");
+                }
+                return View();
+            }
         }
 
         [HttpPost]
@@ -95,11 +117,18 @@ namespace RestauranteWeb.Controllers
 
         public ActionResult EditarCuenta()
         {
-            string id = Session["id"].ToString();
-            var emp = db.CuentasEmpleados.Where(a => a.Usuario == id).FirstOrDefault();
-            ViewBag.nombre = emp.Nombres;
-            ViewBag.apellido = emp.Apellidos;
-            return View();
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                string id = Session["id"].ToString();
+                var emp = db.CuentasEmpleados.Where(a => a.Usuario == id).FirstOrDefault();
+                ViewBag.nombre = emp.Nombres;
+                ViewBag.apellido = emp.Apellidos;
+                return View();
+            }
         }
 
         [HttpPost]
@@ -115,7 +144,14 @@ namespace RestauranteWeb.Controllers
 
         public ActionResult ActualizarContraseña()
         {
-            return View();
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                return View();
+            }
         }
         [HttpPost]
         public JsonResult ActualizarContraseña(string usuario, string nueva, string antigua)
@@ -144,9 +180,16 @@ namespace RestauranteWeb.Controllers
         [HttpGet]
         public ActionResult Empleados()
         {
-            ViewBag.IdRoles = new SelectList(db.RolesEmpleados, "IdRol", "Rol");
-            var cuentasEmpleados = db.CuentasEmpleados.Include(c => c.RolesEmpleados);
-            return View(cuentasEmpleados.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                ViewBag.IdRoles = new SelectList(db.RolesEmpleados, "IdRol", "Rol");
+                var cuentasEmpleados = db.CuentasEmpleados.Include(c => c.RolesEmpleados);
+                return View(cuentasEmpleados.ToList());
+            }
         }
 
         [HttpPost]
@@ -229,7 +272,14 @@ namespace RestauranteWeb.Controllers
         //INICIO METODOS CUENTAS CLIENTES
         public ActionResult Clientes()
         {
-            return View(db.CuentasClientes.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                return View(db.CuentasClientes.ToList());
+            }
         }
 
         [HttpPost]
@@ -280,7 +330,14 @@ namespace RestauranteWeb.Controllers
         //INCIO METODOS ESTADOS
         public ActionResult Estados()
         {
-            return View(db.EstadosProductos.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                return View(db.EstadosProductos.ToList());
+            }
         }
 
         [HttpPost]
@@ -336,9 +393,16 @@ namespace RestauranteWeb.Controllers
         //INICIO METODOS CATEGORIAS
         public ActionResult Categorias()
         {
-            List<CategoriasProductos> list;
-            list = db.CategoriasProductos.ToList();
-            return View(db.CategoriasProductos.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                List<CategoriasProductos> list;
+                list = db.CategoriasProductos.ToList();
+                return View(db.CategoriasProductos.ToList());
+            }
         }
 
         [HttpPost]
@@ -463,12 +527,19 @@ namespace RestauranteWeb.Controllers
         //INICIO METODOS PRODUCTOS
         public ActionResult Productos()
         {
-            ViewBag.IdEstados = new SelectList(db.EstadosProductos, "IdEstado", "Nombre");
-            ViewBag.IdCategorias = new SelectList(db.CategoriasProductos, "IdCategoria", "Nombre");
-            var productos = db.ProductosRestaurante.Include(c => c.EstadosProductos)
-                                                   .Include(c => c.CategoriasProductos);
-           
-            return View(productos.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                ViewBag.IdEstados = new SelectList(db.EstadosProductos, "IdEstado", "Nombre");
+                ViewBag.IdCategorias = new SelectList(db.CategoriasProductos, "IdCategoria", "Nombre");
+                var productos = db.ProductosRestaurante.Include(c => c.EstadosProductos)
+                                                       .Include(c => c.CategoriasProductos);
+
+                return View(productos.ToList());
+            }
         }
 
         [HttpPost]
@@ -624,8 +695,15 @@ namespace RestauranteWeb.Controllers
         //INICIO METODOS COMBOS
         public ActionResult Combos()
         {
-            ViewBag.IdEstados = new SelectList(db.EstadosProductos, "IdEstado", "Nombre");
-            return View(db.Combos.Include(c=>c.EstadosProductos).ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                ViewBag.IdEstados = new SelectList(db.EstadosProductos, "IdEstado", "Nombre");
+                return View(db.Combos.Include(c => c.EstadosProductos).ToList());
+            }
         }
 
         [HttpPost]
@@ -777,13 +855,21 @@ namespace RestauranteWeb.Controllers
         //INICIO METODOS GESTION COMBOS
         public ActionResult GestionarCombo(string idCombo)
         {
-            var model = new ModelGestionCombos();
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                var model = new ModelGestionCombos();
 
-            model.Combos = db.Combos.Find(idCombo);
-            model.CombosDetalles = db.CombosDetalle.Where(a => a.IdCombo == idCombo).ToList();
-            model.Productos = db.ProductosRestaurante.ToList();
+                model.Combos = db.Combos.Find(idCombo);
+                model.CombosDetalles = db.CombosDetalle.Where(a => a.IdCombo == idCombo).ToList();
+                model.Productos = db.ProductosRestaurante.ToList();
 
-            return View(model);
+
+                return View(model);
+            }
         }
 
         [HttpPost]
@@ -839,7 +925,14 @@ namespace RestauranteWeb.Controllers
 
         public ActionResult Etapas()
         {
-            return View(db.EtapasPedidos.ToList());
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                return View(db.EtapasPedidos.ToList());
+            }
         }
 
         [HttpPost]
@@ -895,12 +988,19 @@ namespace RestauranteWeb.Controllers
 
         public ActionResult HistorialOrdenes()
         {
-            var model = new ModelHistorialOrdenes();
+            if (Session["id"] == null)
+            {
+                return RedirectToAction("inicio", "Cliente");
+            }
+            else
+            {
+                var model = new ModelHistorialOrdenes();
 
-            ViewBag.IdEtapas =  new SelectList(db.EtapasPedidos, "IdEtapa", "Nombre");
-            model.pedidosClientes = db.PedidosClientes.ToList();
+                ViewBag.IdEtapas = new SelectList(db.EtapasPedidos, "IdEtapa", "Nombre");
+                model.pedidosClientes = db.PedidosClientes.ToList();
 
-            return View(model);
+                return View(model);
+            }
         }
 
         [HttpPost]

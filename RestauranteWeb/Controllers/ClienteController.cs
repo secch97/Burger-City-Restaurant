@@ -142,7 +142,7 @@ namespace RestauranteWeb.Controllers
         }*/
         //Login POST
         [HttpPost]
-        public JsonResult Login(Logiarme login,string returnUrl)
+        public JsonResult Login(Logiarme login,string returnUrl="")
         {
             
             using(ProyectoASP_RestauranteEntities pr = new ProyectoASP_RestauranteEntities())
