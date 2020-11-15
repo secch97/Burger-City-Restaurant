@@ -469,7 +469,8 @@
 
     <!-- Modal 3: Modal de cambiar dirección de entrega actual en finalización de compra -->
     <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+        var direccion = '';
             $(".editar-entrega-actual").click(function () {
                 $("#ModalEditarDireccionActual")
                     .find("input,textarea,select")
@@ -480,7 +481,90 @@
                     .end();
                 $("#ModalEditarDireccionActual").modal('show');
             });
+
+        $("#btnModificarDireccion").click(function () {
+            var variables = [];
+
+            direccion = $("#txtNuevaDireccionEntrega").val()
+            variables.push(direccion);
+            if (!fieldEmpty(variables)) {
+                alerta('info', 'Debe colocar la dirección');
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Cliente/modificarDireccion',
+                    data: { 'direccion': direccion },
+                    success: function (data) {
+                        $("#actual").val(data);
+                        $("#actualLbl").text(data);
+                        alerta('success', 'direccion editada');
+                        $("#ModalEditarDireccionActual").modal('hide');
+                        //Actualizar el label y value de input direccion
+                    },
+                    error: function (data) {
+                        alerta('error', 'Error al modificar dirección');
+                    }
+                });
+            }
+
         });
+        });
+    </script>
+    <script>
+    $("#btnFinalizarCompra").click(function () {
+        var bandera = false;
+        var direccion = '';
+        var telefono = '';
+       //validando telefono
+        if ($("#otro").is(":checked")  && !(/^\d{4}-\d{4}$/.test($("#txtOtro").val()))) {
+            bandera = true;
+            alerta('error', 'el teléfono debe tener el formato 1234-5678');
+        }
+        if (!bandera) {
+            //Extrallendo datos
+            if ($("#domicilio").is(":checked")) {
+                direccion = $("#domicilio").val();
+            }
+            if ($("#actual").is(":checked")) {
+                direccion = $("#actual").val();
+            }
+            if ($("#fijo").is(":checked")) {
+                telefono = $("#fijo").val();
+            }
+            if ($("#movil").is(":checked")) {
+                telefono = $("#movil").val();
+            }
+
+            //solicitud
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/insertarPedido',
+                data: { 'direccion': direccion, 'telefono': telefono },
+                success: function (data) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Tu número de orden es: [ ' + data + ' ] Puedes mirar los detalles en tu historial de ordenes',
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        //redireccionando
+                        if (result.value) {
+                            $(location).attr('href', 'historial');
+                        }
+                    });
+                            
+                },
+                error: function (data) {
+                    alerta('error', 'Error al ingresar el pedido');
+                }
+            });
+
+        }
+        
+
+
+
+    });
     </script>
 
 
@@ -640,7 +724,7 @@
                     reloadTablaCarrito();
                     actualizarCantidad();
 
-                } else {
+                }else {
                     reloadCarrito();
                     if (data != 0) {
                         //Actualizando indicador de cantidad

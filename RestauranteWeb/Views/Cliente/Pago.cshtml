@@ -1,4 +1,4 @@
-﻿@model RestauranteWeb.Models.CuentasClientes
+﻿@model RestauranteWeb.Models.ModelPagoPedido
 
 @{
     ViewBag.Title = "Pago";
@@ -41,8 +41,8 @@
                                 <i class="fas fa-home"></i>
                                 <label>Dirección domiciliar:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="domicilio" name="direccion" type="radio" class="custom-control-input" value="Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82; Soyapango, San Salvador" required>
-                                    <label class="custom-control-label" for="domicilio">Urbanización Montes de San Bartolo 3, Polígono 47, Casa 82; Soyapango, San Salvador</label>
+                                    <input id="domicilio" name="direccion" type="radio" class="custom-control-input" value="@Model.cliente.Direccion" required checked>
+                                    <label class="custom-control-label" for="domicilio">@Model.cliente.Direccion</label>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -52,10 +52,8 @@
                                     <i class="fas fa-pen" style="font-weight:bold;color:white;"></i>
                                 </a>
                                 <div class="custom-control custom-radio">
-                                    <input id="actual" name="direccion" type="radio" class="custom-control-input" value="Universidad Don Bosco; Soyapango, San Salvador" required>
-                                    <label class="custom-control-label" for="actual">
-                                        Universidad Don Bosco; Soyapango, San Salvador
-                                    </label>
+                                    <input id="actual" name="direccion" type="radio" class="custom-control-input" value="@Model.cliente.DireccionEntrega" required>
+                                    <label id="actualLbl" class="custom-control-label" for="actual">@Model.cliente.DireccionEntrega</label>
                                 </div>
                             </div>
                         </div>
@@ -69,18 +67,16 @@
                                 <i class="fas fa-phone"></i>
                                 <label>Teléfono fijo:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="fijo" name="telefono" type="radio" class="custom-control-input" onclick="HabilitarOtro()" required>
-                                    <label class="custom-control-label" for="fijo">2290-1865</label>
+                                    <input id="fijo" name="telefono" type="radio" class="custom-control-input" value="@Model.cliente.TelefonoFijo" onclick="HabilitarOtro()" required checked>
+                                    <label class="custom-control-label" for="fijo">@Model.cliente.TelefonoFijo</label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <i class="fas fa-mobile-alt"></i>
                                 <label>Teléfono móvil:</label>
                                 <div class="custom-control custom-radio">
-                                    <input id="movil" name="telefono" type="radio" class="custom-control-input" onclick="HabilitarOtro()" required>
-                                    <label class="custom-control-label" for="movil">
-                                        7442-2219
-                                    </label>
+                                    <input id="movil" name="telefono" type="radio" class="custom-control-input" value="@Model.cliente.TelefonoCelular" onclick="HabilitarOtro()" required>
+                                    <label class="custom-control-label" for="movil">@Model.cliente.TelefonoCelular</label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -103,7 +99,7 @@
                             <div class="btn-group btn-group-toggle col-lg-4" data-toggle="buttons">
                                 <label class="btn btn-success" style="width:500px;">
                                     <i class="fas fa-money-bill"></i>
-                                    <input id="efectivo" name="pago" type="checkbox" class="text-center;" required> Efectivo
+                                    <input id="efectivo" name="pago" type="checkbox" class="text-center;" required checked> Efectivo
                                 </label>
                             </div>
                         </div>
@@ -121,10 +117,10 @@
                         <hr class="mb-1">
                         <div class="row">
                             <div class="col-lg-12">
-                                <a href="@Url.Action("Carrito", "Cliente")" class="ml-auto btn hvr-hover" style="color:white;font-weight:bold;">
+                                <a href="@Url.Action(" Carrito", "Cliente" )" class="ml-auto btn hvr-hover" style="color:white;font-weight:bold;">
                                     <i class="fas fa-arrow-alt-circle-left"></i> Atrás
                                 </a>
-                                <button class="btn hvr-hover" id="btnFinalizarCompra" type="submit" style="display:inline-block;font-weight:bold;color:white;">
+                                <button class="btn hvr-hover" id="btnFinalizarCompra" type="button" style="display:inline-block;font-weight:bold;color:white;">
                                     <i class="fas fa-check-circle"></i>
                                     Finalizar compra
                                 </button>
@@ -138,91 +134,39 @@
                     <br />
                     <h2>INFORMACIÓN DE PAGO</h2>
                 </div>
-                <table class="table" style="text-align:center;">
-                    <tbody>
+                <table id="tablaPago" class="table" style="text-align:center;">
+                    <tbody class="contenido">
+                        @foreach (var item in Model.objetos)
+                        {
                         <tr>
                             <td class="thumbnail-img">
                                 <a href="#">
-                                    <img src="~/Content/imagenes/Combos/Economico.png" style="width:90px;height:70px;" alt="">
+                                    <img src="@item.imagen" style="width:90px;height:70px;" alt="">
                                 </a>
                             </td>
                             <td class="name-pr">
-                                <a href="#">
-                                    Paquete económico
-                                </a>
+                                <a href="#">@item.nombre</a>
                             </td>
                             <td class="price-pr">
-                                <p>x 1</p>
+                                <p>x @item.cantidad</p>
                             </td>
                             <td class="total-pr">
-                                <p>$ 2.50</p>
+                                <p>$ @item.precio</p>
                             </td>
                             <td class="remove-pr">
-                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
+                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#"
+                                   data-idobjeto="@item.idObjeto"data-imagen="@item.imagen" data-nombre="@item.nombre" data-precio="@item.precio">
                                     <i class="fas fa-eye"></i>
-                                </a>
-                                <a class="btn btn-danger btn-sm rounded-sm" href="#">
-                                    <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="thumbnail-img">
-                                <a href="#">
-                                    <img src="~/Content/imagenes/Productos/Ensalada_de_manzana_y_nueces.png" style="width:90px;height:70px;" alt="">
-                                </a>
-                            </td>
-                            <td class="name-pr">
-                                <a href="#">
-                                    Ensalada de manzana
-                                </a>
-                            </td>
-                            <td class="price-pr">
-                                <p>x 1</p>
-                            </td>
-                            <td class="total-pr">
-                                <p>$ 1.50</p>
-                            </td>
-                            <td class="remove-pr">
-                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a class="btn btn-danger btn-sm rounded-sm" href="#">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="thumbnail-img">
-                                <a href="#">
-                                    <img src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:90px;height:70px;" alt="">
-                                </a>
-                            </td>
-                            <td class="name-pr">
-                                <a href="#">
-                                    Sundae de caramelo
-                                </a>
-                            </td>
-                            <td class="price-pr">
-                                <p>x 1</p>
-                            </td>
-                            <td class="total-pr">
-                                <p>$ 1.75</p>
-                            </td>
-                            <td class="remove-pr">
-                                <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a class="btn btn-danger btn-sm rounded-sm" href="#">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        }
+                        
                     </tbody>
                 </table>
                 <div class="title-all text-center">
                     <br />
-                    <h2>TOTAL: $5.75</h2>
+                    <h2>TOTAL: $ @Model.total</h2>
                 </div>
             </div>
         </div>
@@ -231,37 +175,37 @@
 <div class="modal fade" id="ModalEditarDireccionActual">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 text-center" style="display:inline-block;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Nueva dirección de entrega:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
-                                            </div>
-                                            <input type="text" class="form-control" id="txtNuevaDireccionEntrega" name="txtNuevaDireccionEntrega" placeholder="Introduzca su nueva dirección de entrega" required">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center" style="display:inline-block;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nueva dirección de entrega:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
                                         </div>
-                                        <div class="help-block with-errors"></div>
+                                        <input type="text" class="form-control" id="txtNuevaDireccionEntrega" name="txtNuevaDireccionEntrega" placeholder="Introduzca su nueva dirección de entrega" required">
                                     </div>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-md-12 text-center" style="display:inline-block;">
-                                <div class="form-group">
-                                    <a class="btn hvr-hover" id="btnAñadirOrden" style="display:inline-block;font-weight:bold;color:white;">
-                                        <i class="fas fa-pen"></i>
-                                        Actualizar dirección
-                                    </a>
-                                </div>
+                        </div>
+                        <div class="col-md-12 text-center" style="display:inline-block;">
+                            <div class="form-group">
+                                <a class="btn hvr-hover" id="btnModificarDireccion" style="display:inline-block;font-weight:bold;color:white;">
+                                    <i class="fas fa-pen"></i>
+                                    Actualizar dirección
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>

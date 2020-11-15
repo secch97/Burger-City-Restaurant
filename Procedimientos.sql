@@ -16,7 +16,8 @@ BEGIN
 /*PREFIJOS POSIBLES
 * CAT--> CATEGORIAS
 * PRO--> PRODUCTOS
-* COM--> COMBOS */
+* COM--> COMBOS 
+* PED--> PEDIDOS*/
 
 --variables
 DECLARE @UltimoId VARCHAR(20),
@@ -46,6 +47,16 @@ BEGIN
 	SELECT TOP 1 @UltimoId = c.IdCombo
 	FROM dbo.Combos AS c 
 	ORDER BY c.IdCombo DESC 
+	
+	SELECT @UltimoIdDig = ISNULL(CONVERT(INT,SUBSTRING(@UltimoId,4,LEN(@UltimoId))),0)
+	
+END
+
+IF UPPER(@Prefijo) = 'PED'
+BEGIN
+	SELECT TOP 1 @UltimoId = pc.IdPedido
+	FROM dbo.PedidosClientes AS pc
+	ORDER BY pc.IdPedido DESC 
 	
 	SELECT @UltimoIdDig = ISNULL(CONVERT(INT,SUBSTRING(@UltimoId,4,LEN(@UltimoId))),0)
 	

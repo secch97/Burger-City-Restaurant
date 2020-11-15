@@ -9,6 +9,7 @@ using RestauranteWeb.Models;
 using System.Reflection.Emit;
 using System.Data.Entity.Validation;
 using System.Web.Security;
+using System.Data.Entity;
 
 namespace RestauranteWeb.Controllers
 {
@@ -164,12 +165,69 @@ namespace RestauranteWeb.Controllers
             return View();
         }
 
-
+        //INICIO METODOS PAGO
         
         public ActionResult Pago()
         {
-                return View();
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+
+            var model = new ModelPagoPedido();
+            model.cliente = db.CuentasClientes.Find(usuario);
+            model.objetos = CarritoCompras.objetos;
+            model.total = carrito.obtenerMonto();
+
+            return View(model);
         }
+
+        public string modificarDireccion(string direccion)
+        {
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+
+            var cliente = db.CuentasClientes.Find(usuario);
+            cliente.DireccionEntrega = direccion;
+            cliente.ConfimarClave = cliente.Clave;
+
+            db.Entry(cliente).State = EntityState.Modified;
+           var error = db.SaveChanges();
+
+            return cliente.DireccionEntrega;
+        }
+
+
+        public string insertarPedido(string direccion, string telefono)
+        {
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+            var pedido = new PedidosClientes();
+            pedido.IdPedido = db.GeneradorIdOjetos("PED");
+            pedido.IdCliente = usuario;
+            pedido.TelefonoContacto = telefono;
+            pedido.DireccionEntrega = direccion;
+            pedido.Fecha = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+            pedido.Cancelado = false;
+
+            db.PedidosClientes.Add(pedido);
+            
+
+            //Registrando detalles del pedido
+            
+            foreach(var item in CarritoCompras.objetos)
+            {
+                var detalle = new PedidosClientesDetalles();
+                detalle.IdPedido = pedido.IdPedido;
+                detalle.IdObjeto = item.idObjeto;
+                detalle.Cantidad = item.cantidad;
+                db.PedidosClientesDetalles.Add(detalle);
+            }
+
+            //guardando cambios
+            db.SaveChanges();
+
+            //limpiando carrito
+            CarritoCompras.objetos = null;
+
+            return pedido.IdPedido;
+        }
+        // FIN METODOS PAGO
 
         public ActionResult Perfil()
         {
