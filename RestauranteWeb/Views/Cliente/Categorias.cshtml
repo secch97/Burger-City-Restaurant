@@ -10,6 +10,11 @@
         idCategoria = Request.QueryString["idCategoria"];
     }
 }
+<style>
+body{
+padding-right: 0px !important;
+}
+</style>
 <!-- Start Products  -->
 <div class="products-box">
     <div class="container">
@@ -19,7 +24,6 @@
                     <div class="button-group filter-button-group">
                         <!-- VER TODOS ES DATO QUEMADO, NO TOCAR -->
                         <button class="@(idCategoria.Contains("*") ? "active" : string.Empty)" data-filter="*">Ver todo</button>
-
 
                         @foreach (var item in Model.categorias)
                         {
@@ -50,7 +54,7 @@
                         </div>
                         <img src="@item.Imagen" style="width:350px;height:200px;" alt="">
                         <div class="mask-icon">
-                            <a class="cart detalles" href="#"><i class="fas fa-eye"></i> Ver detalles</a>
+                            <a class="cart detalles" data-idcombo="@item.IdCombo" data-descripcion="@item.Descripcion" data-imagen="@item.Imagen" data-precio="@item.Precio" data-nombre="@item.Nombre" href="#"><i class="fas fa-eye"></i> Ver detalles</a>
                         </div>
                     </div>
                     <div class="why-text">
@@ -73,7 +77,7 @@
                             </div>
                             <img src="@item.Imagen" style="width:350px;height:200px;" alt="">
                             <div class="mask-icon">
-                                <a class="cart detalles" href="#"><i class="fas fa-eye"></i> Ver detalles</a>
+                                <a class="cart detalles" data-idproducto="@item.IdProducto" data-descripcion="@item.Descripcion" data-imagen="@item.Imagen" data-precio="@item.Precio" data-nombre="@item.Nombre" href="#"><i class="fas fa-eye"></i> Ver detalles</a>
                             </div>
                         </div>
                         <div class="why-text">

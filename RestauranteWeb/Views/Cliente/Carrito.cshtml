@@ -1,4 +1,4 @@
-﻿
+﻿@model RestauranteWeb.Models.ModelCarritoDetalles
 @{
     ViewBag.Title = "Carrito";
 }
@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="col-lg-9  mi-scrollbar-personalizado scroll-tabla">
-                <div class="table-main table-hover">
-                    <table class="table" style="text-align:center;">
+                <div class="table-main table-hover" id="tablaFea">
+                    <table class="table" id="tablaCarrito" style="text-align:center;">
                         <thead>
                             <tr>
                                 <th>Imagen</th>
@@ -36,88 +36,38 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img src="~/Content/imagenes/Combos/Economico.png" style="width:90px;height:70px;" alt="">
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="#">
-                                        Paquete económico
-                                    </a>
-                                </td>
-                                <td class="price-pr">
-                                    <p>$ 2.50</p>
-                                </td>
-                                <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                <td class="total-pr">
-                                    <p>$ 2.50</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm rounded-sm" href="#">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img src="~/Content/imagenes/Productos/Ensalada_de_manzana_y_nueces.png" style="width:90px;height:70px;" alt="">
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="#">
-                                        Ensalada de manzana
-                                    </a>
-                                </td>
-                                <td class="price-pr">
-                                    <p>$ 1.50</p>
-                                </td>
-                                <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                <td class="total-pr">
-                                    <p>$ 1.50</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm rounded-sm" href="#">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img src="~/Content/imagenes/Productos/Sundae_Caramelo.png" style="width:90px;height:70px;" alt="">
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="#">
-                                        Sundae de caramelo
-                                    </a>
-                                </td>
-                                <td class="price-pr">
-                                    <p>$ 1.75</p>
-                                </td>
-                                <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                <td class="total-pr">
-                                    <p>$ 1.75</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm rounded-sm" href="#">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                        <tbody class="contenido">
+                            @foreach (var item in Model.carrito)
+                            {
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+                                            <img src="@item.imagen" style="width:90px;height:70px;" alt="">
+                                        </a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+                                            @item.nombre
+                                        </a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ @item.precio</p>
+                                    </td>
+                                    <td class="quantity-box"><input type="number" size="4" value="@item.cantidad" id="@item.idObjeto" min="1" step="1" class="c-input-text qty text" onchange="actualizarCantidad('@item.idObjeto');" ></td>
+                                    <td class="total-pr">
+                                        <p id="monto_@item.idObjeto">$ @item.monto </p>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a class="detalles2 btn btn-primary btn-sm rounded-sm" href="#" 
+                                           data-idobjeto="@item.idObjeto"data-imagen="@item.imagen" data-nombre="@item.nombre" data-precio="@item.precio">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a class="btn btn-danger btn-sm rounded-sm" onclick="eliminarProducto('@item.idObjeto')" href="#">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -127,7 +77,7 @@
                         <h3 class="text-center">RESUMEN DE ORDEN</h3>
                         <div class="d-flex">
                             <h4>Sub Total</h4>
-                            <div class="ml-auto font-weight-bold"> $ 5.75 </div>
+                            <div class="ml-auto font-weight-bold" id="resumenTotal"> $ @Model.total </div>
                         </div>
                         <hr class="my-1">
                         <div class="d-flex">
@@ -137,7 +87,7 @@
                         <hr>
                         <div class="d-flex gr-total">
                             <h5>Total</h5>
-                            <div class="ml-auto h5"> $ 5.75 </div>
+                            <div class="ml-auto h5" id="resumenTotal2"> $ @Model.total </div>
                         </div>
                         <hr>
                     </div>

@@ -13,9 +13,6 @@
 <div class="modal fade" id="ModalDetalles">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -26,14 +23,11 @@
                                 <div class="form-group products-single fix">
                                     <div class="box-img-hover">
                                         <div class="type-lb">
-                                            <p class="sale">$2.50</p>
+                                            <p class="sale" id="detallePrecio"></p>
                                         </div>
-                                        <img src="~/Content/imagenes/Combos/Economico.png" style="width:350px;height:230px;" alt="">
-                                        <div class="mask-icon">
-                                            <a class="cart" href="#">
-                                                Disfruta de un excelente combo que contiene una deliciosa Carneburguesa, acompañada
-                                                de papas pequeñas y una coca-cola enlatada
-                                            </a>
+                                        <img src="" id="detalleImagen" style="width:350px;height:230px;" alt="">
+                                        <div class="mask-descripcion">
+                                            <a class="cart" id="detalleDescripcion" href="#"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -42,40 +36,16 @@
                                 <div class="form-group table-wrapper-scroll-y my-custom-scrollbar">
                                     <table id="tablaProductos" class="table table-hover " style="text-align:center;">
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Carneburguesa.png" style="width:50px;height:50px" alt="" />
-                                                </td>
-                                                <td>
-                                                    Carneburguesa
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:50px;height:50px" alt="" />
-                                                </td>
-                                                <td>
-                                                    Papas pequeñas
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:50px;height:50px" alt="" />
-                                                </td>
-                                                <td>
-                                                    Coca Cola en lata
-                                                </td>
-                                            </tr>
-
+                                            
                                         </tbody>
                                     </table>
                                     @if (Session["id"] != null)
                                     {
-                                        <input type="number" id="cantidadProducto" value="" min="0" max="99" step="1" placeholder="Ingrese una cantidad" style="width:50%" required />
+                                        <input type="number" id="detalleCantidad"  min="1" max="99" step="1"   style="width:50%" required />
                                     }
                                     else
                                     {
-                                        <input type="number" id="cantidadProducto" value="" min="0" max="99" step="1" placeholder="Ingrese una cantidad" style="width:50%" disabled />
+                                        <input type="number"  value="" min="0" max="99" step="1" placeholder="Ingrese una cantidad" style="width:50%" disabled />
                                     }
                                 </div>
                             </div>
@@ -83,14 +53,14 @@
                                 <div class="form-group">
                                     @if (Session["id"] != null)
                                     {
-                                        <button class="btn hvr-hover" id="btnAñadirOrden" type="submit" style="display:inline-block;font-weight:bold;color:white;">
+                                        <button class="btn hvr-hover" id="btnAgregarOrden" type="button" style="display:inline-block;font-weight:bold;color:white;">
                                             <i class="fas fa-cart-plus"></i>
                                             Añadir a mi orden
                                         </button>
                                     }
                                     else
                                     {
-                                        <button class="btn hvr-hover" id="btnAñadirOrden" type="submit" style="display:inline-block;font-weight:bold;color:white;" disabled>
+                                        <button class="btn hvr-hover"  type="button" style="display:inline-block;font-weight:bold;color:white;" disabled>
                                             <i class="fas fa-cart-plus"></i>
                                             Inicie sesión para comprar
                                         </button>
@@ -100,7 +70,6 @@
                         </div>
                     </div>
                 </div>
-            }
         </div>
         <!-- /.modal-content -->
     </div>
@@ -121,46 +90,20 @@
                                 <div class="form-group products-single fix">
                                     <div class="box-img-hover">
                                         <div class="type-lb">
-                                            <p class="sale">$2.50</p>
+                                            <p class="sale" id="detalle2Precio"></p>
                                         </div>
-                                        <img src="~/Content/imagenes/Combos/Economico.png" style="width:350px;height:230px;" alt="">
-                                        <div class="mask-icon">
-                                            <a class="cart" href="#">
-                                                Disfruta de un excelente combo que contiene una deliciosa Carneburguesa, acompañada
-                                                de papas pequeñas y una coca-cola enlatada
-                                            </a>
+                                        <img src="" id="detalle2Imagen" style="width:350px;height:230px;" alt="">
+                                        <div class="mask-descripcion">
+                                            <a class="cart" id="detalle2Descripcion" href="#"></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group table-wrapper-scroll-y my-custom-scrollbar">
-                                    <table id="tablaProductos" class="table table-hover " style="text-align:center;">
+                                    <table id="tablaProductos2" class="table table-hover " style="text-align:center;">
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Carneburguesa.png" style="width:50px;height:50px" alt="" />
-                                                </td>
-                                                <td>
-                                                    Carneburguesa
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Papas_Pequeñas.png" style="width:50px;height:50px" alt="" />
-                                                </td>
-                                                <td>
-                                                    Papas pequeñas
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img class="img-fluid" src="~/Content/imagenes/Productos/Coca-Cola_Lata.png" style="width:50px;height:50px" alt="" />
-                                                </td>
-                                                <td>
-                                                    Coca Cola en lata
-                                                </td>
-                                            </tr>
+                                          
                                         </tbody>
                                     </table>
                                 </div>

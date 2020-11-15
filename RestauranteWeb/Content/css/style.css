@@ -328,13 +328,13 @@
  .attr-nav > ul > li > a{
      padding: 28px 15px;
 }
- ul.cart-list > li.total > .btn{
-     border-bottom: solid 1px #cfcfcf !important;
-     color: #000000 ;
-     padding: 10px 15px;
-     border: none;
-     font-weight: 700;
-     color: #ffffff;
+ul.cart-list > li.total > .btn {
+    border-bottom: solid 1px #cfcfcf !important;
+    color: #000000;
+    padding: 10px 15px;
+    border: none;
+    font-weight: 700;
+    color: #ffffff;
 }
  @media (min-width: 1024px) {
     /* Navbar General ------*/
@@ -1003,33 +1003,89 @@ nav.navbar.bootsnav ul.nav li.megamenu-fw > a:hover {
      background: #000000;
      color: #ffffff;
 }
- .products-single .mask-icon{
-     background: rgba(1,1,1, 0.5);
-     top: -100%;
-     -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
-     filter: alpha(opacity=0);
-     opacity: 0;
-     -webkit-transition: all 0.3s ease-out 0.5s;
-     -moz-transition: all 0.3s ease-out 0.5s;
-     -o-transition: all 0.3s ease-out 0.5s;
-     -ms-transition: all 0.3s ease-out 0.5s;
-     transition: all 0.3s ease-out 0.5s;
+
+.mask-descripcion {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
 }
- .products-single:hover .mask-icon{
-     -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
-     filter: alpha(opacity=100);
-     opacity: 1;
-     top: 0px;
-     -webkit-transition-delay: 0s;
-     -moz-transition-delay: 0s;
-     -o-transition-delay: 0s;
-     -ms-transition-delay: 0s;
-     transition-delay: 0s;
-     -webkit-animation: bounceY 0.9s linear;
-     -moz-animation: bounceY 0.9s linear;
-     -ms-animation: bounceY 0.9s linear;
-     animation: bounceY 0.9s linear;
+
+.mask-descripcion ul {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
+
+.mask-descripcion ul li {
+background: #fc4703;
+}
+
+.mask-descripcion ul li a {
+    color: #ffffff;
+    padding: 5px 10px;
+    display: block;
+}
+
+.mask-descripcion a.cart {
+    background: #fc4703;
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    padding: 10px 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.mask-descripcion a.cart:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+.mask-descripcion ul li a:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+.products-single .mask-icon{
+
+}
+.products-single:hover .mask-icon{
+
+}
+
+.products-single .mask-descripcion {
+    background: rgba(1,1,1, 0.5);
+    top: -100%;
+    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-out 0.5s;
+    -moz-transition: all 0.3s ease-out 0.5s;
+    -o-transition: all 0.3s ease-out 0.5s;
+    -ms-transition: all 0.3s ease-out 0.5s;
+    transition: all 0.3s ease-out 0.5s;
+}
+
+.products-single:hover .mask-descripcion {
+    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+    top: 0px;
+    -webkit-transition-delay: 0s;
+    -moz-transition-delay: 0s;
+    -o-transition-delay: 0s;
+    -ms-transition-delay: 0s;
+    transition-delay: 0s;
+    -webkit-animation: bounceY 0.9s linear;
+    -moz-animation: bounceY 0.9s linear;
+    -ms-animation: bounceY 0.9s linear;
+    animation: bounceY 0.9s linear;
+}
+
  @keyframes bounceY {
      0% {
          transform: translateY(-205px);

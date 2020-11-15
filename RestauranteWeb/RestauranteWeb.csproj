@@ -2282,9 +2282,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarritoCompras.cs" />
     <Compile Include="Models\CategoriasProductos.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelCarritoDetalles.cs" />
     <Compile Include="Models\ModelHistorialOrdenes.cs" />
     <Compile Include="Models\ModelGestionCombos.cs" />
     <Compile Include="Models\Combos.cs">

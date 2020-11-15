@@ -29,8 +29,11 @@
     @Styles.Render("~/Content/administracion/datatables-bs4/css/dataTables.bootstrap4.min.css")
     @Styles.Render("~/Content/administracion/datatables-responsive/css/responsive.bootstrap4.min.css")
     @Styles.Render("~/Content/administracion/datatables-buttons/css/buttons.bootstrap4.min.css")
+
+    <!-- CSS SweetAlert -->
+    @Styles.Render("~/Content/administracion/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")
 </head>
-<body>
+<body onload="verificarElementos();">
     <!-- Start Main Top -->
     <header class="main-header">
         @{
@@ -82,9 +85,9 @@
                         <li class="side-menu">
                             @if (Session["id"] != null)
                             {
-                                <a href="#">
-                                    <i class="fa fa-shopping-cart">
-                                        <span class="badge badge-pill badge-success ml-2" style="font-weight:bold;font-family:'Segoe UI';background-color:#fc4703">3</span>
+                                <a href="#" id="btnAbrirCarrito" onclick="reloadCarrito();">
+                                    <i class="fa fa-shopping-cart" id="indicadorCantidad">
+
                                     </i>
                                 </a>
                             }
@@ -97,7 +100,7 @@
             <div class="side">
                 <a href="#" class="close-side"><i class="fa fa-times"></i></a>
                 <div class="cart-box">
-                    <ul class="cart-list">
+                    <ul class="cart-list" id="datosCarrito">
                         <li>
                             <a href="#" class="photo">
                                 <img src="~/Content/imagenes/Combos/Economico.png" style="width:60px;height:50px;" alt="">
@@ -224,6 +227,9 @@
     @Scripts.Render("~/Content/administracion/datatables-buttons/js/dataTables.buttons.min.js")
     @Scripts.Render("~/Content/administracion/datatables-buttons/js/buttons.bootstrap4.min.js")
 
+    <!-- SWEETALERT -->
+    @Scripts.Render("~/Content/administracion/sweetalert2/sweetalert2.min.js")
+
     @RenderSection("scripts", required: false)
 
 
@@ -294,33 +300,171 @@
     <!-- MODAL 1: Modal de detalles al abrir un producto desde menú de categorías-->
     <script>
         $(document).ready(function () {
+            var idCombo = '';
+            var idProducto = '';
+            var id = '';
+            var bandera = '';
+            var imagen = '';
+            var nombre = '';
+            var precio = 0;
+            var cantidad = 0;
+
+
             $(".detalles").click(function () {
-                $("#ModalDetalles")
-                    .find("input,textarea,select")
-                    .val("").trigger('change')
-                    .end()
-                    .find("input[type=checkbox], input[type=radio]")
-                    .prop("checked", "")
-                    .end();
-                $("#ModalDetalles").modal('show');
+                //Inicializando cantidad en  1
+                bandera = false;
+                $("#detalleCantidad").val("1");
+                idProducto = $(this).data('idproducto');
+                idCombo = $(this).data('idcombo');
+                imagen = $(this).data('imagen');
+                nombre = $(this).data('nombre');
+                precio = $(this).data('precio');
+
+                $("#detalleImagen").attr('src', imagen);
+                $("#detalleDescripcion").text($(this).data('descripcion'));
+                $("#detallePrecio").text(precio);
+
+                if (idProducto === undefined) {
+                    bandera = true;
+                    id = idCombo;
+                } else {
+                    id = idProducto;
+                }
+                if (bandera) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cliente/obtenerDetalle',
+                        data: { 'idCombo': idCombo },
+                        dataType: 'json',
+                        success: function (data) {
+
+                            $("#tablaProductos tbody tr").remove();
+                            $.each(data, function (i, item) {
+                                var rows = "<tr>"
+                                    + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
+                                    + "<td>" + item.Nombre + "</td>"
+                                    + "<td>" + item.Cantidad + "</td>"
+                                    + "</tr>";
+                                $('#tablaProductos tbody').append(rows);
+                            });
+                            $("#ModalDetalles").modal('show');
+                        },
+                        failure: function (ex) {
+                            var r = jQuery.parseJSON(response.responseText);
+                            alert("Message: " + r.Message);
+                            alert("StackTrace: " + r.StackTrace);
+                            alert("ExceptionType: " + r.ExceptionType);
+                        }
+                    });
+                }//fin if
+                else {
+                    $("#tablaProductos tbody tr").remove();
+                    var rows = "<tr>"
+                        + "<td>" + "<img class='img-fluid' src=\"" + imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
+                        + "<td>" + nombre + "</td>"
+                        + "</tr>";
+                    $('#tablaProductos tbody').append(rows);
+
+                    $("#ModalDetalles").modal('show');
+                }
+            });
+
+            $("#btnAgregarOrden").click(function () {
+                var variables = [];
+
+                cantidad = $("#detalleCantidad").val();
+
+                variables.push(cantidad);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe ingresar una cantidad');
+                } else {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cliente/registrarObjetos',
+                        data: { 'idObjeto': id, 'nombre': nombre, 'cantidad': cantidad, 'precio': precio, 'imagen': imagen },
+                        success: function (data) {
+                            $("#ModalDetalles").modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Producto agregado',
+                                showConfirmButton: false,
+                                focusConfirm: false,
+                                timer: 1500
+                            });
+                            //Actualizando indicador de cantidad
+                            $("#indicadorCantidad").html("<span class='badge badge-pill badge-success ml-2' style='font-weight:bold;font-family:'Segoe UI';background-color:#fc4703>" + data + "</span>");
+                            //Recarcando carrito
+                            reloadCarrito();
+                        },
+                        error: function (data) {
+                            alerta('error', 'No se registro el producto');
+                        }
+                    });
+                }
+
             });
         });
     </script>
 
     <!-- MODAL 2: Modal de detalles al desear ver los detalles desde el carrito de compras de un producto -->
     <script>
-        $(document).ready(function () {
-            $(".detalles2").click(function () {
-                $("#ModalDetalles2")
-                    .find("input,textarea,select")
-                    .val("").trigger('change')
-                    .end()
-                    .find("input[type=checkbox], input[type=radio]")
-                    .prop("checked", "")
-                    .end();
-                $("#ModalDetalles2").modal('show');
+    $(document).ready(function () {
+        var idObjeto = '';
+        var imagen = '';
+        var nombre = '';
+        
+        $(".contenido").on("click", ".detalles2", function () {
+
+            imagen = $(this).data('imagen');
+            nombre = $(this).data('nombre');
+            idObjeto = $(this).data('idobjeto');
+            $("#detalle2Imagen").attr('src',imagen);
+            
+            $("#detalle2Precio").text($(this).data('precio'));
+
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/obtenerDetalleCarrito',
+                data: { 'idObjeto': idObjeto },
+                dataType: 'json',
+                success: function (data) {
+                    $("#tablaProductos2 tbody tr").remove();
+                    
+                    if (data.isCombo === undefined) {
+                       
+                        $.each(data, function (i, item) {
+                            var rows = "<tr>"
+                                + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
+                                + "<td>" + item.Nombre + "</td>"
+                                + "<td>" + item.Cantidad + "</td>"
+                                + "</tr>";
+                            $('#tablaProductos2 tbody').append(rows);
+                        });
+
+                        $("#detalle2Descripcion").text(data[0].Descripcion);
+                    } else {
+                        
+                        var rows = "<tr>"
+                            + "<td>" + "<img class='img-fluid' src=\"" + imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
+                            + "<td>" + nombre + "</td>"
+                            + "</tr>";
+                        $('#tablaProductos2 tbody').append(rows);
+                        $("#detalle2Descripcion").text(data.descripcion);
+                    }
+                    $("#ModalDetalles2").modal('show');
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
             });
+
         });
+    });
     </script>
 
     <!-- Modal 3: Modal de cambiar dirección de entrega actual en finalización de compra -->
@@ -372,6 +516,231 @@
                 $("#ModalActualizarContraseña").modal('show');
             });
         });
+    </script>
+    <!--Script para generar datos en carrito desplegable-->
+    <script>
+
+        function reloadCarrito() {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/generarCarritoPlegable',
+                dataType: 'json',
+                success: function (data) {
+                    $("#datosCarrito li").remove();
+                    if (data.success === undefined) {
+                        $.each(data, function (i, item) {
+                            var rows = "<li>"
+                                + "<a href='#' class='photo'>"
+                                + "<img  src=\"" + item.imagen + "\" style='width:60px;height:50px' alt='' />"
+                                + "<h6><a href='#'>" + item.nombre + "</a></h6>"
+                                + "<p>"
+                                + item.cantidad + "x - <span class='price'> $" + item.precio + "</span>&nbsp;<a data-toggle='tooltip' title='Quitar producto' href='#' onclick ='eliminarProducto(\"" + item.idObjeto + "\");'><i class='fas fa-times'></i></a> "
+                                + "</p>"
+                                + "</li>";
+                            $('#datosCarrito').append(rows);
+                        });
+                        //Insertando total
+                        var foot = "</li>"
+                            + "<li class='total'>"
+                            + "<a href='/Cliente/Carrito' class='btn btn-default hvr-hover btn-cart'>VER CARRITO</a>"
+                            + "<span class='float-right'><strong>Total</strong>: $" + data[0].total + "</span>"
+                            + "</li>";
+                        $('#datosCarrito').append(foot);
+
+                    } else {
+                        var rows = "<li>"
+                            + "<p>"
+                            + data.message
+                            + "</p>"
+                            + "</li>";
+
+                        $('#datosCarrito').append(rows);
+                    }
+
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+        }
+    </script>
+    <script>
+    function reloadTablaCarrito() {
+            $("#tablaCarrito tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/reloadTablaCarrito',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        var rows = "<tr>"
+                            + "<td class='thumbnail-img'>"
+                            + "<a href='#'>"
+                            + "<img  src=\"" + item.imagen + "\" style='width:90px;height:70px' alt='' />"
+                            + "</a>"
+                            + "</td>"
+                            + "<td>" 
+                            + "<a href='#'>" + item.nombre + "</a>"
+                            + "</td>"
+                            + "<td class='price-pr'>" 
+                            + "<p>$" + item.precio + "</p>"
+                            + "</td>"
+                            + "<td class='quantity-box'>"
+                            + "<input type = 'number' size = '4' value =" + item.cantidad + " id = " + item.idObjeto + " min = '1' step = '1' class='c-input-text qty text' onchange = 'actualizarCantidad(\"" + item.idObjeto + "\");' >"
+                            + "</td>"
+                            + "<td class='total-pr'>" 
+                            + "<p>$" + item.monto + "</p>"
+                            + "</td>"
+
+                            + "<td class='remove-pr'>"
+                            + "<a class='detalles2 btn btn-primary btn-sm rounded-sm' href='#' " 
+                            + "data-idobjeto2=\"" + item.idObjeto + "\" "
+                            + "data-idobjeto=\"" + item.idObjeto + "\" "
+                            + "data-imagen=\"" + item.imagen + "\" "
+                            + "data-nombre=\"" + item.nombre + "\" "
+                            + "data-precio=\"" + item.precio+ "\" "
+                            + ">"
+                            + " <i class='fas fa-eye' style='color:white;'></i>"
+                            + "</a> "
+                            + "<a class='btn btn-danger btn-sm rounded-sm' onclick='eliminarProducto(\"" + item.idObjeto + "\");' href='#'>"
+                            + " <i class='fas fa-trash' style='color:white;'></i>"
+                            + "</a>"
+                            + "</td>"
+                            + "</tr>";
+                        $('#tablaCarrito tbody').append(rows);
+                        
+                    });
+                    $("input[type='number']").inputSpinner();
+                },
+                failure: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+    </script>
+    <script>
+    function eliminarProducto(idObjeto) {
+        //verificando ruta actual
+        var ruta = window.location.pathname;
+        $.ajax({
+            type: 'POST',
+            url: '/Cliente/eliminarProducto',
+            data: { 'idObjeto': idObjeto },
+            success: function (data) {
+                if (ruta === '/Cliente/Carrito') {
+                    reloadTablaCarrito();
+                    actualizarCantidad();
+
+                } else {
+                    reloadCarrito();
+                    if (data != 0) {
+                        //Actualizando indicador de cantidad
+                        $("#indicadorCantidad").html("<span class='badge badge-pill badge-success ml-2' style='font-weight:bold;font-family:'Segoe UI';background-color:#fc4703>" + data + "</span>");
+                    } else {
+                        $("#indicadorCantidad").html("");
+                    }
+                }
+
+            },
+            error: function (data) {
+                alerta('error', 'Error al eliminar elemento');
+            }
+        });
+    }
+    </script>
+    <script>
+        function fieldEmpty(variables) {
+            var bandera = true;
+            for (var i = 0; i < variables.length; i++) {
+                if (variables[i].trim() === '') {
+                    bandera = false;
+                    break;
+                }
+            }
+            return bandera
+        }
+    </script>
+    <script>
+        function alerta(tipo, mensaje) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            Toast.fire({
+                icon: tipo, //success,info,error,warning,question
+                title: mensaje
+            });
+
+
+        }
+
+    </script>
+    <script>
+        function verificarElementos() {
+            //Verificando el numero de elementos en el carrito
+            //countObjetos
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/countObjetos',
+                success: function (data) {
+                    if (data != 0) {
+                        //Actualizando indicador de cantidad
+                        $("#indicadorCantidad").html("<span class='badge badge-pill badge-success ml-2' style='font-weight:bold;font-family:'Segoe UI';background-color:#fc4703>" + data + "</span>");
+                    }
+                },
+                error: function (data) {
+                    alerta('error', 'Error al recargar elementos');
+                }
+            });
+
+            //verificando ruta actual
+            var ruta = window.location.pathname;
+
+            //Ocultando carrito si las rutas son de Carrito o Pago
+            if (ruta === '/Cliente/Carrito') {
+                $("#btnAbrirCarrito").hide();
+            }
+            if (ruta === '/Cliente/Pago') {
+                $("#btnAbrirCarrito").hide();
+            }
+
+        }
+
+    </script>
+    <script>
+    function actualizarCantidad(idObjeto) {
+        var cantidad = $('#' + idObjeto).val();
+        $.ajax({
+            type: 'POST',
+            url: '/Cliente/cambiarCantidad',
+            data: { 'idObjeto': idObjeto, 'cantidad': cantidad == null ? 0: cantidad },
+            success: function (data) {
+                if (data.monto !== 0) {
+                    $("#monto_" + idObjeto).text("$ " + data.totalObjeto);
+                    $("#resumenTotal").text("$ " + data.monto);
+                    $("#resumenTotal2").text("$ " + data.monto);
+                } else {
+                    $(location).attr('href', 'categorias');
+                }
+                    
+            },
+            error: function (data) {
+                alerta('error', 'Error al actualizar tabla');
+            }
+        });
+
+    }
     </script>
 
 </body>

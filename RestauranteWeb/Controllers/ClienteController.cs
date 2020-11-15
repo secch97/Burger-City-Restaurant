@@ -15,8 +15,11 @@ namespace RestauranteWeb.Controllers
     public class ClienteController : Controller
     {
 
-        ProyectoASP_RestauranteEntities db = new ProyectoASP_RestauranteEntities();
+        private ProyectoASP_RestauranteEntities db = new ProyectoASP_RestauranteEntities();
+        private CarritoCompras carrito = new CarritoCompras();
         // GET: Cliente
+
+        // INICIO METODOS INICIO
         public ActionResult Inicio()
         {
             var model = new ModelInicioCliente();
@@ -26,7 +29,9 @@ namespace RestauranteWeb.Controllers
             //Insertar aca código para mostrar en página principal.
             return View(model);
         }
+        // FIN METODOS INICIO
 
+        //INICIO METODOS CATEGORIAS
         public ActionResult Categorias()
         {
             var model = new ModelInicioCliente();
@@ -37,16 +42,130 @@ namespace RestauranteWeb.Controllers
             return View(model);
         }
 
+        public JsonResult obtenerDetalle(string idCombo)
+        {
+            
+            List<CombosDetalle> combo = new List<CombosDetalle>();
+            combo = db.CombosDetalle.Where(c=>c.IdCombo == idCombo).ToList();
+            var comboClean = combo.Select(s => new {
+                s.ProductosRestaurante.Imagen,
+                s.ProductosRestaurante.Nombre,
+                s.Cantidad,
+                s.Combos.Descripcion
+            });
+
+            return Json(comboClean, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult obtenerDetalleCarrito(string idObjeto)
+        {
+            var combo = db.Combos.Find(idObjeto);
+            if (db.Combos.Find(idObjeto) != null)
+            {
+                return obtenerDetalle(idObjeto);
+            }
+            else
+            {
+                return Json(new { isCombo = false, descripcion = (db.ProductosRestaurante.Find(idObjeto)).Descripcion });
+            }
+
+        }
+        // FIN METODOS CATEGORIAS
+
+        // INICIO METODOS CARRITO COMPRAS
+
+        public int registrarObjetos(string idObjeto, string nombre, int cantidad, decimal precio, string imagen)
+        {
+                //Verificando que el objeto no exista
+                if (carrito.existeObjeto(idObjeto))
+                {
+                    carrito.modificarObjeto(idObjeto, cantidad);
+                }
+                else
+                {
+                    carrito.insertarObjeto(idObjeto, nombre, cantidad, precio, imagen);
+                }
+
+            return carrito.countObjetos();
+        }   
+        
+        public int countObjetos()
+        {
+            return carrito.countObjetos();
+        }
+        public JsonResult generarCarritoPlegable()
+        {
+            if(CarritoCompras.objetos!= null && CarritoCompras.objetos.Count!=0)
+            {
+                return Json(CarritoCompras.objetos.Select(s=>new {
+                    s.idObjeto,
+                    s.imagen,
+                    s.nombre,
+                    s.precio,
+                    s.cantidad,
+                    total = carrito.obtenerMonto()
+                }));
+            }
+            else
+            {
+                return Json(new { success = false, message = "Todavía no hay productos" });
+            }
+        }
+
+        public int eliminarProducto(string idObjeto)
+        {
+            carrito.eliminarProducto(idObjeto);
+
+            return carrito.countObjetos();
+        }
+
+        public ActionResult Carrito()
+        {
+            var model = new ModelCarritoDetalles();
+
+            model.carrito = CarritoCompras.objetos;
+            model.total = carrito.obtenerMonto();
+
+            return View(model);
+        }
+
+        public JsonResult cambiarCantidad(string idObjeto, int cantidad)
+        {
+
+            return Json( new { totalObjeto = carrito.cambiarCantidad(idObjeto, cantidad),
+                               monto = carrito.obtenerMonto()});
+
+        }
+
+        public JsonResult reloadTablaCarrito()
+        {
+            if (CarritoCompras.objetos != null && CarritoCompras.objetos.Count != 0)
+            {
+                return Json(CarritoCompras.objetos.Select(s => new {
+                    s.idObjeto,
+                    s.imagen,
+                    s.nombre,
+                    s.precio,
+                    s.cantidad,
+                    monto = s.cantidad*s.precio
+                }));
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        // FIN METOROS CARRITO COMPRAS
         public ActionResult Encuentranos()
         {
             return View();
         }
 
-        public ActionResult Carrito()
-        {
-            return View();
-        }
 
+        
         public ActionResult Pago()
         {
                 return View();

@@ -351,7 +351,7 @@ body.on-side{
     margin-left: -280px;
 }
 
-.side{
+.side {
     position: fixed;
     overflow-y: auto;
     top: 0;
@@ -360,12 +360,14 @@ body.on-side{
     padding: 25px 15px;
     height: 100%;
     display: block;
-    background-color: #010101;
+    background-color: #ffffff;
     -webkit-transition: all 0.3s ease-in-out;
-	-moz-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	-ms-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -webkit-box-shadow: -2px 3px 20px 4px rgba(0,0,0,0.59);
+    box-shadow: -2px 3px 20px 4px rgba(0,0,0,0.59);
     z-index: 9;
 }
 
@@ -373,13 +375,13 @@ body.on-side{
     right: 0;
 }
 
-.side .close-side{
-    float: right;
-    color: #fff;
-    position: relative;
-    z-index: 2;
-    font-size: 16px;
-}
+    .side .close-side {
+        float: right;
+        color: #fc4703;
+        position: relative;
+        z-index: 2;
+        font-size: 16px;
+    }
 
 .side .widget{
     position: relative;
