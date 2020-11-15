@@ -3050,9 +3050,9 @@
                 data: { usuario, nombre, apellido },
                 success: function (text) {
                     if (text == 1) {
-                        location.reload();
+                        alerta('success', 'Los datos fueron actualizados');
                     } else {
-                        location.reload();
+                        alerta('info', 'Error al ingresar los datos intente de nuevo');
                     }
                 }
             });
@@ -3080,7 +3080,7 @@
                     data: { usuario, nueva, antigua},
                     success: function (text) {
                         if (text == 1) {
-                            location.reload();
+                            alerta('success', 'La contraseña se actualizo con existo');
                         } else if (text == 2) {
                             alerta('info', 'La nueva contraseña tiene que ser diferente a la antigua');
                         } else if (text == 3) {
