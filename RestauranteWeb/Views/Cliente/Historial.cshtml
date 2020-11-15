@@ -1,4 +1,4 @@
-﻿
+﻿@model RestauranteWeb.Models.ModelHistorialOrdenes
 @{
     ViewBag.Title = "Historial de ordenes";
 }
@@ -34,22 +34,21 @@
                                     </tr>
                                 </thead>
                                 <tbody class="contenido">
-                                    <tr>
-                                        <td>OR001</td>
-                                        <td>Saúl Ernesto Castillo Chamagua</td>
-                                        <td>10/11/2020 22:40</td>
-                                        <td>$5.75</td>
-                                        <td>
-                                            <span class="badge badge-danger" style="font-weight:bold;color:white;">
-                                                Cancelada
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a class="mostrar-detalles-mi-orden btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip">
-                                                <i class="fa fa-eye" style="font-weight:bold;color:white;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in Model.pedidosClientes)
+                                    {
+                                        <tr>
+                                            <td>@item.IdPedido</td>
+                                            <td>@item.CuentasClientes.Nombres @item.CuentasClientes.Apellidos</td>
+                                            <td>@item.Fecha</td>
+                                            <td>@Model.getMonto(@item.IdPedido)</td>
+                                            <td>@item.TrackeoPedidosClientes.EtapasPedidos.Nombre</td>
+                                            <td>
+                                                <a class="mostrar-detalles-mi-orden btn btn-primary btn-sm rounded-sm" title="Detalles" data-toggle="tooltip" data-idpedido="@item.IdPedido">
+                                                    <i class="fa fa-eye" style="font-weight:bold;color:white;"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

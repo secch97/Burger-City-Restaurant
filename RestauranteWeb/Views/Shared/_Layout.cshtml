@@ -410,67 +410,67 @@
 
     <!-- MODAL 2: Modal de detalles al desear ver los detalles desde el carrito de compras de un producto -->
     <script>
-    $(document).ready(function () {
-        var idObjeto = '';
-        var imagen = '';
-        var nombre = '';
-        
-        $(".contenido").on("click", ".detalles2", function () {
+        $(document).ready(function () {
+            var idObjeto = '';
+            var imagen = '';
+            var nombre = '';
 
-            imagen = $(this).data('imagen');
-            nombre = $(this).data('nombre');
-            idObjeto = $(this).data('idobjeto');
-            $("#detalle2Imagen").attr('src',imagen);
-            
-            $("#detalle2Precio").text($(this).data('precio'));
+            $(".contenido").on("click", ".detalles2", function () {
 
-            $.ajax({
-                type: 'POST',
-                url: '/Cliente/obtenerDetalleCarrito',
-                data: { 'idObjeto': idObjeto },
-                dataType: 'json',
-                success: function (data) {
-                    $("#tablaProductos2 tbody tr").remove();
-                    
-                    if (data.isCombo === undefined) {
-                       
-                        $.each(data, function (i, item) {
+                imagen = $(this).data('imagen');
+                nombre = $(this).data('nombre');
+                idObjeto = $(this).data('idobjeto');
+                $("#detalle2Imagen").attr('src', imagen);
+
+                $("#detalle2Precio").text($(this).data('precio'));
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Cliente/obtenerDetalleCarrito',
+                    data: { 'idObjeto': idObjeto },
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#tablaProductos2 tbody tr").remove();
+
+                        if (data.isCombo === undefined) {
+
+                            $.each(data, function (i, item) {
+                                var rows = "<tr>"
+                                    + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
+                                    + "<td>" + item.Nombre + "</td>"
+                                    + "<td>" + item.Cantidad + "</td>"
+                                    + "</tr>";
+                                $('#tablaProductos2 tbody').append(rows);
+                            });
+
+                            $("#detalle2Descripcion").text(data[0].Descripcion);
+                        } else {
+
                             var rows = "<tr>"
-                                + "<td>" + "<img class='img-fluid' src=\"" + item.Imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
-                                + "<td>" + item.Nombre + "</td>"
-                                + "<td>" + item.Cantidad + "</td>"
+                                + "<td>" + "<img class='img-fluid' src=\"" + imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
+                                + "<td>" + nombre + "</td>"
                                 + "</tr>";
                             $('#tablaProductos2 tbody').append(rows);
-                        });
-
-                        $("#detalle2Descripcion").text(data[0].Descripcion);
-                    } else {
-                        
-                        var rows = "<tr>"
-                            + "<td>" + "<img class='img-fluid' src=\"" + imagen + "\" style='width:50px;height:50px' alt='' />" + "</td>"
-                            + "<td>" + nombre + "</td>"
-                            + "</tr>";
-                        $('#tablaProductos2 tbody').append(rows);
-                        $("#detalle2Descripcion").text(data.descripcion);
+                            $("#detalle2Descripcion").text(data.descripcion);
+                        }
+                        $("#ModalDetalles2").modal('show');
+                    },
+                    failure: function (ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
                     }
-                    $("#ModalDetalles2").modal('show');
-                },
-                failure: function (ex) {
-                    var r = jQuery.parseJSON(response.responseText);
-                    alert("Message: " + r.Message);
-                    alert("StackTrace: " + r.StackTrace);
-                    alert("ExceptionType: " + r.ExceptionType);
-                }
-            });
+                });
 
+            });
         });
-    });
     </script>
 
     <!-- Modal 3: Modal de cambiar dirección de entrega actual en finalización de compra -->
     <script>
-    $(document).ready(function () {
-        var direccion = '';
+        $(document).ready(function () {
+            var direccion = '';
             $(".editar-entrega-actual").click(function () {
                 $("#ModalEditarDireccionActual")
                     .find("input,textarea,select")
@@ -482,97 +482,167 @@
                 $("#ModalEditarDireccionActual").modal('show');
             });
 
-        $("#btnModificarDireccion").click(function () {
-            var variables = [];
+            $("#btnModificarDireccion").click(function () {
+                var variables = [];
 
-            direccion = $("#txtNuevaDireccionEntrega").val()
-            variables.push(direccion);
-            if (!fieldEmpty(variables)) {
-                alerta('info', 'Debe colocar la dirección');
-            } else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Cliente/modificarDireccion',
-                    data: { 'direccion': direccion },
-                    success: function (data) {
-                        $("#actual").val(data);
-                        $("#actualLbl").text(data);
-                        alerta('success', 'direccion editada');
-                        $("#ModalEditarDireccionActual").modal('hide');
-                        //Actualizar el label y value de input direccion
-                    },
-                    error: function (data) {
-                        alerta('error', 'Error al modificar dirección');
-                    }
-                });
-            }
+                direccion = $("#txtNuevaDireccionEntrega").val()
+                variables.push(direccion);
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe colocar la dirección');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cliente/modificarDireccion',
+                        data: { 'direccion': direccion },
+                        success: function (data) {
+                            $("#actual").val(data);
+                            $("#actualLbl").text(data);
+                            alerta('success', 'direccion editada');
+                            $("#ModalEditarDireccionActual").modal('hide');
+                            //Actualizar el label y value de input direccion
+                        },
+                        error: function (data) {
+                            alerta('error', 'Error al modificar dirección');
+                        }
+                    });
+                }
 
-        });
+            });
         });
     </script>
     <script>
-    $("#btnFinalizarCompra").click(function () {
-        var bandera = false;
-        var direccion = '';
-        var telefono = '';
-       //validando telefono
-        if ($("#otro").is(":checked")  && !(/^\d{4}-\d{4}$/.test($("#txtOtro").val()))) {
-            bandera = true;
-            alerta('error', 'el teléfono debe tener el formato 1234-5678');
-        }
-        if (!bandera) {
-            //Extrallendo datos
-            if ($("#domicilio").is(":checked")) {
-                direccion = $("#domicilio").val();
+        $("#btnFinalizarCompra").click(function () {
+            var bandera = false;
+            var direccion = '';
+            var telefono = '';
+            //validando telefono
+            if ($("#otro").is(":checked") && !(/^\d{4}-\d{4}$/.test($("#txtOtro").val()))) {
+                bandera = true;
+                alerta('error', 'el teléfono debe tener el formato 1234-5678');
             }
-            if ($("#actual").is(":checked")) {
-                direccion = $("#actual").val();
-            }
-            if ($("#fijo").is(":checked")) {
-                telefono = $("#fijo").val();
-            }
-            if ($("#movil").is(":checked")) {
-                telefono = $("#movil").val();
-            }
-
-            //solicitud
-            $.ajax({
-                type: 'POST',
-                url: '/Cliente/insertarPedido',
-                data: { 'direccion': direccion, 'telefono': telefono },
-                success: function (data) {
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Tu número de orden es: [ ' + data + ' ] Puedes mirar los detalles en tu historial de ordenes',
-                        showConfirmButton: true,
-                    }).then((result) => {
-                        //redireccionando
-                        if (result.value) {
-                            $(location).attr('href', 'historial');
-                        }
-                    });
-                            
-                },
-                error: function (data) {
-                    alerta('error', 'Error al ingresar el pedido');
+            if (!bandera) {
+                //Extrallendo datos
+                if ($("#domicilio").is(":checked")) {
+                    direccion = $("#domicilio").val();
                 }
-            });
+                if ($("#actual").is(":checked")) {
+                    direccion = $("#actual").val();
+                }
+                if ($("#fijo").is(":checked")) {
+                    telefono = $("#fijo").val();
+                }
+                if ($("#movil").is(":checked")) {
+                    telefono = $("#movil").val();
+                }
+                if ($("#otro").is(":checked")) {
+                    telefono = $("#txtOtro").val();
+                }
 
-        }
-        
+                //solicitud
+                $.ajax({
+                    type: 'POST',
+                    url: '/Cliente/insertarPedido',
+                    data: { 'direccion': direccion, 'telefono': telefono },
+                    success: function (data) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tu número de orden es: [ ' + data + ' ] Puedes mirar los detalles en tu historial de ordenes',
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            //redireccionando
+                            if (result.value) {
+                                $(location).attr('href', 'historial');
+                            }
+                        });
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'Error al ingresar el pedido');
+                    }
+                });
+
+            }
 
 
 
-    });
+
+        });
     </script>
 
 
     <!-- Modal 4: Modal detalles de mi orden-->
     <script>
         $(document).ready(function () {
+            var idPedido = '';
+            var idCliente = '';
+            var total = '';
             $(".mostrar-detalles-mi-orden").click(function () {
-                $("#ModalMiOrden-Detalles").modal('show');
+
+                idPedido = $(this).data('idpedido');
+
+                var promise = $.ajax({
+                    type: 'POST',
+                    url: '/Cliente/obtenerClienteOrden',
+                    data: { 'idPedido': idPedido },
+                    dataType: 'json',
+                    success: function (data) {
+
+
+                        $("#nombreCliente").val(data.nombre);
+                        $("#direccionCliente").val(data.direccion);
+                        $("#telefonoCliente").val(data.telefono);
+                        $("#correoCliente").val(data.correo);
+                        $("#codigoOrden").val(idPedido);
+                        $("#fechaOrden").val(ToJavaScriptDate(data.fecha));
+                        $("#estadoOrden").val(data.estado);
+                        total = data.total;
+
+                    },
+                    error: function (data) {
+                        alerta('error', 'No es posible mostrar el detalle');
+                    }
+                });
+
+                promise.then(function () {
+                    $("#tablaDetalle tbody tr").remove();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cliente/obtenerDetalleOrden',
+                        data: { 'idPedido': idPedido },
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+
+                                var rows = "<tr>"
+                                    + "<td>" + item.IdObjeto + "</td>"
+                                    + "<td>" + item.Nombre + "</td>"
+                                    + "<td>" + item.Cantidad + "</td>"
+                                    + "<td>" + item.Precio + "</td>"
+                                    + "<td>" + item.SubTotal + "</td>"
+                                    + "</tr>";
+                                $('#tablaDetalle tbody').append(rows);
+                            });
+
+                            $("#tablaTotal tr").remove();
+
+                            var rows = "<tr>"
+                                + "<th>Total de orden:</th>"
+                                + "<td>" + total + "</td>"
+                                + "</tr>";
+
+                            $('#tablaTotal').append(rows);
+
+                            $("#ModalMiOrden-Detalles").modal('show');
+                        },
+                        failure: function (ex) {
+                            var r = jQuery.parseJSON(response.responseText);
+                            alert("Message: " + r.Message);
+                            alert("StackTrace: " + r.StackTrace);
+                            alert("ExceptionType: " + r.ExceptionType);
+                        }
+                    });
+                });
             });
         });
     </script>
@@ -580,8 +650,54 @@
     <!-- Modal 5: Editar perfil-->
     <script>
         $(document).ready(function () {
+            var nombres = '';
+            var apellidos = '';
+            var telefono = '';
+            var movil = '';
+            var correo = '';
+            var direccion = '';
+            var direccionEntrega = '';
+
             $(".editar-perfil").click(function () {
                 $("#ModalEditarPerfil").modal('show');
+
+            });
+
+            $("#btnActualizarDatosPerfil").click(function () {
+                var variables = [];
+
+                nombres = $("#nombresCliente").val();
+                apellidos = $("#apellidosCliente").val();
+                telefono = $("#telefonoCliente").val();
+                movil = $("#movilCliente").val();
+                correo = $("#correoCliente").val();
+                direccion = $("#direccionDomicilioCliente").val();
+                direccionEntrega = $("#direccionEntregaCliente").val();
+
+                variables.push(nombres);
+                variables.push(apellidos);
+                variables.push(telefono);
+                variables.push(movil);
+                variables.push(correo);
+                variables.push(direccion);
+                variables.push(direccionEntrega);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'debe llenar todos los campos');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cliente/modificarCliente',
+                        data: { 'nombres': nombres, 'apellidos': apellidos, 'telefono': telefono, 'movil': movil, 'correo': correo, 'direccion': direccion, 'direccionEntrega': direccionEntrega },
+                        success: function () {
+                            $("#ModalEditarPerfil").modal('hide');
+                            alerta('success', 'Se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'Error al editar');
+                        }
+                    });
+                }
             });
         });
     </script>
@@ -589,6 +705,8 @@
     <!-- Modal 5: Editar perfil-->
     <script>
         $(document).ready(function () {
+            var nueva = '';
+            var antigua = '';
             $(".actualizar-contraseña").click(function () {
                 $("#ModalActualizarContraseña")
                     .find("input,textarea,select")
@@ -598,6 +716,37 @@
                     .prop("checked", "")
                     .end();
                 $("#ModalActualizarContraseña").modal('show');
+            });
+
+            $("#btnActualizarClave").click(function () {
+                var variables = [];
+
+                nueva = $("#nuevaContraseña").val();
+                antigua = $("#nuevaContraseñaConfirmacion").val();
+
+                variables.push(nueva);
+                variables.push(antigua);
+
+                if (!fieldEmpty(variables)) {
+                    alerta('info', 'Debe llenar los campos');
+
+                } else if (nueva !== antigua) {
+                    alerta('info', 'Las contraseñas deben coincidir');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cliente/modificarClave',
+                        data: { 'clave': nueva },
+                        success: function () {
+                            $("#ModalActualizarContraseña").modal('hide');
+                            alerta('success', 'Se editó con éxito');
+                        },
+                        error: function () {
+                            alerta('error', 'Error al editar');
+                        }
+                    });
+                }
+
             });
         });
     </script>
@@ -653,7 +802,7 @@
         }
     </script>
     <script>
-    function reloadTablaCarrito() {
+        function reloadTablaCarrito() {
             $("#tablaCarrito tbody tr").remove();
             $.ajax({
                 type: 'POST',
@@ -668,26 +817,26 @@
                             + "<img  src=\"" + item.imagen + "\" style='width:90px;height:70px' alt='' />"
                             + "</a>"
                             + "</td>"
-                            + "<td>" 
+                            + "<td>"
                             + "<a href='#'>" + item.nombre + "</a>"
                             + "</td>"
-                            + "<td class='price-pr'>" 
+                            + "<td class='price-pr'>"
                             + "<p>$" + item.precio + "</p>"
                             + "</td>"
                             + "<td class='quantity-box'>"
                             + "<input type = 'number' size = '4' value =" + item.cantidad + " id = " + item.idObjeto + " min = '1' step = '1' class='c-input-text qty text' onchange = 'actualizarCantidad(\"" + item.idObjeto + "\");' >"
                             + "</td>"
-                            + "<td class='total-pr'>" 
+                            + "<td class='total-pr'>"
                             + "<p>$" + item.monto + "</p>"
                             + "</td>"
 
                             + "<td class='remove-pr'>"
-                            + "<a class='detalles2 btn btn-primary btn-sm rounded-sm' href='#' " 
+                            + "<a class='detalles2 btn btn-primary btn-sm rounded-sm' href='#' "
                             + "data-idobjeto2=\"" + item.idObjeto + "\" "
                             + "data-idobjeto=\"" + item.idObjeto + "\" "
                             + "data-imagen=\"" + item.imagen + "\" "
                             + "data-nombre=\"" + item.nombre + "\" "
-                            + "data-precio=\"" + item.precio+ "\" "
+                            + "data-precio=\"" + item.precio + "\" "
                             + ">"
                             + " <i class='fas fa-eye' style='color:white;'></i>"
                             + "</a> "
@@ -697,7 +846,7 @@
                             + "</td>"
                             + "</tr>";
                         $('#tablaCarrito tbody').append(rows);
-                        
+
                     });
                     $("input[type='number']").inputSpinner();
                 },
@@ -712,34 +861,34 @@
         }
     </script>
     <script>
-    function eliminarProducto(idObjeto) {
-        //verificando ruta actual
-        var ruta = window.location.pathname;
-        $.ajax({
-            type: 'POST',
-            url: '/Cliente/eliminarProducto',
-            data: { 'idObjeto': idObjeto },
-            success: function (data) {
-                if (ruta === '/Cliente/Carrito') {
-                    reloadTablaCarrito();
-                    actualizarCantidad();
+        function eliminarProducto(idObjeto) {
+            //verificando ruta actual
+            var ruta = window.location.pathname;
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/eliminarProducto',
+                data: { 'idObjeto': idObjeto },
+                success: function (data) {
+                    if (ruta === '/Cliente/Carrito') {
+                        reloadTablaCarrito();
+                        actualizarCantidad();
 
-                }else {
-                    reloadCarrito();
-                    if (data != 0) {
-                        //Actualizando indicador de cantidad
-                        $("#indicadorCantidad").html("<span class='badge badge-pill badge-success ml-2' style='font-weight:bold;font-family:'Segoe UI';background-color:#fc4703>" + data + "</span>");
                     } else {
-                        $("#indicadorCantidad").html("");
+                        reloadCarrito();
+                        if (data != 0) {
+                            //Actualizando indicador de cantidad
+                            $("#indicadorCantidad").html("<span class='badge badge-pill badge-success ml-2' style='font-weight:bold;font-family:'Segoe UI';background-color:#fc4703>" + data + "</span>");
+                        } else {
+                            $("#indicadorCantidad").html("");
+                        }
                     }
-                }
 
-            },
-            error: function (data) {
-                alerta('error', 'Error al eliminar elemento');
-            }
-        });
-    }
+                },
+                error: function (data) {
+                    alerta('error', 'Error al eliminar elemento');
+                }
+            });
+        }
     </script>
     <script>
         function fieldEmpty(variables) {
@@ -803,28 +952,36 @@
 
     </script>
     <script>
-    function actualizarCantidad(idObjeto) {
-        var cantidad = $('#' + idObjeto).val();
-        $.ajax({
-            type: 'POST',
-            url: '/Cliente/cambiarCantidad',
-            data: { 'idObjeto': idObjeto, 'cantidad': cantidad == null ? 0: cantidad },
-            success: function (data) {
-                if (data.monto !== 0) {
-                    $("#monto_" + idObjeto).text("$ " + data.totalObjeto);
-                    $("#resumenTotal").text("$ " + data.monto);
-                    $("#resumenTotal2").text("$ " + data.monto);
-                } else {
-                    $(location).attr('href', 'categorias');
-                }
-                    
-            },
-            error: function (data) {
-                alerta('error', 'Error al actualizar tabla');
-            }
-        });
+        function actualizarCantidad(idObjeto) {
+            var cantidad = $('#' + idObjeto).val();
+            $.ajax({
+                type: 'POST',
+                url: '/Cliente/cambiarCantidad',
+                data: { 'idObjeto': idObjeto, 'cantidad': cantidad == null ? 0 : cantidad },
+                success: function (data) {
+                    if (data.monto !== 0) {
+                        $("#monto_" + idObjeto).text("$ " + data.totalObjeto);
+                        $("#resumenTotal").text("$ " + data.monto);
+                        $("#resumenTotal2").text("$ " + data.monto);
+                    } else {
+                        $(location).attr('href', 'categorias');
+                    }
 
-    }
+                },
+                error: function (data) {
+                    alerta('error', 'Error al actualizar tabla');
+                }
+            });
+
+        }
+    </script>
+    <script>
+        function ToJavaScriptDate(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        }
     </script>
 
 </body>

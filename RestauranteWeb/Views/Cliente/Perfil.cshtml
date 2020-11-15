@@ -1,4 +1,4 @@
-﻿
+﻿@model RestauranteWeb.Models.CuentasClientes
 @{
     ViewBag.Title = "Mi perfil";
 }
@@ -82,7 +82,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Inserte sus nombres" id="nombresCliente" required>
+                                        <input type="text" class="form-control" value="@Model.Nombres" placeholder="Inserte sus nombres" id="nombresCliente" required>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Inserte sus apellidos" id="apellidosCliente" required>
+                                        <input type="text" class="form-control" value="@Model.Apellidos" placeholder="Inserte sus apellidos" id="apellidosCliente" required>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Teléfono fijo de contacto" id="telefonoCliente" required>
+                                        <input type="text" class="form-control" value="@Model.TelefonoFijo" placeholder="Teléfono fijo de contacto" id="telefonoCliente" required>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Teléfono móvil de contacto" id="movilCliente" data-mask required>
+                                        <input type="text" class="form-control" value="@Model.TelefonoCelular" placeholder="Teléfono móvil de contacto" id="movilCliente" data-mask required>
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Correo electrónico" id="correoCliente" required>
+                                        <input type="text" class="form-control" value="@Model.Correo" placeholder="Correo electrónico" id="correoCliente" required>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-map"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Dirección de domicilio" id="direccionDomicilioCliente" required>
+                                        <input type="text" class="form-control" value="@Model.Direccion" placeholder="Dirección de domicilio" id="direccionDomicilioCliente" required>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-map-marked"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Dirección de entrega actual" id="direccionEntregaCliente" required>
+                                        <input type="text" class="form-control" value="@Model.DireccionEntrega" placeholder="Dirección de entrega actual" id="direccionEntregaCliente" required>
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btnActualizarDatosPerfil" class="btn btn-warning" style="font-weight:bold;color:white;">
+                    <button type="button" id="btnActualizarDatosPerfil" class="btn btn-warning" style="font-weight:bold;color:white;">
                         <i class="fas fa-pen" style="font-weight:bold;color:white;"></i>
                         Actualizar
                     </button>
@@ -213,7 +213,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Confirme su nueva contraseña" id="nuevaContraseñaConfirmacion" required>
+                                        <input type="password" class="form-control" placeholder="Confirme su nueva contraseña" id="nuevaContraseñaConfirmacion" required>
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +221,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btnActualizarDatosPerfil" class="btn btn-warning" style="font-weight:bold;color:white;">
+                    <button type="button" id="btnActualizarClave" class="btn btn-warning" style="font-weight:bold;color:white;">
                         <i class="fas fa-pen" style="font-weight:bold;color:white;"></i>
                         Actualizar
                     </button>

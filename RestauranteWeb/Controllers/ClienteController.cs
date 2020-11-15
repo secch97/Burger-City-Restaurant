@@ -188,7 +188,7 @@ namespace RestauranteWeb.Controllers
             cliente.ConfimarClave = cliente.Clave;
 
             db.Entry(cliente).State = EntityState.Modified;
-           var error = db.SaveChanges();
+            db.SaveChanges();
 
             return cliente.DireccionEntrega;
         }
@@ -229,15 +229,85 @@ namespace RestauranteWeb.Controllers
         }
         // FIN METODOS PAGO
 
+        //INICIO METODOS PERFIL
+
         public ActionResult Perfil()
         {
-            return View();
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+
+            return View(db.CuentasClientes.Find(usuario));
+        }
+
+        public void modificarCliente(string nombres, string apellidos, string telefono, string movil, string correo, string direccion, string direccionEntrega)
+        {
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+            var cliente = db.CuentasClientes.Find(usuario);
+
+            cliente.Nombres = nombres;
+            cliente.Apellidos = apellidos;
+            cliente.TelefonoFijo = telefono;
+            cliente.TelefonoCelular = movil;
+            cliente.Correo = correo;
+            cliente.Direccion = direccion;
+            cliente.DireccionEntrega = direccionEntrega;
+            
+            db.Entry(cliente).State = EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.SaveChanges();
+
+        }
+
+        public void modificarClave(string clave)
+        {
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+            var cliente = db.CuentasClientes.Find(usuario);
+
+            cliente.Clave = Crypto.Hash(clave);
+
+            db.Entry(cliente).State = EntityState.Modified;
+            db.Configuration.ValidateOnSaveEnabled = false;
+            db.SaveChanges();
+
         }
 
         public ActionResult Historial()
         {
-            return View();
+            string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+            var model = new ModelHistorialOrdenes();
+
+            model.pedidosClientes = db.PedidosClientes.Where(x=>x.IdCliente == usuario).ToList();
+
+            return View(model);
         }
+
+        [HttpPost]
+        public JsonResult obtenerClienteOrden(string idPedido)
+        {
+            PedidosClientes pedidos = db.PedidosClientes.Find(idPedido);
+
+            return Json(new
+            {
+                nombre = (pedidos.CuentasClientes.Nombres + " " + pedidos.CuentasClientes.Apellidos),
+                direccion = pedidos.DireccionEntrega,
+                telefono = pedidos.TelefonoContacto,
+                correo = pedidos.CuentasClientes.Correo,
+                fecha = pedidos.Fecha,
+                estado = pedidos.TrackeoPedidosClientes.EtapasPedidos.Nombre,
+                total = db.ObtenerMontoPedido(idPedido)
+            });
+        }
+
+        [HttpPost]
+        public JsonResult obtenerDetalleOrden(string idPedido)
+        {
+            var detalle = db.ObtenerDetallePedido(idPedido);
+
+            return Json(detalle, JsonRequestBehavior.AllowGet);
+        }
+        //FIN METODOS PERFIL
+
+
+
 
         [HttpGet]
         public ActionResult Registrarme()

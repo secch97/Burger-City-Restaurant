@@ -2313,6 +2313,7 @@
     </Compile>
     <Compile Include="Models\ModelInicioCliente.cs" />
     <Compile Include="Models\ModelPagoPedido.cs" />
+    <Compile Include="Models\ModelPerfil.cs" />
     <Compile Include="Models\MyModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
