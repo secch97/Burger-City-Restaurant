@@ -47,7 +47,7 @@
     @Styles.Render("~/Content/administracion/bootstrap4-duallistbox/bootstrap-duallistbox.min.css")
     <!-- CSS SweetAlert -->
     @Styles.Render("~/Content/administracion/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")
-  
+
 
 </head>
 <!-- ======================================================================================================== -->
@@ -85,9 +85,12 @@
                             <i class="fas fa-user-lock mr-2"></i> Actualizar contraseña
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-door-open mr-2"></i> Cerrar sesión
-                        </a>
+                        @using (Html.BeginForm("Logout", "Administrador", FormMethod.Post, new { id = "logoutForm" }))
+                        {
+
+                            <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fas fa-door-open mr-2"></i> Cerrar sesión</a>
+
+                        }
                         <div class="dropdown-divider"></div>
                     </div>
                 </li>
@@ -115,7 +118,7 @@
                         <img src="~/Content/imagenes/Fotos de perfil/usuario.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Saúl Castillo</a>
+                        <a href="#" class="d-block">@Session["nombre"]</a>
                     </div>
                 </div>
 
@@ -3028,7 +3031,72 @@
             $('#lblImagenMuestraComboEdicion').html(fileName);
         })
     </script>
-    @RenderSection("scripts", required: false)
+
+     <!-- ======================================================================================= -->
+    <!--                                        VistaEDitarCuenta                                   -->
+    <!-- ======================================================================================= -->
+    <script>
+        $("#btnUpdateUser").click(function (event) {
+            event.preventDefault();
+            var usuario = $("#usuarioEmpleadoUp").val();
+            var nombre = $("#nombresEmpleadoUp").val();
+            var apellido = $("#apellidosEmpleadoUp").val();
+
+            var url = $("#FrmActualizarUser").attr("action");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { usuario, nombre, apellido },
+                success: function (text) {
+                    if (text == 1) {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+            
+        });
+
+        $("#btnUpdateContraUser").click(function (event) {
+            event.preventDefault();
+
+            var usuario = $("#userupContra").val();
+            var antigua = $("#AntiguacontrasenaEmpleadoUp").val();
+            var nueva = $("#contrasenaEmpleadoUp").val();
+            var confirmar = $("#confirmarContrasenaEmpleadoUp").val();
+
+            if (antigua == nueva || antigua == confirmar) {
+                alerta('info', 'La nueva contraseña tiene que ser diferente a la antigua');
+            } else if (nueva != confirmar) {
+                alerta('info', 'La nueva contraseña tiene que ser igual a la confirmacion de contraseña');
+            } else {
+                var url = $("#frmActualizarContraUp").attr("action");
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { usuario, nueva, antigua},
+                    success: function (text) {
+                        if (text == 1) {
+                            location.reload();
+                        } else if (text == 2) {
+                            alerta('info', 'La nueva contraseña tiene que ser diferente a la antigua');
+                        } else if (text == 3) {
+                            alerta('info', 'Escriba la anterior contraseña');
+                        } else {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+
+        });
+        
+    </script>
+
+        @RenderSection("Scripts", required: false)
 
 </body>
 </html>

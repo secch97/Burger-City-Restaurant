@@ -33,49 +33,64 @@
                             <h3 class="card-title" style="font-weight:bold;display: flex;justify-content: center;align-items: center;">CONTRASEÑA DE LA CUENTA</h3>
                         </div>
                         <!-- /.card-header -->
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
+                        
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Nueva contraseña:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <form id="frmActualizarContraUp" action="@Url.Action("ActualizarContraseña", "Administrador")">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Anterior contraseña:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                    </div>
+                                                    <input type="password" class="form-control" placeholder="Digitar antigua contraseña" id="AntiguacontrasenaEmpleadoUp"
+                                                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                           title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
+                                                           required>
                                                 </div>
-                                                <input type="password" class="form-control" placeholder="Digitar nueva contraseña" id="contraseñaEmpleado"  
-                                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" 
-                                                       title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número" 
-                                                       required>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="userupContra" id="userupContra" value="@Session["id"]" />
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Nueva contraseña:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                    </div>
+                                                    <input type="password" class="form-control" placeholder="Digitar nueva contraseña" id="contrasenaEmpleadoUp"
+                                                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                           title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
+                                                           required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Confirmar contraseña:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                    </div>
+                                                    <input type="password" class="form-control" placeholder="Confirmar contraseña" id="confirmarContrasenaEmpleadoUp"
+                                                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                                           title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número"
+                                                           required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Confirmar contraseña:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                                </div>
-                                                <input type="password" class="form-control" placeholder="Confirmar contraseña" id="confirmarContraseñaEmpleado" 
-                                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" 
-                                                       title="La contraseña debe poseer como mínimo 8 caracteres, al menos una letra y al menos un número" 
-                                                       required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </form>
                                 <br />
                                 <div style="display:flex;justify-content:center;align-items:center;">
-                                    <button type="submit" class="btn btn-success btn-sm rounded-sm" title="Actualizar datos" data-toggle="tooltip">
+                                    <button type="button"  id="btnUpdateContraUser" class="btn btn-success btn-sm rounded-sm" title="Actualizar datos" data-toggle="tooltip">
                                         <i class="fa fa-pen" style="color:white;"></i>
                                         Actualizar contraseña
                                     </button>
                                 </div>
                             </div>
-                        }
+                        
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

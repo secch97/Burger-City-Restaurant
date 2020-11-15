@@ -342,9 +342,26 @@ namespace RestauranteWeb.Controllers
                             cookie.Expires = DateTime.Now.AddMinutes(timeout);
                             cookie.HttpOnly = true;
                             Response.Cookies.Add(cookie);
+                            Session["nombre"] = emp.Nombres+ " "+emp.Apellidos;
+                            Session["id"] = emp.Usuario;
+
 
                             //hay que hacer la comparacion si es delivery , admin o restaurante
-                            return Json(2);
+                            if (emp.IdRol == 1)
+                            {
+                                Session["user"] = "Admin";
+                                return Json(2);
+                            }
+                            else if (emp.IdRol==2)
+                            {
+                                Session["user"] = "Restaurante";
+                                return Json(5);
+                            }
+                            else
+                            {
+                                Session["user"] = "Delivery";
+                                return Json(6);
+                            }
                         }
                         else
                         {
@@ -405,7 +422,7 @@ namespace RestauranteWeb.Controllers
         [HttpGet]
         public ActionResult MandarAdmin()
         {
-            return RedirectToAction("Index","Administrador");
+            return RedirectToAction("Inicio", "Administrador");
         }
 
         [HttpGet]

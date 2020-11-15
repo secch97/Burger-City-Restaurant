@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace RestauranteWeb.Controllers
 {
@@ -35,7 +36,7 @@ namespace RestauranteWeb.Controllers
             return View(db.RolesEmpleados.ToList());
         }
 
-        public List<RolesEmpleados>  recargarRoles()
+        public List<RolesEmpleados> recargarRoles()
         {
             return db.RolesEmpleados.ToList();
         }
@@ -50,7 +51,7 @@ namespace RestauranteWeb.Controllers
                 db.SaveChanges();
                 //return RedirectToAction("Roles");
             }
-           // return View();
+            // return View();
         }
 
         [HttpPost]
@@ -74,9 +75,9 @@ namespace RestauranteWeb.Controllers
                 db.RolesEmpleados.Remove(rolesEmpleados);
                 db.SaveChanges();
 
-                return Json(new {success = true});
+                return Json(new { success = true });
 
-            }catch( DbUpdateException ex)
+            } catch (DbUpdateException ex)
             { return Json(new { success = false, message = ex.Message }); }
         }
         [HttpPost]
@@ -84,7 +85,7 @@ namespace RestauranteWeb.Controllers
         {
             List<RolesEmpleados> roles = new List<RolesEmpleados>();
             roles = db.RolesEmpleados.ToList();
-            var rolesClean = roles.Select(s=> new {
+            var rolesClean = roles.Select(s => new {
                 IdRol = s.IdRol,
                 Rol = s.Rol
             });
@@ -94,12 +95,50 @@ namespace RestauranteWeb.Controllers
 
         public ActionResult EditarCuenta()
         {
+            string id = Session["id"].ToString();
+            var emp = db.CuentasEmpleados.Where(a => a.Usuario == id).FirstOrDefault();
+            ViewBag.nombre = emp.Nombres;
+            ViewBag.apellido = emp.Apellidos;
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult EditarCuenta(string usuario,string nombre,string apellido)
+        {
+            
+            var emp = db.CuentasEmpleados.Where(a => a.Usuario == usuario).FirstOrDefault();
+            emp.Nombres = nombre;
+            emp.Apellidos = apellido;
+            db.SaveChanges();
+            return Json(1);
         }
 
         public ActionResult ActualizarContraseña()
         {
             return View();
+        }
+        [HttpPost]
+        public JsonResult ActualizarContraseña(string usuario, string nueva, string antigua)
+        {
+            var emp = db.CuentasEmpleados.Where(a => a.Usuario == usuario).FirstOrDefault();
+            if (string.Compare(Crypto.Hash(nueva), emp.Clave) == 0)
+            {  
+                return Json(2);
+            }
+            else
+            {
+                if (string.Compare(Crypto.Hash(antigua), emp.Clave)==0)
+                {
+                    emp.Clave = Crypto.Hash(nueva); ;
+                    db.SaveChanges();
+                    return Json(1);
+                }
+                else
+                {
+                    return Json(3);
+                }
+                
+            }
         }
         //INICIO METODOS CUENTAS EMPLEADOS
         [HttpGet]
@@ -131,6 +170,8 @@ namespace RestauranteWeb.Controllers
             db.SaveChanges();
         }
 
+
+
         [HttpPost]
         public void editarEmpleados([Bind(Include = "Usuario,IdRol,Nombres,Apellidos")] CuentasEmpleados cuentasEmpleados)
         {
@@ -139,6 +180,19 @@ namespace RestauranteWeb.Controllers
                 db.Entry(cuentasEmpleados).State = EntityState.Modified;
                 db.SaveChanges();              
             }
+        }
+
+        //Logout
+        [Authorize]
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session["nombre"] = null;
+            Session["id"] = null;
+            Session["email"] = null;
+            Session["user"] = null;
+            return RedirectToAction("inicio", "Cliente");
         }
 
         [HttpPost]
@@ -908,14 +962,15 @@ namespace RestauranteWeb.Controllers
         [HttpPost]
         public JsonResult editarEtapaPedido(string idPedido, int idEtapa)
         {
+            
             try
             {
                 PedidosClientes pedido = db.PedidosClientes.Find(idPedido);
                 pedido.TrackeoPedidosClientes.IdEtapa = idEtapa;
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
-
-                registrarHistorial(idPedido,idEtapa,"USER");
+                string usuario = System.Web.HttpContext.Current.Session["id"] as String;
+                registrarHistorial(idPedido,idEtapa,usuario);
 
                 return Json(new { success = true, message = "Se editó con éxito" });
             }
@@ -971,6 +1026,7 @@ namespace RestauranteWeb.Controllers
                 return rutaBase + carpeta + nombreImagen;
         }
 
+        [Authorize]
         private void registrarHistorial(string idPedido, int idEtapa, string usuario)
         {
             HistorialPedidos historial = new HistorialPedidos();
