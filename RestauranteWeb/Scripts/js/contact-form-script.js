@@ -260,7 +260,7 @@ function formSuccessRecuperar() {
 /*Existoso para cambiar contraseña*/
 function formSuccessCambiarClave() {
     $("#CambiarClaveForm")[0].reset();
-    submitMSGCambiarClave(true, "La clave ha sido reestablecida exitosamente. Redireccionandolo a la página principal...");
+    submitMSGCambiarClave(true, "La clave ha sido reestablecida exitosamente. Redireccionandolo a la pagina principal...");
     window.setTimeout(direccionar_inicio, 5000);
 }
 
