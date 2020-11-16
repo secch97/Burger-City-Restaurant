@@ -1838,7 +1838,7 @@
             var idCombo = '';
             var idProducto = '';
             var cantidad = '';
-            $(".agregar-producto-combo").click(function () {
+            $(".contenido").on("click",".agregar-producto-combo",function () {
                 $("#ModalAgregarProductoCombo")
                     .find("input,textarea")
                     .val("")

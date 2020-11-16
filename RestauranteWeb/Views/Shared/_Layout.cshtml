@@ -547,7 +547,7 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: 'Tu número de orden es: [ ' + data + ' ] Puedes mirar los detalles en tu historial de ordenes',
+                            title: '<h1>Tu número de orden es: [ ' + data + ' ] Puedes mirar los detalles en tu historial de ordenes</h1>',
                             showConfirmButton: true,
                         }).then((result) => {
                             //redireccionando
@@ -615,11 +615,10 @@
                             $.each(data, function (i, item) {
 
                                 var rows = "<tr>"
-                                    + "<td>" + item.IdObjeto + "</td>"
                                     + "<td>" + item.Nombre + "</td>"
+                                    + "<td>$ " + item.Precio + "</td>"
                                     + "<td>" + item.Cantidad + "</td>"
-                                    + "<td>" + item.Precio + "</td>"
-                                    + "<td>" + item.SubTotal + "</td>"
+                                    + "<td>$ " + item.SubTotal + "</td>"
                                     + "</tr>";
                                 $('#tablaDetalle tbody').append(rows);
                             });
@@ -628,7 +627,7 @@
 
                             var rows = "<tr>"
                                 + "<th>Total de orden:</th>"
-                                + "<td>" + total + "</td>"
+                                + "<td>$ " + total + "</td>"
                                 + "</tr>";
 
                             $('#tablaTotal').append(rows);
@@ -827,7 +826,7 @@
                             + "<input type = 'number' size = '4' value =" + item.cantidad + " id = " + item.idObjeto + " min = '1' step = '1' class='c-input-text qty text' onchange = 'actualizarCantidad(\"" + item.idObjeto + "\");' >"
                             + "</td>"
                             + "<td class='total-pr'>"
-                            + "<p>$" + item.monto + "</p>"
+                            + "<p id= monto_"+item.idObjeto+">$" + item.monto + "</p>"
                             + "</td>"
 
                             + "<td class='remove-pr'>"

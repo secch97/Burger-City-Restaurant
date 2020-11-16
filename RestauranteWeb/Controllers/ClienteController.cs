@@ -219,6 +219,14 @@ namespace RestauranteWeb.Controllers
                 db.PedidosClientesDetalles.Add(detalle);
             }
 
+            //Registrando el trakeo en Solicitud id 1
+
+            var trakeo = new TrackeoPedidosClientes();
+            trakeo.IdPedido = pedido.IdPedido;
+            trakeo.IdEtapa = 1;
+            trakeo.Fecha = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+            db.TrackeoPedidosClientes.Add(trakeo);
+
             //guardando cambios
             db.SaveChanges();
 
@@ -515,6 +523,9 @@ namespace RestauranteWeb.Controllers
             Session["id"] = null;
             Session["email"] = null;
             Session["user"] = null;
+            //Limpiando carrito de compras
+            CarritoCompras.objetos = null;
+
             return RedirectToAction("inicio","Cliente");
         }
 
@@ -671,7 +682,7 @@ namespace RestauranteWeb.Controllers
             var verificarurl = "/Cliente/CambiarContra/" + id;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verificarurl);
 
-            var fromEmail = new MailAddress("isidroprueba005@gmail.com", "Burger - Recurperar cuenta");
+            var fromEmail = new MailAddress("isidroprueba005@gmail.com", "Burger - Recuperar cuenta");
             var toEmail = new MailAddress(email);
             var fromEmailContra = "pruebas-8";
             string subject = "Solicitud de reestablecimiento de contraseña";

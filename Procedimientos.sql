@@ -2,7 +2,7 @@ USE  ProyectoASP_Restaurante
 
 GO
 
-ALTER FUNCTION dbo.GeneradorIdObjetos
+alter FUNCTION dbo.GeneradorIdObjetos
 (@Prefijo CHAR(3)) 
 RETURNS VARCHAR(20)
 AS
@@ -26,40 +26,26 @@ DECLARE @UltimoId VARCHAR(20),
 		
 IF UPPER(@Prefijo) = 'CAT'
 BEGIN
-	SELECT TOP 1 @UltimoId = cp.IdCategoria
+    SELECT  @UltimoIdDig = ISNULL(MAX(CONVERT(INT,SUBSTRING(cp.IdCategoria,4,LEN(cp.IdCategoria)))),0)
 	FROM dbo.CategoriasProductos AS cp
-	ORDER BY cp.IdCategoria DESC 
-	
-	SELECT @UltimoIdDig = ISNULL(CONVERT(INT,SUBSTRING(@UltimoId,4,LEN(@UltimoId))),0)
 END
 
 IF UPPER(@Prefijo) = 'PRO'
 BEGIN
-	SELECT TOP 1 @UltimoId = pr.IdProducto
+	SELECT  @UltimoIdDig = ISNULL(MAX(CONVERT(INT,SUBSTRING(pr.IdProducto,4,LEN(pr.IdProducto)))),0)
 	FROM dbo.ProductosRestaurante AS pr
-	ORDER BY pr.IdProducto DESC 
-	
-	SELECT @UltimoIdDig = ISNULL(CONVERT(INT,SUBSTRING(@UltimoId,4,LEN(@UltimoId))),0)
 END
 
 IF UPPER(@Prefijo) = 'COM'
-BEGIN
-	SELECT TOP 1 @UltimoId = c.IdCombo
+BEGIN	
+	SELECT  @UltimoIdDig = ISNULL(MAX(CONVERT(INT,SUBSTRING(c.IdCombo,4,LEN(c.IdCombo)))),0)
 	FROM dbo.Combos AS c 
-	ORDER BY c.IdCombo DESC 
-	
-	SELECT @UltimoIdDig = ISNULL(CONVERT(INT,SUBSTRING(@UltimoId,4,LEN(@UltimoId))),0)
-	
 END
 
 IF UPPER(@Prefijo) = 'PED'
 BEGIN
-	SELECT TOP 1 @UltimoId = pc.IdPedido
+    SELECT  @UltimoIdDig = ISNULL(MAX(CONVERT(INT,SUBSTRING(pc.IdPedido,4,LEN(pc.IdPedido)))),0)
 	FROM dbo.PedidosClientes AS pc
-	ORDER BY pc.IdPedido DESC 
-	
-	SELECT @UltimoIdDig = ISNULL(CONVERT(INT,SUBSTRING(@UltimoId,4,LEN(@UltimoId))),0)
-	
 END
 
 SELECT @UltimoIdDig = (@UltimoIdDig+1)
@@ -72,7 +58,7 @@ END
 GO
 
 
-ALTER FUNCTION dbo.ObtenerMontoPedido(
+CREATE FUNCTION dbo.ObtenerMontoPedido(
 	@IdPedido VARCHAR(20)
 )
 RETURNS NUMERIC(4,2)
@@ -129,7 +115,7 @@ FROM PedidosClientesDetalles AS pcd
 		ON  pcd.IdObjeto = c.IdCombo
 	LEFT JOIN ProductosRestaurante AS pr
 		ON pcd.IdObjeto = pr.IdProducto 
-WHERE pcd.IdPedido = 'PE1'--@IdPedido
+WHERE pcd.IdPedido = @IdPedido
 
 END
 
@@ -166,5 +152,4 @@ GO
 		
 --END
 
-SELECT *
-FROM TrackeoPedidosClientes AS hp
+

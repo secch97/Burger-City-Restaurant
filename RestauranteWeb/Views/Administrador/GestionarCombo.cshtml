@@ -88,7 +88,7 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="contenido">
                                     @foreach (var item in Model.Productos)
                                     {
                                         <tr>
@@ -179,7 +179,7 @@
                                                 <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
                                             </div>
                                             <input type="number" class="form-control" placeholder="Cantidad de productos" id="cantidadProductosCombo"
-                                                   min="0" max="99" step="1" onkeyup="if(this.value<0){this.value= this.value * -1}" required>
+                                                   min="1" max="99" step="1" onkeyup="if(this.value<=0){this.value= 1}" required>
                                         </div>
                                     </div>
                                 </div>

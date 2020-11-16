@@ -309,12 +309,6 @@ GO
 	
 	--CombosProductos
 	
-	ALTER TABLE CombosDetalle
-	ADD CONSTRAINT FK_CombosDetalle_ProductosRestaurante
-	FOREIGN KEY (IdProducto) REFERENCES ProductosRestaurante(IdProducto)
-	
-	GO
-	
 	ALTER TABLE Combos
 	ADD CONSTRAINT FK_Combos_EstadosProductos
 	FOREIGN KEY (IdEstado) REFERENCES EstadosProductos(IdEstado)
