@@ -10,7 +10,8 @@
         @foreach (var item in Model.combos)
         {
             <li class="text-center">
-                <a class="detalles" href="#">
+                <a class="detalles" href="#"
+                   data-idcombo="@item.IdCombo" data-descripcion="@item.Descripcion" data-imagen="@item.Imagen" data-precio="@item.Precio" data-nombre="@item.Nombre">
                     <img src="@item.Imagen" alt="">
                     <div class="container">
                     </div>
