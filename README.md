@@ -136,12 +136,12 @@ Here are some uses of this project:
     <img src="RestauranteWeb/Content/imagenes/Buying3.png" alt="Screenshot" width="1000" height="700">
 </div>
 <div align="center">
-    <img src="RestauranteWeb/Content/imagenes/Buying4.png" alt="Screenshot" width="1000" height="800">
+    <img src="RestauranteWeb/Content/imagenes/Buying4.png" alt="Screenshot" width="1000" height="300">
 </div>
 <br>
 * Cart:
 <div align="center">
-    <img src="RestauranteWeb/Content/imagenes/Buying5.png" alt="Screenshot" width="500" height="900">
+    <img src="RestauranteWeb/Content/imagenes/Buying5.png" alt="Screenshot" width="1000" height="800">
 </div>
 <br>
 * Checkout:
