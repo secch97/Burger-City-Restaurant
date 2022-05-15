@@ -141,7 +141,7 @@ Here are some uses of this project:
 <br>
 * Cart:
 <div align="center">
-    <img src="RestauranteWeb/Content/imagenes/Buying5.png" alt="Screenshot" width="1000" height="800">
+    <img src="RestauranteWeb/Content/imagenes/Buying5.png" alt="Screenshot" width="1000" height="500">
 </div>
 <br>
 * Checkout:
