@@ -12,7 +12,7 @@ VALUES('Administrador')
 
 INSERT INTO CuentasEmpleados
 (Usuario,IdRol,Nombres,Apellidos,Clave) 
-VALUES ('TA160457',1,'Javier Isaac','Melara López','jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=')
+VALUES ('CC160510',1,'Saúl Ernesto','Castillo Chamagua','jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=')
 
 --Etapas
 INSERT INTO EtapasPedidos(Nombre) VALUES('Solicitud')

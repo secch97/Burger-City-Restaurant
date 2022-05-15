@@ -10,6 +10,7 @@ BEGIN
 /*
 * OBJETIVO: Devolver los Id segun sea el objeto
 * BITACORA: 4/11/2020 CREADO POR: Javier Melara
+            15/5/2022 MODIFICADO POR: Saúl Castillo
 * */
 	
 
@@ -67,6 +68,7 @@ BEGIN
 /*
 * OBJETIVO: Obtener el monto de un pedido
 * BITACORA: 7/11/2020 CREADO POR: Javier Melara
+            15/5/2022 MODIFICADO POR: Saúl Castillo
 * */	
 
 DECLARE @MontoProductos NUMERIC(4,2) = 0,
@@ -103,6 +105,8 @@ BEGIN
 /*
 * OBJETIVO: Obtener el desglose de productos y combos que componen el pedido
 * BITACORA: 7/11/2020 CREADO POR: Javier Melara
+            15/5/2022 MODIFICADO POR: Saúl Castillo
+
 * */	
 
 SELECT pcd.IdObjeto,

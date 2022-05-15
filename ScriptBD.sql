@@ -6,7 +6,7 @@ GO
 CREATE DATABASE ProyectoASP_Restaurante
 GO
 
-/* BITACORA: 19/09/2020 CREADO POR: Javier Melara
+/* BITACORA: 19/09/2020 CREADO POR: Javier Melara y Saúl Castillo
 *  OBJETIVO: Crear tablas en la BD ProyectoASP_Restaurante*/
 
 
