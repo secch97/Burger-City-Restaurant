@@ -26,7 +26,6 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -142,7 +141,7 @@ Here are some uses of this project:
 <br>
 * Cart:
 <div align="center">
-    <img src="RestauranteWeb/Content/imagenes/Buying5.png" alt="Screenshot" width="1000" height="700">
+    <img src="RestauranteWeb/Content/imagenes/Buying5.png" alt="Screenshot" width="500" height="900">
 </div>
 <br>
 * Checkout:
@@ -150,28 +149,13 @@ Here are some uses of this project:
     <img src="RestauranteWeb/Content/imagenes/Buying6.png" alt="Screenshot" width="1000" height="700">
 </div>
 <div align="center">
-    <img src="RestauranteWeb/Content/imagenes/Buying7.png" alt="Screenshot" width="1000" height="700">
+    <img src="RestauranteWeb/Content/imagenes/Buying7.png" alt="Screenshot" width="900" height="500">
 </div>
 <div align="center">
-    <img src="RestauranteWeb/Content/imagenes/Buying8.png" alt="Screenshot" width="1000" height="700">
+    <img src="RestauranteWeb/Content/imagenes/Buying8.png" alt="Screenshot" width="900" height="500">
 </div>
 <br>
 Clone the project to see more functionalities!
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
