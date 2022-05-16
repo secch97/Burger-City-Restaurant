@@ -81,7 +81,6 @@ You need to have the following programs installed on your computer:
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 1. On SQL Server, run the following scripts in order:
   * ScriptBD.sql: This script allows you to create the database that allows the present project to be functional.
   * Procedimientos.sql: This script allows you to create the necessary SQL Server functions and stored procedures that the project uses.
