@@ -1,5 +1,7 @@
-<div id="top"></div>
+#Burger City Restaurant
+Non-profit project carried out to support a micro business in the country of El Salvador, Central America in July 2020 - December 2021. This project is still in progress.
 
+<div id="top"></div>
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
