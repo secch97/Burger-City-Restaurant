@@ -36,7 +36,7 @@
 </div>
 <br>
 
-Non-profit project carried out to support a micro business in the country of El Salvador, Central America in 2020-2021. This project is still in progress.
+Non-profit project carried out to support a micro business in the country of El Salvador, Central America in July 2020 - December 2021. This project is still in progress.
 
 This project has been carried out because, despite the increase in the use of the Internet in El Salvador, many micro, small and medium-sized companies in our country (El Salvador) do not have a website to publicize (and offer) their services. This is the case of a part of the food establishments in our country. The fact that many of these establishments ignore their online presence is nothing new in our country; this is a situation that has been caused, many times, because:
 • Some of these establishments prefer to use social networks such as Facebook and Whatsapp to only publicize their services and offer them through a telephone line.
